@@ -1,0 +1,23 @@
+{
+  "name": "generate-template-files",
+  "version": "0.0.1",
+  "description": "A generator to create custom template files for your applications",
+  "main": "index.js",
+  "dependencies": {
+    "typescript": "3.2.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codeBelt/generate-template-files.git"
+  },
+  "author": "codeBelt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/codeBelt/generate-template-files/issues"
+  },
+  "homepage": "https://github.com/codeBelt/generate-template-files#readme"
+}
