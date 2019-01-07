@@ -1,19 +1,29 @@
 import CaseEnum from './CaseEnum';
 
-export default class StringUtil {
+export default class StringUtility {
 
     public static toCase(str: string, caseType: CaseEnum): string {
         switch (caseType) {
             case CaseEnum.CamelCase:
-                return StringUtil.toCamelCase(str);
-            case CaseEnum.PascalCase:
-                return StringUtil.toPascalCase(str);
-            case CaseEnum.KebabCase:
-                return StringUtil.toSentence(str, '-');
-            case CaseEnum.LowerCase:
-                return StringUtil.toSentence(str, '');
+                return StringUtility.toCamelCase(str);
             case CaseEnum.ConstantCase:
-                return StringUtil.toConstantCase(str);
+                return StringUtility.toConstantCase(str);
+            case CaseEnum.DotCase:
+                return StringUtility.toSentence(str, '.');
+            case CaseEnum.KebabCase:
+                return StringUtility.toSentence(str, '-');
+            case CaseEnum.LowerCase:
+                return StringUtility.toSentence(str, '');
+            case CaseEnum.PascalCase:
+                return StringUtility.toPascalCase(str);
+            case CaseEnum.PathCase:
+                return StringUtility.toSentence(str, '/');
+            case CaseEnum.SentenceCase:
+                return StringUtility.toSentenceCase(str);
+            case CaseEnum.SnakeCase:
+                return StringUtility.toSentence(str, '_');
+            case CaseEnum.TitleCase:
+                return StringUtility.toTitleCase(str);
             case CaseEnum.None:
             default:
                 return str;
@@ -30,16 +40,16 @@ export default class StringUtil {
      * @public
      * @static
      * @example
-     *      StringUtil.toSentence("liveDown_by-the.River");
+     *      StringUtility.toSentence("liveDown_by-the.River");
      *      // 'live down by the river'
      *
-     *      StringUtil.toSentence("liveDown_by-the.River", '-');
+     *      StringUtility.toSentence("liveDown_by-the.River", '-');
      *      // 'live-down-by-the-river'
      *
-     *      StringUtil.toSentence("liveDown_by-the.River", '_');
+     *      StringUtility.toSentence("liveDown_by-the.River", '_');
      *      // 'live_down_by_the_river'
      *
-     *      StringUtil.toSentence("liveDown_by-the.River", '/');
+     *      StringUtility.toSentence("liveDown_by-the.River", '/');
      *      // 'live/down/by/the/river'
      */
     public static toSentence(str: string, separator: string = ' '): string {
@@ -69,11 +79,11 @@ export default class StringUtil {
      * @public
      * @static
      * @example
-     *      StringUtil.toCamelCase("liveDown_by-the.River");
+     *      StringUtility.toCamelCase("liveDown_by-the.River");
      *      // 'liveDownByTheRiver'
      */
     public static toCamelCase(str: string): string {
-        return StringUtil.toSentence(str)
+        return StringUtility.toSentence(str)
         // Replace spaces between words with a string upper cased character.
             .replace(/ (\w)/g, function (_, $1) {
                 return $1.toUpperCase();
@@ -89,17 +99,16 @@ export default class StringUtil {
      * @public
      * @static
      * @example
-     *      StringUtil.toPascalCase("liveDown_by-the.River");
+     *      StringUtility.toPascalCase("liveDown_by-the.River");
      *      // 'LiveDownByTheRiver'
      */
     public static toPascalCase(str: string): string {
-        return StringUtil.toCamelCase(str)
+        return StringUtility.toCamelCase(str)
         // Make first character uppercase.
             .replace(/^[a-zA-Z]/, function (a, b, c) {
                 return a.toUpperCase();
             });
     }
-
 
     /**
      * Converts a string to a constant case string.
@@ -110,11 +119,48 @@ export default class StringUtil {
      * @public
      * @static
      * @example
-     *      StringUtil.toConstantCase("liveDown_by-the.River");
+     *      StringUtility.toConstantCase("liveDown_by-the.River");
      *      // 'LIVE_DOWN_BY_THE_RIVER'
      */
     public static toConstantCase(str: string): string {
-        return StringUtil.toSentence(str, '_')
+        return StringUtility.toSentence(str, '_')
             .toUpperCase();
     }
+
+    /**
+     * Converts a string to a title case string.
+     *
+     * @method toTitleCase
+     * @param str {string}
+     * @returns {string}
+     * @public
+     * @static
+     * @example
+     *      StringUtility.toTitleCase("liveDown_by-the.River");
+     *      // 'Live Down By The River'
+     */
+    public static toTitleCase(str: string): string {
+        return StringUtility.toSentence(str).replace(/\w\S*/g, (txt: string) => {
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
+    }
+
+    /**
+     * Converts a string to a sentence case string.
+     *
+     * @method toSentenceCase
+     * @param str {string}
+     * @returns {string}
+     * @public
+     * @static
+     * @example
+     *      StringUtility.toSentenceCase("liveDown_by-the.River");
+     *      // 'Live down by the river'
+     */
+    public static toSentenceCase(str: string): string {
+        const sentence: string = StringUtility.toSentence(str);
+
+        return sentence.charAt(0).toUpperCase() + sentence.substr(1).toLowerCase();
+    }
+
 }
