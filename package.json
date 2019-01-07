@@ -3,17 +3,10 @@
   "version": "0.0.1",
   "description": "A generator to create custom template files for your applications",
   "main": "dist/generate-template-file.js",
-  "dependencies": {
-    "@types/inquirer": "0.0.43",
-    "@types/replace-string": "2.0.0",
-    "@types/through2": "2.0.34",
-    "inquirer": "6.2.1",
-    "recursive-copy": "2.0.9",
-    "replace-string": "2.0.0",
-    "through2": "3.0.0",
-    "typescript": "3.2.2"
-  },
-  "devDependencies": {},
+  "files": [
+    "dist/generate-template-file.js"
+  ],
+  "types": "dist/generate-template-file.d.ts",
   "scripts": {
     "---------- HELPERS -----------------------------------------": "",
     "clean": "rm -rf ./dist",
@@ -24,6 +17,19 @@
     "prebuild": "npm run clean",
     "build": "tsc"
   },
+  "dependencies": {
+    "@types/inquirer": "0.0.43",
+    "@types/log-symbols": "2.0.0",
+    "@types/replace-string": "2.0.0",
+    "@types/through2": "2.0.34",
+    "inquirer": "6.2.1",
+    "log-symbols": "2.2.0",
+    "recursive-copy": "2.0.9",
+    "replace-string": "2.0.0",
+    "through2": "3.0.0",
+    "typescript": "3.2.2"
+  },
+  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/codeBelt/generate-template-files.git"

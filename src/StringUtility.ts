@@ -12,7 +12,7 @@ export default class StringUtil {
                 return StringUtil.toSentence(str, '-');
             case CaseEnum.LowerCase:
                 return StringUtil.toSentence(str, '');
-            case CaseEnum.UpperCase:
+            case CaseEnum.ConstantCase:
                 return StringUtil.toConstantCase(str);
             case CaseEnum.None:
             default:
