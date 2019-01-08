@@ -3,7 +3,6 @@ import recursiveCopy from 'recursive-copy';
 import through from 'through2';
 import replaceString from 'replace-string';
 import logSymbols from 'log-symbols';
-import StringUtil from './StringUtility';
 import StringUtility from './StringUtility';
 import CaseEnum from './CaseEnum';
 import get from 'lodash/get';
@@ -16,7 +15,7 @@ interface IConfigItem {
     stringReplacers: string[];
     caseTypes: {
         default: CaseEnum;
-        fileNames: CaseEnum;
+        defaultOutputPath: CaseEnum;
         // custom: {[replacer: string]: (str: string) => string}
     }
 }
@@ -41,10 +40,10 @@ const generateTemplateFiles = async (options: IConfigItem[]): Promise<void> => {
         default: 'none',
         type: 'list'
     };
-
     const templateAnswers: {questionIndex: number} = await inquirer.prompt(templateQuestions);
     const selectedItem: IConfigItem = options[templateAnswers.questionIndex];
     const defaultCase: CaseEnum = get(selectedItem, 'caseTypes.default', CaseEnum.None);
+    const outputPathCase: CaseEnum = get(selectedItem, 'caseTypes.defaultOutputPath', defaultCase);
 
     /*
      * New question asking what should text should be used to replace the template text.
@@ -64,6 +63,7 @@ const generateTemplateFiles = async (options: IConfigItem[]): Promise<void> => {
     const replacerAnswers: {[replacer: string]: string} = await inquirer.prompt(replacerQuestions);
 
     // console.log(`selectedItem`, selectedItem.caseTypes.custom['(something)']('ccccc'));
+
     /*
      * Create every variation for the for the replacement keys
      */
@@ -84,10 +84,19 @@ const generateTemplateFiles = async (options: IConfigItem[]): Promise<void> => {
                 },
             ];
         }, []);
+    const outputPathReplacers: IReplacer[] = Object.entries(replacerAnswers).reduce((list: IReplacer[], [key, value]: [string, string]) => {
+        const index: number = list.findIndex((item: IReplacer) => item.replacerKey === key);
 
+        list[index] = {
+            replacerKey: key,
+            replacerValue: StringUtility.toCase(value, outputPathCase)
+        };
+
+        return list;
+    }, [...replacers]);
 
     // Create the output path replacing any template keys.
-    const outputPath: string = replacers.reduce((outputPath: string, replacer: IReplacer) => {
+    const outputPath: string = outputPathReplacers.reduce((outputPath: string, replacer: IReplacer) => {
         return replaceString(outputPath, replacer.replacerKey, replacer.replacerValue);
     }, selectedItem.outputPath);
 
@@ -107,20 +116,23 @@ const generateTemplateFiles = async (options: IConfigItem[]): Promise<void> => {
         expand: false,
         dot: true,
         junk: true,
-        rename: (filePath: string): string => {
+        rename: (outputPath: string): string => {
             return Object.entries(replacerAnswers).reduce((path: string, [key, value]: [string, string]) => {
-                const fileNamesCase: CaseEnum = get(selectedItem, 'caseTypes.fileNames', defaultCase);
-                const nameFormatted: string = StringUtil.toCase(value, fileNamesCase);
+                let formattedFilePath: string = path;
 
-                return replaceString(path, key, nameFormatted);
-            }, filePath);
+                outputPathReplacers.forEach((replacer: IReplacer) => {
+                    formattedFilePath = replaceString(formattedFilePath, replacer.replacerKey, replacer.replacerValue);
+                });
+
+                return formattedFilePath;
+            }, outputPath);
         },
         transform: (src: string, dest: string, stats: any) => {
             return through((chunk: any, enc: any, done: any) => {
                 let output: string = chunk.toString();
 
-                replacers.forEach((dd: IReplacer) => {
-                    output = replaceString(output, dd.replacerKey, dd.replacerValue);
+                replacers.forEach((replacer: IReplacer) => {
+                    output = replaceString(output, replacer.replacerKey, replacer.replacerValue);
                 });
 
                 done(null, output);
