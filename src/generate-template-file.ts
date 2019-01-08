@@ -43,7 +43,7 @@ const generateTemplateFiles = async (options: IConfigItem[]): Promise<void> => {
     const templateAnswers: {questionIndex: number} = await inquirer.prompt(templateQuestions);
     const selectedItem: IConfigItem = options[templateAnswers.questionIndex];
     const defaultCase: CaseEnum = get(selectedItem, 'caseTypes.default', CaseEnum.None);
-    const outputPathCase: CaseEnum = get(selectedItem, 'caseTypes.defaultOutputPath', defaultCase);
+    const defaultOutputPath: CaseEnum = get(selectedItem, 'caseTypes.defaultOutputPath', defaultCase);
 
     /*
      * New question asking what should text should be used to replace the template text.
@@ -89,7 +89,7 @@ const generateTemplateFiles = async (options: IConfigItem[]): Promise<void> => {
 
         list[index] = {
             replacerKey: key,
-            replacerValue: StringUtility.toCase(value, outputPathCase)
+            replacerValue: StringUtility.toCase(value, defaultOutputPath)
         };
 
         return list;
