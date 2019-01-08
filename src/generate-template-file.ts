@@ -4,8 +4,9 @@ import through from 'through2';
 import replaceString from 'replace-string';
 import logSymbols from 'log-symbols';
 import StringUtil from './StringUtility';
-import CaseEnum from './CaseEnum';
 import StringUtility from './StringUtility';
+import CaseEnum from './CaseEnum';
+import get from 'lodash/get';
 
 interface IConfigItem {
     option: string;
@@ -16,6 +17,7 @@ interface IConfigItem {
     caseTypes: {
         default: CaseEnum;
         fileNames: CaseEnum;
+        // custom: {[replacer: string]: (str: string) => string}
     }
 }
 
@@ -42,6 +44,7 @@ const generateTemplateFiles = async (options: IConfigItem[]): Promise<void> => {
 
     const templateAnswers: {questionIndex: number} = await inquirer.prompt(templateQuestions);
     const selectedItem: IConfigItem = options[templateAnswers.questionIndex];
+    const defaultCase: CaseEnum = get(selectedItem, 'caseTypes.default', CaseEnum.None);
 
     /*
      * New question asking what should text should be used to replace the template text.
@@ -60,14 +63,15 @@ const generateTemplateFiles = async (options: IConfigItem[]): Promise<void> => {
 
     const replacerAnswers: {[replacer: string]: string} = await inquirer.prompt(replacerQuestions);
 
+    // console.log(`selectedItem`, selectedItem.caseTypes.custom['(something)']('ccccc'));
     /*
      * Create every variation for the for the replacement keys
      */
     const caseTypes: string[] = Object.values(CaseEnum);
     const replacers: IReplacer[] = Object.entries(replacerAnswers)
-        .reduce((all: IReplacer[], [key, value]: [string, string]): IReplacer[] => {
+        .reduce((previousReplacers: IReplacer[], [key, value]: [string, string]): IReplacer[] => {
             return [
-                ...all,
+                ...previousReplacers,
                 ...caseTypes.map((caseType: string) => {
                     return {
                         replacerKey: `${key}${caseType}`,
@@ -76,7 +80,7 @@ const generateTemplateFiles = async (options: IConfigItem[]): Promise<void> => {
                 }),
                 {
                     replacerKey: key,
-                    replacerValue: StringUtility.toCase(value, selectedItem.caseTypes.default),
+                    replacerValue: StringUtility.toCase(value, defaultCase),
                 },
             ];
         }, []);
@@ -105,8 +109,8 @@ const generateTemplateFiles = async (options: IConfigItem[]): Promise<void> => {
         junk: true,
         rename: (filePath: string): string => {
             return Object.entries(replacerAnswers).reduce((path: string, [key, value]: [string, string]) => {
-                const caseType: CaseEnum = selectedItem.caseTypes.fileNames || selectedItem.caseTypes.default;
-                const nameFormatted: string = StringUtil.toCase(value, caseType);
+                const fileNamesCase: CaseEnum = get(selectedItem, 'caseTypes.fileNames', defaultCase);
+                const nameFormatted: string = StringUtil.toCase(value, fileNamesCase);
 
                 return replaceString(path, key, nameFormatted);
             }, filePath);
@@ -123,8 +127,6 @@ const generateTemplateFiles = async (options: IConfigItem[]): Promise<void> => {
             });
         }
     };
-
-    console.log(`outputPathAnswer`, outputPathAnswer);
 
     try {
         await recursiveCopy(selectedItem.templatesPath, outputPathAnswer.outputPath, recursiveCopyOptions);
