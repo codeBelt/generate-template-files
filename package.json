@@ -1,21 +1,35 @@
 {
-  "name": "rollup-typescript-babel",
-  "version": "1.0.0",
-  "description": "A sample setup using Rollup and Babel to build TypeScript code, and using TypeScript for type-checking.",
+  "name": "generate-template-files",
+  "version": "0.0.1",
+  "description": "A generator to create custom template files for your applications",
   "scripts": {
+    "---------- HELPERS -----------------------------------------": "",
+    "clean": "rm -rf ./dist",
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch",
+    "---------- DEVELOPMENT -------------------------------------": "",
+    "prewatch": "npm run clean",
+    "watch": "rollup -cw",
+    "---------- BUILD -------------------------------------------": "",
     "build:types": "tsc --emitDeclarationOnly",
-    "build:js": "rollup -c",
-    "build": "npm run build:types && npm run build:js"
+    "prebuild": "npm run type-check && npm run clean && npm run build:types",
+    "build": "rollup -c",
+    "------------------------------------------------------------": ""
   },
   "main": "dist/rollup-plugin-babel.cjs.js",
   "module": "dist/rollup-plugin-babel.esm.js",
   "browser": "dist/rollup-plugin-babel.iife.js",
   "types": "dist/types/index.d.ts",
   "author": {
-    "name": "Alexander T.",
-    "email": "alexander.tarasyuk@outlook.com"
+    "name": "Robert S. (codeBelt)",
+    "email": "code@codebelt.com"
+  },
+  "dependencies": {
+    "inquirer": "6.2.1",
+    "lodash.get": "4.4.2",
+    "recursive-copy": "2.0.9",
+    "replace-string": "2.0.0",
+    "through2": "3.0.0"
   },
   "license": "MIT",
   "devDependencies": {
@@ -24,10 +38,24 @@
     "@babel/plugin-proposal-object-rest-spread": "7.2.0",
     "@babel/preset-env": "7.2.3",
     "@babel/preset-typescript": "7.1.0",
+    "@types/inquirer": "0.0.43",
+    "@types/lodash.get": "4.4.4",
+    "@types/replace-string": "2.0.0",
+    "@types/through2": "2.0.34",
+    "prettier": "1.15.3",
     "rollup": "1.0.2",
     "rollup-plugin-babel": "4.2.0",
     "rollup-plugin-commonjs": "9.2.0",
     "rollup-plugin-node-resolve": "4.0.0",
+    "tslib": "1.9.3",
     "typescript": "3.2.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codeBelt/generate-template-files.git"
+  },
+  "bugs": {
+    "url": "https://github.com/codeBelt/generate-template-files/issues"
+  },
+  "homepage": "https://github.com/codeBelt/generate-template-files#readme"
 }
