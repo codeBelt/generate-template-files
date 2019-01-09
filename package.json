@@ -2,6 +2,9 @@
   "name": "generate-template-files",
   "version": "0.0.1",
   "description": "A generator to create custom template files for your applications",
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [
     "generate",
     "templates",
@@ -30,7 +33,7 @@
     "prebuild": "npm run type-check && npm run clean && npm run build:types",
     "build": "rollup -c",
     "---------- TESTING -----------------------------------------": "",
-    "test": "npm run lint && npm run unit",
+    "test": "npm run lint",
     "lint": "tslint 'src/**/*.ts{,x}' --exclude 'src/typings.d.ts'",
     "unit": "",
     "---------- PUBLISH -----------------------------------------": "",
