@@ -2,9 +2,6 @@
   "name": "generate-template-files",
   "version": "0.0.1",
   "description": "A generator to create custom template files for your applications",
-  "publishConfig": {
-    "access": "public"
-  },
   "keywords": [
     "generate",
     "templates",
