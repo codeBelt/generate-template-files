@@ -87,7 +87,7 @@ export default class StringUtility {
         return (
             StringUtility.toSentence(str)
                 // Replace spaces between words with a string upper cased character.
-                .replace(/ (\w)/g, function(_, $1) {
+                .replace(/ (\w)/g, (_: unknown, $1: string) => {
                     return $1.toUpperCase();
                 })
         );
@@ -109,7 +109,7 @@ export default class StringUtility {
         return (
             StringUtility.toCamelCase(str)
                 // Make first character uppercase.
-                .replace(/^[a-zA-Z]/, function(a, b, c) {
+                .replace(/^[a-zA-Z]/, (a: string, b: unknown, c: unknown) => {
                     return a.toUpperCase();
                 })
         );
