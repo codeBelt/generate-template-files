@@ -11,3 +11,4 @@ examples
 dist
 yarn.lock
 LICENSE
+.yarnrc
