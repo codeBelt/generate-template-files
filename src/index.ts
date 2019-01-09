@@ -6,17 +6,18 @@ import StringUtility from './StringUtility';
 import CaseEnum from './CaseEnum';
 import get from 'lodash.get';
 
+
 interface IConfigItem {
     option: string;
-    templatesPath: string;
-    outputPath: string;
-    defaultCase: string;
+    defaultCase: CaseEnum;
+    entry: {
+        folderPath: string,
+    },
     stringReplacers: string[];
-    caseTypes: {
-        default: CaseEnum;
-        defaultOutputPath: CaseEnum;
-        // custom: {[replacer: string]: (str: string) => string}
-    }
+    output: {
+        path: string,
+        pathAndFileNameDefaultCase: CaseEnum,
+    },
 }
 
 interface IReplacer {
@@ -41,8 +42,8 @@ async function generateTemplateFiles(options: IConfigItem[]) {
     };
     const templateAnswers: {questionIndex: number} = await inquirer.prompt(templateQuestions);
     const selectedItem: IConfigItem = options[templateAnswers.questionIndex];
-    const defaultCase: CaseEnum = get(selectedItem, 'caseTypes.default', CaseEnum.None);
-    const defaultOutputPath: CaseEnum = get(selectedItem, 'caseTypes.defaultOutputPath', defaultCase);
+    const defaultCase: CaseEnum = get(selectedItem, 'defaultCase', CaseEnum.None);
+    const defaultOutputPath: CaseEnum = get(selectedItem, 'output.pathAndFileNameDefaultCase', defaultCase);
 
     /*
      * New question asking what should text should be used to replace the template text.
@@ -97,7 +98,7 @@ async function generateTemplateFiles(options: IConfigItem[]) {
     // Create the output path replacing any template keys.
     const outputPath: string = outputPathReplacers.reduce((outputPath: string, replacer: IReplacer) => {
         return replaceString(outputPath, replacer.replacerKey, replacer.replacerValue);
-    }, selectedItem.outputPath);
+    }, selectedItem.output.path);
 
     const outputPathAnswer: any = await inquirer.prompt({
         name: 'outputPath',
@@ -140,7 +141,7 @@ async function generateTemplateFiles(options: IConfigItem[]) {
     };
 
     try {
-        await recursiveCopy(selectedItem.templatesPath, outputPathAnswer.outputPath, recursiveCopyOptions);
+        await recursiveCopy(selectedItem.entry.folderPath, outputPathAnswer.outputPath, recursiveCopyOptions);
 
         console.log(`Files outed to: '${outputPathAnswer.outputPath}'`);
     } catch (error) {
