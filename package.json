@@ -33,6 +33,8 @@
     "test": "npm run lint && npm run unit",
     "lint": "tslint 'src/**/*.ts{,x}' --exclude 'src/typings.d.ts'",
     "unit": "",
+    "---------- PUBLISH -----------------------------------------": "",
+    "release": "np",
     "------------------------------------------------------------": ""
   },
   "main": "dist/generate-template-files.cjs.js",
