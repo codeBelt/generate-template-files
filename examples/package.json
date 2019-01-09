@@ -1,0 +1,8 @@
+{
+  "name": "examples",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "generate": "node ./tools/build.js"
+  }
+}
