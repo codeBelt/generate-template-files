@@ -11,6 +11,12 @@
     "skeleton",
     "custom"
   ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged",
+      "post-commit": "git update-index -g"
+    }
+  },
   "scripts": {
     "---------- HELPERS -----------------------------------------": "",
     "clean": "rm -rf ./dist",
@@ -56,13 +62,16 @@
     "@types/lodash.get": "4.4.4",
     "@types/replace-string": "2.0.0",
     "@types/through2": "2.0.34",
+    "husky": "1.3.1",
     "prettier": "1.15.3",
+    "pretty-quick": "1.8.0",
     "rollup": "1.0.2",
     "rollup-plugin-babel": "4.2.0",
     "rollup-plugin-commonjs": "9.2.0",
     "rollup-plugin-node-resolve": "4.0.0",
     "tslib": "1.9.3",
     "tslint": "5.12.0",
+    "tslint-config-prettier": "1.17.0",
     "typescript": "3.2.2"
   },
   "author": {
