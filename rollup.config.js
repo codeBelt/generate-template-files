@@ -5,8 +5,6 @@ import pkg from './package.json';
 
 const extensions = ['.js', '.jsx', '.ts', '.tsx'];
 
-const name = 'RollupTypeScriptBabel';
-
 export default {
     input: './src/index.ts',
 
@@ -22,7 +20,11 @@ export default {
         commonjs(),
 
         // Compile TypeScript/JavaScript files
-        babel({extensions, include: ['src/**/*'], runtimeHelpers: true}),
+        babel({
+            extensions,
+            include: ['src/**/*'],
+            runtimeHelpers: true,
+        }),
     ],
 
     output: [
@@ -36,3 +38,5 @@ export default {
         },
     ],
 };
+
+// https://github.com/a-tarasyuk/rollup-typescript-babel

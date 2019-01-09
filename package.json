@@ -2,6 +2,15 @@
   "name": "generate-template-files",
   "version": "0.0.1",
   "description": "A generator to create custom template files for your applications",
+  "keywords": [
+    "generate",
+    "templates",
+    "scaffolding",
+    "bootstrap",
+    "boilerplate",
+    "skeleton",
+    "custom"
+  ],
   "scripts": {
     "---------- HELPERS -----------------------------------------": "",
     "clean": "rm -rf ./dist",
@@ -20,10 +29,9 @@
   "module": "dist/generate-template-files.esm.js",
   "browser": "dist/generate-template-files.iife.js",
   "types": "dist/types/index.d.ts",
-  "author": {
-    "name": "Robert S. (codeBelt)",
-    "email": "code@codebelt.com"
-  },
+  "files": [
+    "dist/"
+  ],
   "dependencies": {
     "inquirer": "6.2.1",
     "lodash.get": "4.4.2",
@@ -51,6 +59,10 @@
     "rollup-plugin-node-resolve": "4.0.0",
     "tslib": "1.9.3",
     "typescript": "3.2.2"
+  },
+  "author": {
+    "name": "Robert S. (codeBelt)",
+    "email": "code@codebelt.com"
   },
   "repository": {
     "type": "git",
