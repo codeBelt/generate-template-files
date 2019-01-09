@@ -101,15 +101,15 @@ async function generateTemplateFiles(options: IConfigItem[]) {
     );
 
     // Create the output path replacing any template keys.
-    const outputPath: string = outputPathReplacers.reduce((outputPath: string, replacer: IReplacer) => {
+    const outputPathFormatted: string = outputPathReplacers.reduce((outputPath: string, replacer: IReplacer) => {
         return replaceString(outputPath, replacer.replacerKey, replacer.replacerValue);
     }, selectedItem.output.path);
 
     const outputPathAnswer: any = await inquirer.prompt({
         name: 'outputPath',
-        message: `Output path (${outputPath}):`,
+        message: `Output path (${outputPathFormatted}):`,
         default: (answer: any) => {
-            return outputPath;
+            return outputPathFormatted;
         },
     });
 
@@ -148,7 +148,7 @@ async function generateTemplateFiles(options: IConfigItem[]) {
     try {
         await recursiveCopy(selectedItem.entry.folderPath, outputPathAnswer.outputPath, recursiveCopyOptions);
 
-        console.log(`Files outed to: '${outputPathAnswer.outputPath}'`);
+        console.info(`Files outed to: '${outputPathAnswer.outputPath}'`);
     } catch (error) {
         console.error(`Copy failed: ${error}`);
     }
