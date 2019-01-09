@@ -13,15 +13,8 @@
     "target": "es2015",
     "module": "es2015",
     "strict": true,
-    "lib": [
-      "es2017"
-    ]
+    "lib": ["es2017"]
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

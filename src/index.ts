@@ -6,18 +6,17 @@ import StringUtility from './StringUtility';
 import CaseEnum from './CaseEnum';
 import get from 'lodash.get';
 
-
 interface IConfigItem {
     option: string;
     defaultCase: CaseEnum;
     entry: {
-        folderPath: string,
-    },
+        folderPath: string;
+    };
     stringReplacers: string[];
     output: {
-        path: string,
-        pathAndFileNameDefaultCase: CaseEnum,
-    },
+        path: string;
+        pathAndFileNameDefaultCase: CaseEnum;
+    };
 }
 
 interface IReplacer {
@@ -36,9 +35,10 @@ async function generateTemplateFiles(options: IConfigItem[]) {
             return {
                 name: configItem.option,
                 value: index,
-            }}),
+            };
+        }),
         default: 'none',
-        type: 'list'
+        type: 'list',
     };
     const templateAnswers: {questionIndex: number} = await inquirer.prompt(templateQuestions);
     const selectedItem: IConfigItem = options[templateAnswers.questionIndex];
@@ -56,8 +56,8 @@ async function generateTemplateFiles(options: IConfigItem[]) {
                 const isValid: boolean = Boolean(answer);
 
                 return isValid || 'You must provide an answer.';
-            }
-        }
+            },
+        };
     });
 
     const replacerAnswers: {[replacer: string]: string} = await inquirer.prompt(replacerQuestions);
@@ -68,32 +68,37 @@ async function generateTemplateFiles(options: IConfigItem[]) {
      * Create every variation for the for the replacement keys
      */
     const caseTypes: string[] = Object.values(CaseEnum);
-    const replacers: IReplacer[] = Object.entries(replacerAnswers)
-        .reduce((previousReplacers: IReplacer[], [key, value]: [string, string]): IReplacer[] => {
+    const replacers: IReplacer[] = Object.entries(replacerAnswers).reduce(
+        (previousReplacers: IReplacer[], [key, value]: [string, string]): IReplacer[] => {
             return [
                 ...previousReplacers,
                 ...caseTypes.map((caseType: string) => {
                     return {
                         replacerKey: `${key}${caseType}`,
                         replacerValue: StringUtility.toCase(value, caseType as CaseEnum),
-                    }
+                    };
                 }),
                 {
                     replacerKey: key,
                     replacerValue: StringUtility.toCase(value, defaultCase),
                 },
             ];
-        }, []);
-    const outputPathReplacers: IReplacer[] = Object.entries(replacerAnswers).reduce((list: IReplacer[], [key, value]: [string, string]) => {
-        const index: number = list.findIndex((item: IReplacer) => item.replacerKey === key);
+        },
+        []
+    );
+    const outputPathReplacers: IReplacer[] = Object.entries(replacerAnswers).reduce(
+        (list: IReplacer[], [key, value]: [string, string]) => {
+            const index: number = list.findIndex((item: IReplacer) => item.replacerKey === key);
 
-        list[index] = {
-            replacerKey: key,
-            replacerValue: StringUtility.toCase(value, defaultOutputPath)
-        };
+            list[index] = {
+                replacerKey: key,
+                replacerValue: StringUtility.toCase(value, defaultOutputPath),
+            };
 
-        return list;
-    }, [...replacers]);
+            return list;
+        },
+        [...replacers]
+    );
 
     // Create the output path replacing any template keys.
     const outputPath: string = outputPathReplacers.reduce((outputPath: string, replacer: IReplacer) => {
@@ -137,7 +142,7 @@ async function generateTemplateFiles(options: IConfigItem[]) {
 
                 done(null, output);
             });
-        }
+        },
     };
 
     try {
@@ -147,6 +152,6 @@ async function generateTemplateFiles(options: IConfigItem[]) {
     } catch (error) {
         console.error(`Copy failed: ${error}`);
     }
-};
+}
 
 export default generateTemplateFiles;

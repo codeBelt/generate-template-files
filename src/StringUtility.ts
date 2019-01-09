@@ -1,7 +1,6 @@
 import CaseEnum from './CaseEnum';
 
 export default class StringUtility {
-
     public static toCase(str: string, caseType: CaseEnum): string {
         switch (caseType) {
             case CaseEnum.CamelCase:
@@ -53,21 +52,23 @@ export default class StringUtility {
      *      // 'live/down/by/the/river'
      */
     public static toSentence(str: string, separator: string = ' '): string {
-        return String(str)
-        // Add a space after any digits.
-            .replace(/(\d+)/g, ' $1 ')
-            // Add a space before any upper case characters.
-            .replace(/([a-z](?=[A-Z]))/g, '$1 ')
-            // Remove all non-word characters and replace with a single space.
-            .replace(/[^a-zA-Z0-9 ]/g, ' ')
-            // Replace multiple Spaces with a single space.
-            .replace(/\s+/g, ' ')
-            // Trim whitespace around the string.
-            .replace(/^ | $/g, '')
-            // Lower case the entire string.
-            .toLowerCase()
-            // If a separator is passed in then replace the space with it.
-            .replace(/\s+/g, separator);
+        return (
+            String(str)
+                // Add a space after any digits.
+                .replace(/(\d+)/g, ' $1 ')
+                // Add a space before any upper case characters.
+                .replace(/([a-z](?=[A-Z]))/g, '$1 ')
+                // Remove all non-word characters and replace with a single space.
+                .replace(/[^a-zA-Z0-9 ]/g, ' ')
+                // Replace multiple Spaces with a single space.
+                .replace(/\s+/g, ' ')
+                // Trim whitespace around the string.
+                .replace(/^ | $/g, '')
+                // Lower case the entire string.
+                .toLowerCase()
+                // If a separator is passed in then replace the space with it.
+                .replace(/\s+/g, separator)
+        );
     }
 
     /**
@@ -83,11 +84,13 @@ export default class StringUtility {
      *      // 'liveDownByTheRiver'
      */
     public static toCamelCase(str: string): string {
-        return StringUtility.toSentence(str)
-        // Replace spaces between words with a string upper cased character.
-            .replace(/ (\w)/g, function (_, $1) {
-                return $1.toUpperCase();
-            });
+        return (
+            StringUtility.toSentence(str)
+                // Replace spaces between words with a string upper cased character.
+                .replace(/ (\w)/g, function(_, $1) {
+                    return $1.toUpperCase();
+                })
+        );
     }
 
     /**
@@ -103,11 +106,13 @@ export default class StringUtility {
      *      // 'LiveDownByTheRiver'
      */
     public static toPascalCase(str: string): string {
-        return StringUtility.toCamelCase(str)
-        // Make first character uppercase.
-            .replace(/^[a-zA-Z]/, function (a, b, c) {
-                return a.toUpperCase();
-            });
+        return (
+            StringUtility.toCamelCase(str)
+                // Make first character uppercase.
+                .replace(/^[a-zA-Z]/, function(a, b, c) {
+                    return a.toUpperCase();
+                })
+        );
     }
 
     /**
@@ -123,8 +128,7 @@ export default class StringUtility {
      *      // 'LIVE_DOWN_BY_THE_RIVER'
      */
     public static toConstantCase(str: string): string {
-        return StringUtility.toSentence(str, '_')
-            .toUpperCase();
+        return StringUtility.toSentence(str, '_').toUpperCase();
     }
 
     /**
@@ -162,5 +166,4 @@ export default class StringUtility {
 
         return sentence.charAt(0).toUpperCase() + sentence.substr(1).toLowerCase();
     }
-
 }
