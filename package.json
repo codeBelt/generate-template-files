@@ -1,6 +1,6 @@
 {
   "name": "generate-template-files",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A generator to create custom template files for your applications",
   "keywords": [
     "generate",
