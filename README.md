@@ -22,7 +22,7 @@ $ yarn add generate-template-files
 
 ## Usage
 
-1. Check out the `examples` folder or create a file called `generate.js`. Note that this file name is flexible but must be a `.js` file.
+1. Check out the `examples` folder or create a file called `generate.js`. Note that this file name is flexible.
 2. In that file, add in the example code below.
 3. Run `node generate.js` within Terminal (Mac) or Powershell (Win) once you've added your template files.
 
