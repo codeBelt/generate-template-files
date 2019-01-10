@@ -20,7 +20,7 @@ $ yarn add generate-template-files
 
 ## Usage
 
-`generate.js`
+Create a `generate.js` file and add in the example below. Then you can do `node generate.js` or add a script task in your package.json file.
 
 ```js
 const generateTemplateFiles = require('generate-template-files');
@@ -34,7 +34,7 @@ generateTemplateFiles([
         },
         stringReplacers: ['~Component~', '~Model~'],
         output: {
-            path: './dist/app/stores/~Component~(lowerCase)',
+            path: './src/app/stores/~Component~(lowerCase)',
             pathAndFileNameDefaultCase: '(kebabCase)',
         },
     },
@@ -46,23 +46,11 @@ generateTemplateFiles([
         },
         stringReplacers: ['~Component~', '~Model~'],
         output: {
-            path: './dist/app/stores/~Component~(lowerCase)/~Component~(pascalCase)Action.ts',
+            path: './src/app/stores/~Component~(lowerCase)/~Component~(pascalCase)Action.ts',
             pathAndFileNameDefaultCase: '(kebabCase)',
         },
     },
 ]);
-```
-
-You can set it up anyway you want but I usually create a `tools` folder
-
-```
-┣━ package.json
-┣━ src
-┗━ tools/
-   ┣━ generate.js
-   ┗━ templates/
-      ┣━ SomeFile.js
-      ┗━ AnotherFile.js
 ```
 
 ## API

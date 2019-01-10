@@ -9,7 +9,7 @@ generateTemplateFiles([
         },
         stringReplacers: ['~Component~', '~Model~'],
         output: {
-            path: './dist/app/stores/~Component~(lowerCase)',
+            path: './src/app/stores/~Component~(lowerCase)',
             pathAndFileNameDefaultCase: '(kebabCase)',
         } ,
         onComplete: (data) => {
@@ -24,7 +24,7 @@ generateTemplateFiles([
         },
         stringReplacers: ['~Component~', '~Model~'],
         output: {
-            path: './dist/app/stores/~Component~(lowerCase)/~Component~(pascalCase)Action.ts',
+            path: './src/app/stores/~Component~(lowerCase)/~Component~(pascalCase)Action.ts',
             pathAndFileNameDefaultCase: '(kebabCase)',
         } ,
     },
