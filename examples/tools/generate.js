@@ -12,6 +12,9 @@ generateTemplateFiles([
             path: './dist/app/stores/~Component~(lowerCase)',
             pathAndFileNameDefaultCase: '(kebabCase)',
         } ,
+        onComplete: (data) => {
+            console.log(`data`, data);
+        }
     },
     {
         option: "Create Ngrx Action",

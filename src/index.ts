@@ -17,6 +17,7 @@ interface IConfigItem {
         path: string;
         pathAndFileNameDefaultCase: CaseEnum;
     };
+    onComplete?: (data: any) => void | null;
 }
 
 interface IReplacer {
@@ -24,7 +25,7 @@ interface IReplacer {
     readonly replacerValue: string;
 }
 
-async function generateTemplateFiles(options: IConfigItem[]) {
+async function generateTemplateFiles(options: IConfigItem[]): Promise<void> {
     /*
      * Ask what template options the user wants to use
      */
@@ -147,6 +148,19 @@ async function generateTemplateFiles(options: IConfigItem[]) {
 
     try {
         await recursiveCopy(selectedItem.entry.folderPath, outputPathAnswer.outputPath, recursiveCopyOptions);
+
+        if (typeof selectedItem.onComplete === 'function') {
+            const thing: any = {
+                output: {
+                    path: outputPathAnswer.outputPat,
+                },
+                stringReplacers: {
+                    ...replacerAnswers,
+                },
+            };
+
+            selectedItem.onComplete(thing);
+        }
 
         console.info(`Files outed to: '${outputPathAnswer.outputPath}'`);
     } catch (error) {
