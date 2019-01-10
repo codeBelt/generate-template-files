@@ -1,29 +1,121 @@
-# Rollup-TypeScript-Babel
+# `generate-template-files`
 
-> This is sample repository demonstrates how to use Rollup, TypeScript and Babel
+[![NPM version][npm-img]][npm-url] [![Downloads][downloads-img]][npm-url]
 
-> https://github.com/a-tarasyuk/rollup-typescript-babel
+A generator to create custom template files for all the boilerplate code you need to create over and over.
 
-## Building the repo
+## Install
 
-```shell
-npm run build
+With [NPM](http://npmjs.com):
+
+```command
+$ npm install generate-template-files
 ```
 
-## Building only types
+With [Yarn](https://yarnpkg.com):
 
-```shell
-npm run build:types
+```command
+$ yarn add generate-template-files
 ```
 
-## Type-Checking the repo
+## Usage
 
-```shell
-npm run type-check
+`generate.js`
+
+```js
+const generateTemplateFiles = require('generate-template-files');
+
+generateTemplateFiles([
+    {
+        option: 'Create Redux Store',
+        defaultCase: '(pascalCase)',
+        entry: {
+            folderPath: './tools/templates/ngrx/',
+        },
+        stringReplacers: ['~Component~', '~Model~'],
+        output: {
+            path: './dist/app/stores/~Component~(lowerCase)',
+            pathAndFileNameDefaultCase: '(kebabCase)',
+        },
+        onComplete: (data) => {
+            console.log(`onComplete`, data);
+        },
+    },
+    {
+        option: 'Create Ngrx Action',
+        defaultCase: '(pascalCase)',
+        entry: {
+            folderPath: './tools/templates/ngrx/~Component~.action.ts',
+        },
+        stringReplacers: ['~Component~', '~Model~'],
+        output: {
+            path: './dist/app/stores/~Component~(lowerCase)/~Component~(pascalCase)Action.ts',
+            pathAndFileNameDefaultCase: '(kebabCase)',
+        },
+    },
+]);
 ```
 
-And to run in --watch mode:
+You can set it up anyway you want but I usually create a `tools` folder
 
-```shell
-npm run type-check:watch
 ```
+┣━ package.json
+┣━ src
+┗━ tools/
+   ┣━ generate.js
+   ┗━ templates/
+      ┣━ SomeFile.js
+      ┗━ AnotherFile.js
+```
+
+## API
+
+The `generateTemplateFiles()` method takes an array of `IConfigItem` items.
+
+####`IConfigItem`
+
+-   `option` - Selection name when you are asked about what you want to do
+-   `defaultCase` - The default `Case Converters` you want to use with the `Replacer Slots` in your template files. Default is `(noCase)`.
+-   `entry.folderPath` - Path to a folder of files or a single template file.
+-   `stringReplacers` - An array of [Replacer Slots](#replacer-slots) used to replace content in your files and file paths.
+-   `output.path` - The desired out put path for your generated files. You can you [Case Converters](#case-converters) and [Replacer Slots](#replacer-slots)
+-   `output.pathAndFileNameDefaultCase` - The default [Case Converters](#case-converters) you want for the file path and file name.
+
+### Replacer Slots
+
+`Replacer Slots` are unique string value(s) that you want other string data to replace.
+
+For example you can use some like this in your template files or in the file path names.
+
+-   `~replacerSlot~`
+-   `{{something else}}`
+-   `__AnythingYouWant__`
+
+### Case Converters
+
+`Case Converters` allows you to transform the entered in string value.
+
+For example if you enter in `"product reducer"` for `~replacerSlot~` and in your template you had `~replacerSlot~(pascalCase)`. You will get `ProductReducer`.
+
+Lets say you entered in `Lives down BY the River` with one of the converters:
+
+    (noCase)        // Lives down BY the River
+    (camelCase)     // livesDownByTheRiver
+    (constantCase)  // LIVES_DOWN_BY_THE_RIVER
+    (dotCase)       // lives.down.by.the.river
+    (kebabCase)     // lives-down-by-the-river
+    (lowerCase)     // livesdownbytheriver
+    (pascalCase)    // LivesDownByTheRiver
+    (pathCase)      // lives/down/by/the/river
+    (sentenceCase)  // Lives down by the river
+    (snakeCase)     // lives_down_by_the_river
+    (titleCase)     // Lives Down By The River
+
+One Rule - No spaces between the `Replacer Slot` and the `Case Converter`.
+
+-   `~name~(camelCase)` Case Converter Will work
+-   `~name~ (camelCase)` Case Converter will `not` work
+
+[npm-url]: https://npmjs.org/package/generate-template-files
+[downloads-img]: http://img.shields.io/npm/dm/generate-template-files.svg?style=flat-square
+[npm-img]: http://img.shields.io/npm/v/generate-template-files.svg?style=flat-square
