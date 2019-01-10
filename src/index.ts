@@ -62,7 +62,7 @@ async function generateTemplateFiles(options: IConfigItem[]): Promise<void> {
     });
 
     const replacerAnswers: {[replacer: string]: string} = await inquirer.prompt(replacerQuestions);
-    console.log(`replacerAnswers`, replacerAnswers);
+
     // console.log(`selectedItem`, selectedItem.caseTypes.custom['(something)']('ccccc'));
 
     /*
