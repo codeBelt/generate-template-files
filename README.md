@@ -53,6 +53,18 @@ generateTemplateFiles([
 ]);
 ```
 
+You can set it up anyway you want but I usually create a `tools` folder
+
+```
+┣━ package.json
+┣━ src
+┗━ tools/
+   ┣━ generate.js
+   ┗━ templates/
+      ┣━ SomeFile.js
+      ┗━ AnotherFile.js
+```
+
 ## API
 
 The `generateTemplateFiles` method takes an array of `IConfigItem` items.
