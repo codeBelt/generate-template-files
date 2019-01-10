@@ -2,7 +2,7 @@
 
 [![NPM version][npm-img]][npm-url] [![Downloads][downloads-img]][npm-url]
 
-A generator to create custom template files for all boilerplate, scaffolding, skeleton, and templating code that you need to create over and over again.
+A generator to create custom template files for boilerplate, scaffolding, skeleton, and templating code that you need to create over and over again.
 
 > Find this useful? Give it a :star:
 
