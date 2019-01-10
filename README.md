@@ -4,6 +4,8 @@
 
 A generator to create custom template files for all your boilerplate, scaffolding, skeleton, templating code that you need to create over and over again.
 
+> Found this usefull? give it a :star:
+
 ## Install
 
 With [NPM](http://npmjs.com):
@@ -20,7 +22,7 @@ $ yarn add generate-template-files
 
 ## Usage
 
-Create a `generate.js` file and add in the example below. Then you can do `node generate.js` or add a script task in your package.json file.
+Check out the `examples` folder or create a file called `generate.js`. The file can be named anything you want. In that file add in the example code below. Then you can do `node generate.js`.
 
 ```js
 const generateTemplateFiles = require('generate-template-files');
@@ -53,7 +55,7 @@ generateTemplateFiles([
 ]);
 ```
 
-You can set it up anyway you want but I usually create a `tools` folder
+Checkout the `examples` folder but I usually create a `tools` folder and place my `generate.js` and `templates` files in there. I also add a script task (`"generate": "node ./tools/generate.js"`) to my `package.json` file.
 
 ```
 ┣━ package.json
@@ -62,27 +64,27 @@ You can set it up anyway you want but I usually create a `tools` folder
    ┣━ generate.js
    ┗━ templates/
       ┣━ SomeFile.js
-      ┗━ AnotherFile.js
+      ┗━ ~Component~(pascalCase)Action.ts
 ```
 
 ## API
 
 The `generateTemplateFiles` method takes an array of `IConfigItem` items.
 
-####`IConfigItem`
+#### `IConfigItem`
 
 -   `option` - The name of the option to choose when asked.
 -   `defaultCase` - The default [Case Converters](#case-converters) you want to use with the [Replacer Slots](#replacer-slots) in your template files. Default is `(noCase)`.
 -   `entry.folderPath` - Path to a folder of files or a single template file.
 -   `stringReplacers` - An array of [Replacer Slots](#replacer-slots) used to replace content in your files and file paths.
--   `output.path` - The desired out put path for your generated files. You can you [Case Converters](#case-converters) and [Replacer Slots](#replacer-slots) to make the path somewhat dynamic.
--   `output.pathAndFileNameDefaultCase` - The default [Case Converters](#case-converters) you want for the file path and file name(s).
+-   `output.path` - The desired out put path for your generated files. You can use [Case Converters](#case-converters) and [Replacer Slots](#replacer-slots) to make the path somewhat dynamic.
+-   `output.pathAndFileNameDefaultCase` - The [Case Converters](#case-converters) you want to use for the file path and file name(s).
 
 ### Replacer Slots
 
 [Replacer Slots](#replacer-slots) are unique string value(s) that you want other string data to replace.
 
-For example you can use some like this in your template files or in the file path names.
+For example you can use something like this in your template files and/or in the file path names.
 
 -   `~replacerSlot~`
 -   `{{something else}}`
@@ -110,8 +112,8 @@ Lets say you entered in `Lives down BY the River` with one of the converters:
 
 One Rule - No spaces between the [Replacer Slots](#replacer-slots) and the [Case Converters](#case-converters).
 
--   `~name~(camelCase)` [Case Converters](#case-converters) Will work
--   `~name~ (camelCase)` [Case Converters](#case-converters) will `not` work
+-   `~name~(camelCase)` :white_check_mark: [Case Converters](#case-converters) Will work
+-   `~name~ (camelCase)` :warning: [Case Converters](#case-converters) will `not` work
 
 [npm-url]: https://npmjs.org/package/generate-template-files
 [downloads-img]: http://img.shields.io/npm/dm/generate-template-files.svg?style=flat-square
