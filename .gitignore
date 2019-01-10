@@ -3,3 +3,4 @@ dist/
 .idea
 .code
 .DS_Store
+examples/src
