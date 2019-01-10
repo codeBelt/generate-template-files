@@ -22,7 +22,7 @@ $ yarn add generate-template-files
 
 ## Usage
 
-Check out the `examples` folder or create a file called `generate.js`. The file can be named anything you want. In that file add in the example code below. Then you can do `node generate.js`.
+Check out the `examples` folder or create a file called `generate.js`. The file can be named anything you want. In that file add in the example code below. Then you can do `node generate.js` once you added your template files.
 
 ```js
 const generateTemplateFiles = require('generate-template-files');
