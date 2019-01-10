@@ -57,7 +57,7 @@ generateTemplateFiles([
 
 The `generateTemplateFiles` method takes an array of `IConfigItem` items.
 
-####`IConfigItem`
+#### `IConfigItem`
 
 -   `option` - The name of the option to choose when asked.
 -   `defaultCase` - The default [Case Converters](#case-converters) you want to use with the [Replacer Slots](#replacer-slots) in your template files. Default is `(noCase)`.
