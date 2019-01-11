@@ -1,9 +1,9 @@
 import IReplacer from './IReplacer';
 
 export default interface IResults {
-    output: {
-        path: string;
-        outputtedFilesAndFolders: string[];
+    readonly output: {
+        readonly path: string;
+        readonly outputtedFilesAndFolders: string[];
     };
-    stringReplacers: IReplacer[];
+    readonly stringReplacers: IReplacer[];
 }

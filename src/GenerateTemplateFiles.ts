@@ -11,14 +11,10 @@ import IResults from './models/IResults';
 import IDefaultCaseConverter from './models/IDefaultCaseConverter';
 import CheckUtility from './utilities/CheckUtility';
 
-type ReplacerUnion = {[replacer: string]: string};
-
 export default class GenerateTemplateFiles {
     public async generate(options: IConfigItem[]): Promise<void> {
         const selectedConfigItem: IConfigItem = await this._getSelectedItem(options);
-
         const answeredReplacer: IReplacer[] = await this._getReplacerSlotValues(selectedConfigItem);
-
         const {defaultCase, defaultOutputPath} = this._getDefaultCaseConverters(selectedConfigItem);
         const contentReplacers: IReplacer[] = this._getReplacers(answeredReplacer, defaultCase);
         const outputPathReplacers: IReplacer[] = this._getReplacers(answeredReplacer, defaultOutputPath);
@@ -93,15 +89,15 @@ export default class GenerateTemplateFiles {
             };
         });
 
-        const answer: ReplacerUnion = await inquirer.prompt(replacerQuestions);
+        const answer: {[replacer: string]: string} = await inquirer.prompt(replacerQuestions);
 
         CheckUtility.check(Object.keys(answer).length > 0, '"stringReplacers" needs at least one item.');
 
         return Object.entries(answer).map(
             ([key, value]: [string, string]): IReplacer => {
                 return {
-                    replacerSlot: key,
-                    replacerSlotValue: value,
+                    slot: key,
+                    slotValue: value,
                 };
             }
         );
@@ -118,20 +114,21 @@ export default class GenerateTemplateFiles {
         const caseTypes: string[] = Object.values(CaseConverterEnum);
 
         return replacers.reduce((previousReplacers: IReplacer[], answeredReplacer: IReplacer): IReplacer[] => {
-            const {replacerSlot, replacerSlotValue} = answeredReplacer;
+            const {slot, slotValue} = answeredReplacer;
+
             return [
                 ...previousReplacers,
                 ...caseTypes.map(
                     (caseType: string): IReplacer => {
                         return {
-                            replacerSlot: `${replacerSlot}${caseType}`,
-                            replacerSlotValue: StringUtility.toCase(replacerSlotValue, caseType as CaseConverterEnum),
+                            slot: `${slot}${caseType}`,
+                            slotValue: StringUtility.toCase(slotValue, caseType as CaseConverterEnum),
                         };
                     }
                 ),
                 {
-                    replacerSlot: replacerSlot,
-                    replacerSlotValue: StringUtility.toCase(replacerSlotValue, defaultCase),
+                    slot: slot,
+                    slotValue: StringUtility.toCase(slotValue, defaultCase),
                 },
             ];
         }, []);
@@ -146,7 +143,7 @@ export default class GenerateTemplateFiles {
     private async _getOutputPath(outputPathReplacers: IReplacer[], selectedConfigItem: IConfigItem): Promise<string> {
         // Create the output path replacing any template keys.
         const outputPathFormatted: string = outputPathReplacers.reduce((outputPath: string, replacer: IReplacer) => {
-            return replaceString(outputPath, replacer.replacerSlot, replacer.replacerSlotValue);
+            return replaceString(outputPath, replacer.slot, replacer.slotValue);
         }, selectedConfigItem.output.path);
 
         const outputPathAnswer: any = await inquirer.prompt({
@@ -189,7 +186,7 @@ export default class GenerateTemplateFiles {
                     let formattedFilePath: string = path;
 
                     outputPathReplacers.forEach((replacer: IReplacer) => {
-                        formattedFilePath = replaceString(formattedFilePath, replacer.replacerSlot, replacer.replacerSlotValue);
+                        formattedFilePath = replaceString(formattedFilePath, replacer.slot, replacer.slotValue);
                     });
 
                     return formattedFilePath;
@@ -204,7 +201,7 @@ export default class GenerateTemplateFiles {
                     let output: string = chunk.toString();
 
                     replacers.forEach((replacer: IReplacer) => {
-                        output = replaceString(output, replacer.replacerSlot, replacer.replacerSlotValue);
+                        output = replaceString(output, replacer.slot, replacer.slotValue);
                     });
 
                     done(null, output);

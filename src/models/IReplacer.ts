@@ -1,4 +1,4 @@
 export default interface IReplacer {
-    readonly replacerSlot: string;
-    readonly replacerSlotValue: string;
+    readonly slot: string;
+    readonly slotValue: string;
 }
