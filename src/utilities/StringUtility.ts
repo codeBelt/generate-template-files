@@ -1,29 +1,29 @@
-import CaseEnum from './CaseEnum';
+import CaseConverterEnum from '../constants/CaseConverterEnum';
 
 export default class StringUtility {
-    public static toCase(str: string, caseType: CaseEnum): string {
+    public static toCase(str: string, caseType: CaseConverterEnum): string {
         switch (caseType) {
-            case CaseEnum.CamelCase:
+            case CaseConverterEnum.CamelCase:
                 return StringUtility.toCamelCase(str);
-            case CaseEnum.ConstantCase:
+            case CaseConverterEnum.ConstantCase:
                 return StringUtility.toConstantCase(str);
-            case CaseEnum.DotCase:
+            case CaseConverterEnum.DotCase:
                 return StringUtility.toSentence(str, '.');
-            case CaseEnum.KebabCase:
+            case CaseConverterEnum.KebabCase:
                 return StringUtility.toSentence(str, '-');
-            case CaseEnum.LowerCase:
+            case CaseConverterEnum.LowerCase:
                 return StringUtility.toSentence(str, '');
-            case CaseEnum.PascalCase:
+            case CaseConverterEnum.PascalCase:
                 return StringUtility.toPascalCase(str);
-            case CaseEnum.PathCase:
+            case CaseConverterEnum.PathCase:
                 return StringUtility.toSentence(str, '/');
-            case CaseEnum.SentenceCase:
+            case CaseConverterEnum.SentenceCase:
                 return StringUtility.toSentenceCase(str);
-            case CaseEnum.SnakeCase:
+            case CaseConverterEnum.SnakeCase:
                 return StringUtility.toSentence(str, '_');
-            case CaseEnum.TitleCase:
+            case CaseConverterEnum.TitleCase:
                 return StringUtility.toTitleCase(str);
-            case CaseEnum.None:
+            case CaseConverterEnum.None:
             default:
                 return str;
         }

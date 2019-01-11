@@ -11,11 +11,11 @@ generateTemplateFiles([
         entry: {
             folderPath: './tools/templates/angular/ngrx-store/',
         },
-        stringReplacers: ['~Component~', '~Model~'],
+        stringReplacers: ['__name__', '__model__'],
         output: {
-            path: './src/app/stores/~Component~(lowerCase)',
+            path: './src/app/stores/__name__(lowerCase)',
             pathAndFileNameDefaultCase: '(kebabCase)',
-        } ,
+        },
     },
     // Vue
     {
@@ -29,6 +29,9 @@ generateTemplateFiles([
             path: './src/stores/__store__(lowerCase)',
             pathAndFileNameDefaultCase: '(pascalCase)',
         },
+        onComplete: (results) => {
+            console.log(`results`, results);
+        }
     },
     // React
     {
@@ -42,9 +45,12 @@ generateTemplateFiles([
             path: './src/stores/__store__(lowerCase)',
             pathAndFileNameDefaultCase: '(pascalCase)',
         },
+        onComplete: (results) => {
+            console.log(`results`, results);
+        }
     },
     {
-        option: 'Component',
+        option: 'React Component',
         defaultCase: '(pascalCase)',
         entry: {
             folderPath: './tools/templates/react/component/',
@@ -54,9 +60,12 @@ generateTemplateFiles([
             path: './src/views/__name__(lowerCase)',
             pathAndFileNameDefaultCase: '(pascalCase)',
         },
+        onComplete: (results) => {
+            console.log(`results`, results);
+        }
     },
     {
-        option: 'Connected Component',
+        option: 'React Connected Component',
         defaultCase: '(pascalCase)',
         entry: {
             folderPath: './tools/templates/react/connected-component/',
@@ -66,6 +75,9 @@ generateTemplateFiles([
             path: './src/views/__name__(lowerCase)',
             pathAndFileNameDefaultCase: '(pascalCase)',
         },
+        onComplete: (results) => {
+            console.log(`results`, results);
+        }
     },
     {
         option: 'Model',
@@ -78,6 +90,9 @@ generateTemplateFiles([
             path: './src/models/__model__Model.ts',
             pathAndFileNameDefaultCase: '(pascalCase)',
         },
+        onComplete: (results) => {
+            console.log(`results`, results);
+        }
     },
     {
         option: 'Interface',
