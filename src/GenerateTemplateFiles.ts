@@ -14,21 +14,21 @@ import CheckUtility from './utilities/CheckUtility';
 export default class GenerateTemplateFiles {
     public async generate(options: IConfigItem[]): Promise<void> {
         const selectedConfigItem: IConfigItem = await this._getSelectedItem(options);
-        const answeredReplacer: IReplacer[] = await this._getReplacerSlotValues(selectedConfigItem);
-        const {defaultCase, defaultOutputPath} = this._getDefaultCaseConverters(selectedConfigItem);
-        const contentReplacers: IReplacer[] = this._getReplacers(answeredReplacer, defaultCase);
-        const outputPathReplacers: IReplacer[] = this._getReplacers(answeredReplacer, defaultOutputPath);
+        const answeredReplacers: IReplacer[] = await this._getReplacerSlotValues(selectedConfigItem);
+        const {contentCase, outputPathCase} = this._getDefaultCaseConverters(selectedConfigItem);
+        const contentReplacers: IReplacer[] = this._getReplacers(answeredReplacers, contentCase);
+        const outputPathReplacers: IReplacer[] = this._getReplacers(answeredReplacers, outputPathCase);
         const outputPath: string = await this._getOutputPath(outputPathReplacers, selectedConfigItem);
 
         const outputtedFilesAndFolders: string[] = await this._createFiles(
-            answeredReplacer,
+            answeredReplacers,
             outputPathReplacers,
             contentReplacers,
             outputPath,
             selectedConfigItem.entry.folderPath
         );
 
-        this._onComplete(selectedConfigItem, outputPath, outputtedFilesAndFolders, answeredReplacer);
+        this._onComplete(selectedConfigItem, outputPath, outputtedFilesAndFolders, answeredReplacers);
     }
 
     /**
@@ -61,12 +61,12 @@ export default class GenerateTemplateFiles {
      * @private
      */
     private _getDefaultCaseConverters(selectedConfigItem: IConfigItem): IDefaultCaseConverter {
-        const defaultCase: CaseConverterEnum = get(selectedConfigItem, 'defaultCase', CaseConverterEnum.None);
-        const defaultOutputPath: CaseConverterEnum = get(selectedConfigItem, 'output.pathAndFileNameDefaultCase', defaultCase);
+        const defaultContentCase: CaseConverterEnum = get(selectedConfigItem, 'defaultCase', CaseConverterEnum.None);
+        const defaultOutputPath: CaseConverterEnum = get(selectedConfigItem, 'output.pathAndFileNameDefaultCase', defaultContentCase);
 
         return {
-            defaultCase,
-            defaultOutputPath,
+            contentCase: defaultContentCase,
+            outputPathCase: defaultOutputPath,
         };
     }
 
