@@ -6,45 +6,63 @@ const generateTemplateFiles = require('../../dist/generate-template-files.cjs');
 generateTemplateFiles([
     // Angular
     {
-        option: "Ngrx Store",
+        option: "Angular Ngrx Store",
         defaultCase: '(pascalCase)',
         entry: {
             folderPath: './tools/templates/angular/ngrx-store/',
         },
-        stringReplacers: ['~Component~', '~Model~'],
+        stringReplacers: ['__name__', '__model__'],
         output: {
-            path: './src/app/stores/~Component~(lowerCase)',
+            path: './src/app/stores/__name__(lowerCase)',
             pathAndFileNameDefaultCase: '(kebabCase)',
-        } ,
+        },
     },
     // Vue
     {
-        option: 'Vuex Store',
+        option: 'Vue Vuex Store',
         defaultCase: '(pascalCase)',
         entry: {
             folderPath: './tools/templates/vue/vuex-store/',
         },
         stringReplacers: ['__store__', '__model__'],
         output: {
-            path: './src/stores/__store__(lowerCase)',
+            path: './src/stores/__store__(kebabCase)',
             pathAndFileNameDefaultCase: '(pascalCase)',
         },
+        onComplete: (results) => {
+            console.log(`results`, results);
+        }
     },
     // React
     {
-        option: 'Redux Store',
+        option: 'React Redux Store',
         defaultCase: '(pascalCase)',
         entry: {
             folderPath: './tools/templates/react/redux-store/',
         },
         stringReplacers: ['__store__', '__model__'],
         output: {
-            path: './src/stores/__store__(lowerCase)',
-            pathAndFileNameDefaultCase: '(pascalCase)',
+            path: './src/app/stores/__store__(lowerCase)',
+            pathAndFileNameDefaultCase: '(kebabCase)',
+        },
+        onComplete: (results) => {
+            console.log(`results`, results);
+        }
+    },
+    {
+        option: 'React Redux Action',
+        defaultCase: '(pascalCase)',
+        entry: {
+            folderPath: './tools/templates/react/redux-store/__store__Action.ts',
+        },
+        stringReplacers: ['__store__', '__model__'],
+        output: {
+            path: './src/app/stores/__store__/__store__(lowerCase)/__store__(pascalCase)Action.ts',
+            pathAndFileNameDefaultCase: '(kebabCase)',
         },
     },
     {
-        option: 'Component',
+        option: 'React Component',
         defaultCase: '(pascalCase)',
         entry: {
             folderPath: './tools/templates/react/component/',
@@ -54,9 +72,12 @@ generateTemplateFiles([
             path: './src/views/__name__(lowerCase)',
             pathAndFileNameDefaultCase: '(pascalCase)',
         },
+        onComplete: (results) => {
+            console.log(`results`, results);
+        }
     },
     {
-        option: 'Connected Component',
+        option: 'React Connected Component',
         defaultCase: '(pascalCase)',
         entry: {
             folderPath: './tools/templates/react/connected-component/',
@@ -66,6 +87,9 @@ generateTemplateFiles([
             path: './src/views/__name__(lowerCase)',
             pathAndFileNameDefaultCase: '(pascalCase)',
         },
+        onComplete: (results) => {
+            console.log(`results`, results);
+        }
     },
     {
         option: 'Model',
@@ -78,6 +102,9 @@ generateTemplateFiles([
             path: './src/models/__model__Model.ts',
             pathAndFileNameDefaultCase: '(pascalCase)',
         },
+        onComplete: (results) => {
+            console.log(`results`, results);
+        }
     },
     {
         option: 'Interface',

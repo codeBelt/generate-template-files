@@ -34,23 +34,26 @@ generateTemplateFiles([
         option: 'Create Redux Store',
         defaultCase: '(pascalCase)',
         entry: {
-            folderPath: './tools/templates/ngrx/',
+            folderPath: './tools/templates/react/redux-store/',
         },
-        stringReplacers: ['~Component~', '~Model~'],
+        stringReplacers: ['__store__', '__model__'],
         output: {
-            path: './src/app/stores/~Component~(lowerCase)',
+            path: './src/app/stores/__store__(lowerCase)',
             pathAndFileNameDefaultCase: '(kebabCase)',
+        },
+        onComplete: (results) => {
+            console.log(`results`, results);
         },
     },
     {
-        option: 'Create Ngrx Action',
+        option: 'Create Reduce Action',
         defaultCase: '(pascalCase)',
         entry: {
-            folderPath: './tools/templates/ngrx/~Component~.action.ts',
+            folderPath: './tools/templates/react/redux-store/__store__Action.ts',
         },
-        stringReplacers: ['~Component~', '~Model~'],
+        stringReplacers: ['__store__', '__model__'],
         output: {
-            path: './src/app/stores/~Component~(lowerCase)/~Component~(pascalCase)Action.ts',
+            path: './src/app/stores/__store__/__store__(lowerCase)/__store__(pascalCase)Action.ts',
             pathAndFileNameDefaultCase: '(kebabCase)',
         },
     },
@@ -66,7 +69,7 @@ As outlined in the `examples` folder, I prefer to create a `tools` folder and pl
    ┣━ generate.js
    ┗━ templates/
       ┣━ SomeFile.js
-      ┗━ ~Component~(pascalCase)Action.ts
+      ┗━ __name_(pascalCase)Action.ts
 ```
 
 ## API
@@ -96,11 +99,11 @@ For example you can use something like this in your template files and/or in the
 
 [Case Converters](#case-converters) transform the string value entered upon use of the generator.
 
-
 Example
-* In the generator template `~replacerSlot~` is appended by the pascalCase converter such as `~replacerSlot~(pascalCase)`.
-* When the generator is run, the string `"product reducer"` is provided for `~replacerSlot~`.
-* As a result, the converter will produce `ProductReducer`.
+
+-   In the generator template `~replacerSlot~` is appended by the pascalCase converter such as `~replacerSlot~(pascalCase)`.
+-   When the generator is run, the string `"product reducer"` is provided for `~replacerSlot~`.
+-   As a result, the converter will produce `ProductReducer`.
 
 Here is the string `Lives down BY the River` with each of the converters:
 
@@ -124,4 +127,3 @@ One Rule: no spaces between the [Replacer Slots](#replacer-slots) and [Case Conv
 [npm-url]: https://npmjs.org/package/generate-template-files
 [downloads-img]: http://img.shields.io/npm/dm/generate-template-files.svg?style=flat-square
 [npm-img]: http://img.shields.io/npm/v/generate-template-files.svg?style=flat-square
-

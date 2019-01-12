@@ -1,4 +1,4 @@
-enum CaseEnum {
+enum CaseConverterEnum {
     None = '(noCase)', // What ever you entered in
     CamelCase = '(camelCase)', // downByTheRiver
     ConstantCase = '(constantCase)', // DOWN_BY_THE_RIVER
@@ -12,4 +12,4 @@ enum CaseEnum {
     TitleCase = '(titleCase)', // Down By The River
 }
 
-export default CaseEnum;
+export default CaseConverterEnum;
