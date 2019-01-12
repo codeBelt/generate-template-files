@@ -6,7 +6,7 @@ const generateTemplateFiles = require('../../dist/generate-template-files.cjs');
 generateTemplateFiles([
     // Angular
     {
-        option: "Ngrx Store",
+        option: "Angular Ngrx Store",
         defaultCase: '(pascalCase)',
         entry: {
             folderPath: './tools/templates/angular/ngrx-store/',
@@ -19,14 +19,14 @@ generateTemplateFiles([
     },
     // Vue
     {
-        option: 'Vuex Store',
+        option: 'Vue Vuex Store',
         defaultCase: '(pascalCase)',
         entry: {
             folderPath: './tools/templates/vue/vuex-store/',
         },
         stringReplacers: ['__store__', '__model__'],
         output: {
-            path: './src/stores/__store__(lowerCase)',
+            path: './src/stores/__store__(kebabCase)',
             pathAndFileNameDefaultCase: '(pascalCase)',
         },
         onComplete: (results) => {
