@@ -81,8 +81,8 @@ export default class GenerateTemplateFiles {
             return {
                 name: str,
                 message: `Replace ${str} with:`,
-                validate: (answer: string) => {
-                    const isValid: boolean = Boolean(answer);
+                validate: (replacerSlotValue: string) => {
+                    const isValid: boolean = Boolean(replacerSlotValue);
 
                     return isValid || 'You must provide an answer.';
                 },
@@ -127,7 +127,7 @@ export default class GenerateTemplateFiles {
                     }
                 ),
                 {
-                    slot: slot,
+                    slot,
                     slotValue: StringUtility.toCase(slotValue, defaultCase),
                 },
             ];
@@ -174,14 +174,14 @@ export default class GenerateTemplateFiles {
         outputPath: string,
         entryFolderPath: string
     ): Promise<string[]> {
-        let outputtedFilesAndFolders: string[] = [];
+        const outputtedFilesAndFolders: string[] = [];
 
         const recursiveCopyOptions: any = {
             overwrite: false,
             expand: false,
             dot: true,
             junk: true,
-            rename: (outputPath: string): string => {
+            rename: (fileFolderPath: string): string => {
                 const fileOrFolder: string = answeredReplacer.reduce((path: string) => {
                     let formattedFilePath: string = path;
 
@@ -190,7 +190,7 @@ export default class GenerateTemplateFiles {
                     });
 
                     return formattedFilePath;
-                }, outputPath);
+                }, fileFolderPath);
 
                 outputtedFilesAndFolders.push(fileOrFolder);
 
