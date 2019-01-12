@@ -85,9 +85,9 @@ The `generateTemplateFiles` method takes an array of `IConfigItem` items.
 -   `output.path` - The desired output path for generated files. [Case Converters](#case-converters) and [Replacer Slots](#replacer-slots) can be used to make the path somewhat dynamic.
 -   `output.pathAndFileNameDefaultCase` - The [Case Converters](#case-converters) to use for the file path and file name(s).
 -   `onComplete` - `optional` Takes a callback function that is called once the file(s) have been outputted. A `IResults` object will be passed to the callback which has the following properties:
--   `output.path` - The file(s) output path
--   `outputtedFilesAndFolders` - Array of folder and filenames created
--   `stringReplacers` - Array of Replacer Slots; name and values entered during the setup process
+    -   `output.path` - The file(s) output path
+    -   `output.filesAndFolders` - List of folder and filenames created
+    -   `stringReplacers` - List of Replacer Slots; name and values entered during the setup process
 
 ### Replacer Slots
 
