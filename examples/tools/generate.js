@@ -35,19 +35,31 @@ generateTemplateFiles([
     },
     // React
     {
-        option: 'Redux Store',
+        option: 'React Redux Store',
         defaultCase: '(pascalCase)',
         entry: {
             folderPath: './tools/templates/react/redux-store/',
         },
         stringReplacers: ['__store__', '__model__'],
         output: {
-            path: './src/stores/__store__(lowerCase)',
-            pathAndFileNameDefaultCase: '(pascalCase)',
+            path: './src/app/stores/__store__(lowerCase)',
+            pathAndFileNameDefaultCase: '(kebabCase)',
         },
         onComplete: (results) => {
             console.log(`results`, results);
         }
+    },
+    {
+        option: 'React Redux Action',
+        defaultCase: '(pascalCase)',
+        entry: {
+            folderPath: './tools/templates/react/redux-store/__store__Action.ts',
+        },
+        stringReplacers: ['__store__', '__model__'],
+        output: {
+            path: './src/app/stores/__store__/__store__(lowerCase)/__store__(pascalCase)Action.ts',
+            pathAndFileNameDefaultCase: '(kebabCase)',
+        },
     },
     {
         option: 'React Component',
