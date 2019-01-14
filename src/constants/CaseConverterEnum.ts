@@ -1,15 +1,15 @@
 enum CaseConverterEnum {
     None = '(noCase)', // What ever you entered in
-    CamelCase = '(camelCase)', // downByTheRiver
-    ConstantCase = '(constantCase)', // DOWN_BY_THE_RIVER
-    DotCase = '(dotCase)', // down.by.the.river
-    KebabCase = '(kebabCase)', // down-by-the-river
-    LowerCase = '(lowerCase)', // downbytheriver
-    PascalCase = '(pascalCase)', // DownByTheRiver
-    PathCase = '(pathCase)', // down/by/the/river
-    SentenceCase = '(sentenceCase)', // Down by the river
-    SnakeCase = '(snakeCase)', // down_by_the_river
-    TitleCase = '(titleCase)', // Down By The River
+    CamelCase = '(camelCase)', // camelCase
+    ConstantCase = '(constantCase)', // CONSTANT_CASE
+    DotCase = '(dotCase)', // dot.case
+    KebabCase = '(kebabCase)', // kebab-case
+    LowerCase = '(lowerCase)', // lowercase
+    PascalCase = '(pascalCase)', // PascalCase
+    PathCase = '(pathCase)', // path/case
+    SentenceCase = '(sentenceCase)', // Sentence case
+    SnakeCase = '(snakeCase)', // snake_case
+    TitleCase = '(titleCase)', // Title Case
 }
 
 export default CaseConverterEnum;

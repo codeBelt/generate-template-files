@@ -39,17 +39,17 @@ export default class StringUtility {
      * @public
      * @static
      * @example
-     *      StringUtility.toSentence("liveDown_by-the.River");
-     *      // 'live down by the river'
+     *      StringUtility.toSentence("livesDown_by-the.River");
+     *      // 'lives down by the river'
      *
-     *      StringUtility.toSentence("liveDown_by-the.River", '-');
-     *      // 'live-down-by-the-river'
+     *      StringUtility.toSentence("livesDown_by-the.River", '-');
+     *      // 'lives-down-by-the-river'
      *
-     *      StringUtility.toSentence("liveDown_by-the.River", '_');
-     *      // 'live_down_by_the_river'
+     *      StringUtility.toSentence("livesDown_by-the.River", '_');
+     *      // 'lives_down_by_the_river'
      *
-     *      StringUtility.toSentence("liveDown_by-the.River", '/');
-     *      // 'live/down/by/the/river'
+     *      StringUtility.toSentence("livesDown_by-the.River", '/');
+     *      // 'lives/down/by/the/river'
      */
     public static toSentence(str: string, separator: string = ' '): string {
         return (
@@ -80,8 +80,8 @@ export default class StringUtility {
      * @public
      * @static
      * @example
-     *      StringUtility.toCamelCase("liveDown_by-the.River");
-     *      // 'liveDownByTheRiver'
+     *      StringUtility.toCamelCase("livesDown_by-the.River");
+     *      // 'livesDownByTheRiver'
      */
     public static toCamelCase(str: string): string {
         return (
@@ -102,8 +102,8 @@ export default class StringUtility {
      * @public
      * @static
      * @example
-     *      StringUtility.toPascalCase("liveDown_by-the.River");
-     *      // 'LiveDownByTheRiver'
+     *      StringUtility.toPascalCase("livesDown_by-the.River");
+     *      // 'LivesDownByTheRiver'
      */
     public static toPascalCase(str: string): string {
         return (
@@ -124,8 +124,8 @@ export default class StringUtility {
      * @public
      * @static
      * @example
-     *      StringUtility.toConstantCase("liveDown_by-the.River");
-     *      // 'LIVE_DOWN_BY_THE_RIVER'
+     *      StringUtility.toConstantCase("livesDown_by-the.River");
+     *      // 'LIVES_DOWN_BY_THE_RIVER'
      */
     public static toConstantCase(str: string): string {
         return StringUtility.toSentence(str, '_').toUpperCase();
@@ -140,8 +140,8 @@ export default class StringUtility {
      * @public
      * @static
      * @example
-     *      StringUtility.toTitleCase("liveDown_by-the.River");
-     *      // 'Live Down By The River'
+     *      StringUtility.toTitleCase("livesDown_by-the.River");
+     *      // 'Lives Down By The River'
      */
     public static toTitleCase(str: string): string {
         return StringUtility.toSentence(str).replace(/\w\S*/g, (txt: string) => {
@@ -158,8 +158,8 @@ export default class StringUtility {
      * @public
      * @static
      * @example
-     *      StringUtility.toSentenceCase("liveDown_by-the.River");
-     *      // 'Live down by the river'
+     *      StringUtility.toSentenceCase("livesDown_by-the.River");
+     *      // 'Lives down by the river'
      */
     public static toSentenceCase(str: string): string {
         const sentence: string = StringUtility.toSentence(str);
