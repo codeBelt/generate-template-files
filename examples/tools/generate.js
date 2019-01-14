@@ -42,8 +42,8 @@ generateTemplateFiles([
         },
         stringReplacers: ['__store__', '__model__'],
         output: {
-            path: './src/app/stores/__store__(lowerCase)',
-            pathAndFileNameDefaultCase: '(kebabCase)',
+            path: './src/app/stores/__store__(kebabCase)',
+            pathAndFileNameDefaultCase: '(pascalCase)',
         },
         onComplete: (results) => {
             console.log(`results`, results);
@@ -67,7 +67,7 @@ generateTemplateFiles([
         entry: {
             folderPath: './tools/templates/react/component/',
         },
-        stringReplacers: ['__name__',],
+        stringReplacers: ['__name__'],
         output: {
             path: './src/views/__name__(lowerCase)',
             pathAndFileNameDefaultCase: '(pascalCase)',
@@ -82,7 +82,7 @@ generateTemplateFiles([
         entry: {
             folderPath: './tools/templates/react/connected-component/',
         },
-        stringReplacers: ['__name__',],
+        stringReplacers: ['__name__'],
         output: {
             path: './src/views/__name__(lowerCase)',
             pathAndFileNameDefaultCase: '(pascalCase)',
@@ -97,7 +97,7 @@ generateTemplateFiles([
         entry: {
             folderPath: './tools/templates/react/__model__Model.ts',
         },
-        stringReplacers: ['__model__',],
+        stringReplacers: ['__model__'],
         output: {
             path: './src/models/__model__Model.ts',
             pathAndFileNameDefaultCase: '(pascalCase)',
@@ -112,7 +112,7 @@ generateTemplateFiles([
         entry: {
             folderPath: './tools/templates/react/I__interface__.ts',
         },
-        stringReplacers: ['__interface__',],
+        stringReplacers: ['__interface__'],
         output: {
             path: './src/models/I__interface__.ts',
             pathAndFileNameDefaultCase: '(pascalCase)',
@@ -124,7 +124,7 @@ generateTemplateFiles([
         entry: {
             folderPath: './tools/templates/react/__enum__Enum.ts',
         },
-        stringReplacers: ['__enum__',],
+        stringReplacers: ['__enum__'],
         output: {
             path: './src/constants/__enum__Enum.ts',
             pathAndFileNameDefaultCase: '(pascalCase)',
