@@ -84,6 +84,10 @@ The `generateTemplateFiles` method takes an array of `IConfigItem` items.
 -   `stringReplacers` - An array of [Replacer Slots](#replacer-slots) used to replace content in the designated `entry.folderPath`.
 -   `output.path` - The desired output path for generated files. [Case Converters](#case-converters) and [Replacer Slots](#replacer-slots) can be used to make the path somewhat dynamic.
 -   `output.pathAndFileNameDefaultCase` - The [Case Converters](#case-converters) to use for the file path and file name(s).
+-   `onComplete` - `optional` Takes a callback function that is called once the file(s) have been outputted. A `IResults` object will be passed to the callback which has the following properties:
+    -   `output.path` - The file(s) output path
+    -   `output.filesAndFolders` - List of folder and filenames created
+    -   `stringReplacers` - List of Replacer Slots; name and values entered during the setup process
 
 ### Replacer Slots
 
@@ -101,8 +105,8 @@ For example you can use something like this in your template files and/or in the
 
 Example
 
--   In the generator template `~replacerSlot~` is appended by the pascalCase converter such as `~replacerSlot~(pascalCase)`.
--   When the generator is run, the string `"product reducer"` is provided for `~replacerSlot~`.
+-   In the generator template `__replacerSlot__` is appended by the pascalCase converter such as `__replacerSlot__(pascalCase)`.
+-   When the generator is run, the string `"product reducer"` is provided for `__replacerSlot__`.
 -   As a result, the converter will produce `ProductReducer`.
 
 Here is the string `Lives down BY the River` with each of the converters:
@@ -121,8 +125,8 @@ Here is the string `Lives down BY the River` with each of the converters:
 
 One Rule: no spaces between the [Replacer Slots](#replacer-slots) and [Case Converters](#case-converters). If there is a space, [Case Converters](#case-converters) will not work.
 
--   :white_check_mark: `~name~(camelCase)`
--   :warning: `~name~ (camelCase)`
+-   :white_check_mark: `__name__(camelCase)`
+-   :warning: `__name__ (camelCase)`
 
 [npm-url]: https://npmjs.org/package/generate-template-files
 [downloads-img]: http://img.shields.io/npm/dm/generate-template-files.svg?style=flat-square

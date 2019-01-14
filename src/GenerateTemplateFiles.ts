@@ -227,7 +227,7 @@ export default class GenerateTemplateFiles {
             const results: IResults = {
                 output: {
                     path: outputPath,
-                    outputtedFilesAndFolders,
+                    filesAndFolders: outputtedFilesAndFolders,
                 },
                 stringReplacers,
             };
