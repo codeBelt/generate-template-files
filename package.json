@@ -34,7 +34,7 @@
     "test:watch": "jest --watch",
     "lint": "tslint 'src/**/*.ts{,x}' --exclude 'src/typings.d.ts'",
     "unit": "jest src",
-    "coverage": "jest --coverage",
+    "coverage": "jest --collectCoverageFrom=src/**/* --coverage",
     "---------- PUBLISH -----------------------------------------": "",
     "prerelease": "npm run test",
     "release": "np",

@@ -2,7 +2,15 @@ import StringUtility from './StringUtility';
 import CaseConverterEnum from '../constants/CaseConverterEnum';
 
 describe('StringUtility', () => {
-    const testStrings: string[] = ['lives-Down_by-the.River', 'Lives`Down,by~the RIVER'];
+    let testStrings: string[] = [];
+
+    beforeEach(() => {
+        testStrings = ['lives-Down_by-the.River', 'Lives`Down,by~the RIVER'];
+    });
+
+    afterEach(() => {
+        testStrings = [];
+    });
 
     describe('toCase', () => {
         test(`should pass ${CaseConverterEnum.CamelCase}`, () => {
