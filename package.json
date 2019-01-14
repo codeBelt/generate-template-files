@@ -9,7 +9,8 @@
     "bootstrap",
     "boilerplate",
     "skeleton",
-    "custom"
+    "generate-code",
+    "custom-files"
   ],
   "husky": {
     "hooks": {
