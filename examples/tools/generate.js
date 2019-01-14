@@ -42,7 +42,7 @@ generateTemplateFiles([
         },
         stringReplacers: ['__store__', '__model__'],
         output: {
-            path: './src/app/stores/__store__(kebabCase)',
+            path: './src/stores/__store__(kebabCase)',
             pathAndFileNameDefaultCase: '(pascalCase)',
         },
         onComplete: (results) => {
@@ -57,7 +57,7 @@ generateTemplateFiles([
         },
         stringReplacers: ['__store__', '__model__'],
         output: {
-            path: './src/app/stores/__store__/__store__(lowerCase)/__store__(pascalCase)Action.ts',
+            path: './src/stores/__store__/__store__(lowerCase)/__store__(pascalCase)Action.ts',
             pathAndFileNameDefaultCase: '(kebabCase)',
         },
     },
@@ -69,7 +69,7 @@ generateTemplateFiles([
         },
         stringReplacers: ['__name__'],
         output: {
-            path: './src/views/__name__(lowerCase)',
+            path: './src/views/__name__(kebabCase)',
             pathAndFileNameDefaultCase: '(pascalCase)',
         },
         onComplete: (results) => {
@@ -84,7 +84,7 @@ generateTemplateFiles([
         },
         stringReplacers: ['__name__'],
         output: {
-            path: './src/views/__name__(lowerCase)',
+            path: './src/views/__name__(kebabCase)',
             pathAndFileNameDefaultCase: '(pascalCase)',
         },
         onComplete: (results) => {
