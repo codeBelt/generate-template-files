@@ -19,7 +19,7 @@
   },
   "scripts": {
     "---------- HELPERS -----------------------------------------": "",
-    "clean": "rm -rf ./dist",
+    "clean": "rimraf dist",
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch",
     "---------- DEVELOPMENT -------------------------------------": "",
@@ -73,6 +73,7 @@
     "jest": "23.6.0",
     "prettier": "1.15.3",
     "pretty-quick": "1.8.0",
+    "rimraf": "2.6.3",
     "rollup": "1.0.2",
     "rollup-plugin-babel": "4.2.0",
     "rollup-plugin-commonjs": "9.2.0",
