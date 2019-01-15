@@ -6,7 +6,7 @@ A generator to create custom template files for boilerplate, scaffolding, skelet
 
 > Find this useful? Give it a :star:
 
-![gif of generating files](./examples/generate.gif)
+![gif image created with licecap](./examples/generate.gif)
 
 ## Install
 
