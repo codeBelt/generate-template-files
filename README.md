@@ -71,7 +71,7 @@ As outlined in the `examples` folder, I prefer to create a `tools` folder and pl
    ┣━ generate.js
    ┗━ templates/
       ┣━ SomeFile.js
-      ┗━ __name_(pascalCase)Action.ts
+      ┗━ __name__(pascalCase)Action.ts
 ```
 
 ## API
@@ -107,7 +107,7 @@ For example you can use something like this in your template files and/or in the
 
 Example
 
--   In the generator template `__replacerSlot__` is appended by the pascalCase converter such as `__replacerSlot__(pascalCase)`.
+-   In the generator template `__replacerSlot__` is appended by the `(pascalCase)` converter such as `__replacerSlot__(pascalCase)`.
 -   When the generator is run, the string `"product reducer"` is provided for `__replacerSlot__`.
 -   As a result, the converter will produce `ProductReducer`.
 
