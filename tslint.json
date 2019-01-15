@@ -16,7 +16,7 @@
     "no-conditional-assignment": true,
     "no-console": [true, "log"],
     "no-duplicate-variable": true,
-    "no-empty-interface": false,
+    "no-empty-interface": true,
     "no-inferrable-types": [false],
     "no-invalid-this": [true, "check-function-in-method"],
     "no-null-keyword": false,
