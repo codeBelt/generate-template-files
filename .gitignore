@@ -4,3 +4,4 @@ dist/
 .code
 .DS_Store
 examples/src
+coverage
