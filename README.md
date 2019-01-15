@@ -71,7 +71,7 @@ As outlined in the `examples` folder, I prefer to create a `tools` folder and pl
    ┣━ generate.js
    ┗━ templates/
       ┣━ SomeFile.js
-      ┗━ __name_(pascalCase)Action.ts
+      ┗━ __name__(pascalCase)Action.ts
 ```
 
 ## API
