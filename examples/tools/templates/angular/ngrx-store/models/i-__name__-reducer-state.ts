@@ -14,18 +14,6 @@ import {__model__ResponseModel} from './__model__(kebabCase)-response.model';
  * (titleCase)    = __name__(titleCase)
  */
 export interface I__name__ReducerState {
-    readonly isLoading: boolean;
-    readonly __model__(camelCase)Model: __model__ResponseModel;
+    readonly isLoading__model__: boolean;
+    readonly __model__(camelCase): __model__ResponseModel;
 }
-
-
-
-
-
-
-
-
-
-
-
-

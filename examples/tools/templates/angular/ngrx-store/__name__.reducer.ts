@@ -5,8 +5,8 @@ import {__model__ResponseModel} from './models/__model__(kebabCase)-response.mod
 
 export class __name__Reducer {
     private static readonly _initialState: I__name__ReducerState = {
-        isLoading: false,
-        __model__(camelCase)Model: null,
+        isLoading__model__: false,
+        __model__(camelCase): null,
     };
 
     public static reducer(state: I__name__ReducerState = __name__Reducer._initialState, action: IAction<__name__ActionUnion>): I__name__ReducerState {
@@ -14,13 +14,13 @@ export class __name__Reducer {
             case __name__Action.LOAD___model__(constantCase):
                 return {
                     ...state,
-                    isLoading: true,
+                    isLoading__model__: true,
                 };
             case __name__Action.LOAD___model__(constantCase)_SUCCESS:
                 return {
                     ...state,
-                    isLoading: true,
-                    __model__(camelCase)Model: action.payload as __model__ResponseModel,
+                    isLoading__model__: false,
+                    __model__(camelCase): action.payload as __model__ResponseModel,
                 };
             default:
                 return state;
