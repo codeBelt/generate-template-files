@@ -34,7 +34,7 @@
     "test": "npm run lint && npm run unit",
     "test:watch": "jest --watch",
     "lint": "tslint 'src/**/*.ts{,x}' --exclude 'src/typings.d.ts'",
-    "unit": "jest src",
+    "unit": "jest",
     "coverage": "jest --coverage",
     "---------- PUBLISH -----------------------------------------": "",
     "prerelease": "npm run test",
