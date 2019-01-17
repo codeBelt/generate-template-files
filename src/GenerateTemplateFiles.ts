@@ -1,5 +1,6 @@
 import * as inquirer from 'inquirer';
 import recursiveCopy from 'recursive-copy';
+import pathExists from 'path-exists';
 import through from 'through2';
 import replaceString from 'replace-string';
 import StringUtility from './utilities/StringUtility';
@@ -19,6 +20,13 @@ export default class GenerateTemplateFiles {
         const contentReplacers: IReplacer[] = this._getReplacers(answeredReplacers, contentCase);
         const outputPathReplacers: IReplacer[] = this._getReplacers(answeredReplacers, outputPathCase);
         const outputPath: string = await this._getOutputPath(outputPathReplacers, selectedConfigItem);
+        const shouldWriteFiles: boolean = await this._shouldWriteFiles(outputPath);
+
+        if (shouldWriteFiles === false) {
+            console.info('No new files created');
+
+            return;
+        }
 
         const outputtedFilesAndFolders: string[] = await this._createFiles(
             answeredReplacers,
@@ -158,6 +166,28 @@ export default class GenerateTemplateFiles {
     }
 
     /**
+     *
+     * @param outputPath
+     * @private
+     */
+    private async _shouldWriteFiles(outputPath: string): Promise<boolean> {
+        const doesPathExist: boolean = await pathExists(outputPath);
+
+        if (doesPathExist === false) {
+            return true;
+        }
+
+        const overwriteFilesAnswer: any = await inquirer.prompt({
+            name: 'overwrite',
+            message: 'Overwrite files, continue?',
+            type: 'confirm',
+            default: false,
+        });
+
+        return overwriteFilesAnswer.overwrite;
+    }
+
+    /**
      * Process and copy files.
      *
      * @param replacerKeyValue
@@ -177,7 +207,7 @@ export default class GenerateTemplateFiles {
         const outputtedFilesAndFolders: string[] = [];
 
         const recursiveCopyOptions: any = {
-            overwrite: false,
+            overwrite: true,
             expand: false,
             dot: true,
             junk: true,
