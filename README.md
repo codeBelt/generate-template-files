@@ -2,7 +2,7 @@
 
 [![NPM version][npm-img]][npm-url] [![Downloads][downloads-img]][npm-url]
 
-A generator to create custom template files for boilerplate, scaffolding, skeleton, and templating code that you need to create over and over again.
+A simple generator that is independent from any language. Create custom boilerplate, scaffolding, skeleton, and templating code files that you need to create over and over again. All you need is NodeJS installed.
 
 > Find this useful? Give it a :star:
 
