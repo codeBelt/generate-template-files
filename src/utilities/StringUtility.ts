@@ -1,6 +1,12 @@
 import CaseConverterEnum from '../constants/CaseConverterEnum';
 
 export default class StringUtility {
+    /**
+     *
+     * @method toCase
+     * @param str
+     * @param caseType
+     */
     public static toCase(str: string, caseType: CaseConverterEnum): string {
         switch (caseType) {
             case CaseConverterEnum.CamelCase:

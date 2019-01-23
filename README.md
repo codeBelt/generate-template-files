@@ -29,7 +29,7 @@ $ yarn add generate-template-files
 3. Run `node generate.js` within Terminal (Mac) or Powershell (Win) once you've added your template files.
 
 ```js
-const generateTemplateFiles = require('generate-template-files');
+const {generateTemplateFiles} = require('generate-template-files');
 
 generateTemplateFiles([
     {
