@@ -1,6 +1,8 @@
 import GenerateTemplateFiles from './GenerateTemplateFiles';
 import IConfigItem from './models/IConfigItem';
+import StringUtility from './utilities/StringUtility';
 
-export default (data: IConfigItem[]): Promise<void> => {
+exports.StringUtility = StringUtility;
+exports.generateTemplateFiles = (data: IConfigItem[]): Promise<void> => {
     return new GenerateTemplateFiles().generate(data);
 };

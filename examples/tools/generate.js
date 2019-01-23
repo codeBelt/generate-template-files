@@ -1,8 +1,8 @@
-const generateTemplateFiles = require('../../dist/generate-template-files.cjs');
-
+const {generateTemplateFiles, StringUtility} = require('../../dist/generate-template-files.cjs');
+console.log(`generateTemplateFiles`, generateTemplateFiles);
 // Note: In your file it will be like this:
 // const generateTemplateFiles = require('generate-template-files');
-
+console.log(`StringUtility`, StringUtility);
 generateTemplateFiles([
     // Angular
     {
