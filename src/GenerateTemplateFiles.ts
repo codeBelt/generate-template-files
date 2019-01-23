@@ -1,4 +1,4 @@
-import * as inquirer from 'inquirer';
+import * as enquirer from 'enquirer';
 import recursiveCopy from 'recursive-copy';
 import pathExists from 'path-exists';
 import through from 'through2';
@@ -47,6 +47,7 @@ export default class GenerateTemplateFiles {
      */
     private async _getSelectedItem(options: IConfigItem[]): Promise<IConfigItem> {
         const templateQuestions: any = {
+            type: 'autocomplete',
             name: 'questionIndex',
             message: 'What do you want to generate?',
             choices: options.map((configItem: IConfigItem, index: number) => {
@@ -55,10 +56,13 @@ export default class GenerateTemplateFiles {
                     value: index,
                 };
             }),
-            default: 'none',
-            type: 'list',
+            suggest(input: string, choices: string[]) {
+                return choices.filter((choice: any) => {
+                    return choice.message.toLowerCase().startsWith(input.toLowerCase());
+                });
+            },
         };
-        const templateAnswers: {questionIndex: number} = await inquirer.prompt(templateQuestions);
+        const templateAnswers: {questionIndex: number} = await enquirer.prompt(templateQuestions);
 
         return options[templateAnswers.questionIndex];
     }
@@ -87,6 +91,7 @@ export default class GenerateTemplateFiles {
     private async _getReplacerSlotValues(selectedConfigItem: IConfigItem): Promise<IReplacer[]> {
         const replacerQuestions: any[] = selectedConfigItem.stringReplacers.map((str: string) => {
             return {
+                type: 'input',
                 name: str,
                 message: `Replace ${str} with:`,
                 validate: (replacerSlotValue: string) => {
@@ -97,7 +102,7 @@ export default class GenerateTemplateFiles {
             };
         });
 
-        const answer: {[replacer: string]: string} = await inquirer.prompt(replacerQuestions);
+        const answer: {[replacer: string]: string} = await enquirer.prompt(replacerQuestions);
 
         CheckUtility.check(Object.keys(answer).length > 0, '"stringReplacers" needs at least one item.');
 
@@ -154,12 +159,11 @@ export default class GenerateTemplateFiles {
             return replaceString(outputPath, replacer.slot, replacer.slotValue);
         }, selectedConfigItem.output.path);
 
-        const outputPathAnswer: any = await inquirer.prompt({
+        const outputPathAnswer: any = await enquirer.prompt({
+            type: 'input',
             name: 'outputPath',
             message: `Output path (${outputPathFormatted}):`,
-            default: (answer: unknown) => {
-                return outputPathFormatted;
-            },
+            initial: outputPathFormatted,
         });
 
         return outputPathAnswer.outputPath;
@@ -177,7 +181,7 @@ export default class GenerateTemplateFiles {
             return true;
         }
 
-        const overwriteFilesAnswer: any = await inquirer.prompt({
+        const overwriteFilesAnswer: any = await enquirer.prompt({
             name: 'overwrite',
             message: 'Overwrite files, continue?',
             type: 'confirm',
