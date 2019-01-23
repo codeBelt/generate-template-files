@@ -95,7 +95,7 @@ export default class GenerateTemplateFiles {
                 name: str,
                 message: `Replace ${str} with:`,
                 validate: (replacerSlotValue: string) => {
-                    const isValid: boolean = Boolean(replacerSlotValue);
+                    const isValid: boolean = Boolean(replacerSlotValue.trim());
 
                     return isValid || 'You must provide an answer.';
                 },
