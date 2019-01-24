@@ -157,7 +157,7 @@ export default class GenerateTemplateFiles {
         const outputPathAnswer: any = await enquirer.prompt({
             type: 'input',
             name: 'outputPath',
-            message: `Output path (${outputPathFormatted}):`,
+            message: 'Output path:',
             initial: outputPathFormatted,
         });
 
