@@ -48,23 +48,18 @@ export default class GenerateTemplateFiles {
     private async _getSelectedItem(options: IConfigItem[]): Promise<IConfigItem> {
         const templateQuestions: any = {
             type: 'autocomplete',
-            name: 'questionIndex',
+            name: 'optionChoice',
             message: 'What do you want to generate?',
-            choices: options.map((configItem: IConfigItem, index: number) => {
-                return {
-                    name: configItem.option,
-                    value: index,
-                };
-            }),
+            choices: options.map((configItem: IConfigItem) => configItem.option),
             suggest(input: string, choices: string[]) {
                 return choices.filter((choice: any) => {
                     return choice.message.toLowerCase().startsWith(input.toLowerCase());
                 });
             },
         };
-        const templateAnswers: {questionIndex: number} = await enquirer.prompt(templateQuestions);
+        const templateAnswers: {optionChoice: string} = await enquirer.prompt(templateQuestions);
 
-        return options[templateAnswers.questionIndex];
+        return options.find((item: IConfigItem) => item.option === templateAnswers.optionChoice) as IConfigItem;
     }
 
     /**
