@@ -1,8 +1,17 @@
 import GenerateTemplateFiles from './GenerateTemplateFiles';
-import IConfigItem from './models/IConfigItem';
-import StringUtility from './utilities/StringUtility';
+import IConfigItemDefault from './models/IConfigItem';
+import StringUtilityDefault from './utilities/StringUtility';
+import CaseConverterEnumDefault from './constants/CaseConverterEnum';
+import IResultsDefault from './models/IResults';
+import IReplacerDefault from './models/IReplacer';
 
-exports.StringUtility = StringUtility;
-exports.generateTemplateFiles = (data: IConfigItem[]): Promise<void> => {
+export {StringUtilityDefault as StringUtility};
+export {CaseConverterEnumDefault as CaseConverterEnum};
+export function generateTemplateFiles(data: IConfigItem[]): Promise<void> {
     return new GenerateTemplateFiles().generate(data);
-};
+}
+
+// Workaround for issue of exporting interfaces
+export type IResults = IResultsDefault;
+export type IConfigItem = IConfigItemDefault;
+export type IReplacer = IReplacerDefault;

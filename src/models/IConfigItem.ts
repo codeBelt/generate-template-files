@@ -3,14 +3,14 @@ import IResults from './IResults';
 
 export default interface IConfigItem {
     option: string;
-    defaultCase: CaseConverterEnum;
+    defaultCase: CaseConverterEnum | string;
     entry: {
         folderPath: string;
     };
     stringReplacers: string[];
     output: {
         path: string;
-        pathAndFileNameDefaultCase: CaseConverterEnum;
+        pathAndFileNameDefaultCase: CaseConverterEnum | string;
     };
     onComplete?: (results: IResults) => void | null;
 }

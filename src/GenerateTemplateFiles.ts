@@ -68,8 +68,12 @@ export default class GenerateTemplateFiles {
      * @private
      */
     private _getDefaultCaseConverters(selectedConfigItem: IConfigItem): IDefaultCaseConverter {
-        const defaultContentCase: CaseConverterEnum = get(selectedConfigItem, 'defaultCase', CaseConverterEnum.None);
-        const defaultOutputPath: CaseConverterEnum = get(selectedConfigItem, 'output.pathAndFileNameDefaultCase', defaultContentCase);
+        const defaultContentCase: CaseConverterEnum = get(selectedConfigItem, 'defaultCase', CaseConverterEnum.None) as CaseConverterEnum;
+        const defaultOutputPath: CaseConverterEnum = get(
+            selectedConfigItem,
+            'output.pathAndFileNameDefaultCase',
+            defaultContentCase
+        ) as CaseConverterEnum;
 
         return {
             contentCase: defaultContentCase,
