@@ -1,7 +1,9 @@
 const {generateTemplateFiles, StringUtility} = require('../../dist/generate-template-files.cjs');
-
 // Note: In your file it will be like this:
 // const {generateTemplateFiles, StringUtility} = require('generate-template-files');
+
+const filename = require('file-name');
+const insertLine = require('insert-line');
 
 generateTemplateFiles([
     // Angular
@@ -29,11 +31,9 @@ generateTemplateFiles([
             path: './src/stores/__store__(kebabCase)',
             pathAndFileNameDefaultCase: '(pascalCase)',
         },
-        onComplete: (results) => {
-            console.log(`results`, results);
-
-            console.log(`StringUtility`, StringUtility);
-        }
+        onComplete: async (results) => {
+            await importVuexStore(results);
+        },
     },
     // React
     {
@@ -74,9 +74,6 @@ generateTemplateFiles([
             path: './src/views/__name__(kebabCase)',
             pathAndFileNameDefaultCase: '(pascalCase)',
         },
-        onComplete: (results) => {
-            console.log(`results`, results);
-        }
     },
     {
         option: 'React Connected Component',
@@ -89,9 +86,6 @@ generateTemplateFiles([
             path: './src/views/__name__(kebabCase)',
             pathAndFileNameDefaultCase: '(pascalCase)',
         },
-        onComplete: (results) => {
-            console.log(`results`, results);
-        }
     },
     {
         option: 'Model',
@@ -104,9 +98,6 @@ generateTemplateFiles([
             path: './src/models/__model__Model.ts',
             pathAndFileNameDefaultCase: '(pascalCase)',
         },
-        onComplete: (results) => {
-            console.log(`results`, results);
-        }
     },
     {
         option: 'Interface',
@@ -133,3 +124,22 @@ generateTemplateFiles([
         },
     },
 ]);
+
+async function importVuexStore(results) {
+    const basePath = results.output.path;
+    const filesAndFolders = results.output.filesAndFolders;
+
+    const fullPaths = filesAndFolders
+        .filter((folderPath) => folderPath.includes('.'))
+        .map((folderPath) => `${basePath}/${folderPath}`)
+        .map((path) => {
+            return `import ${filename(path)} from '${path}'`;
+        })
+        .join('\n');
+
+    try {
+        await insertLine('src/import-test.ts').append(fullPaths);
+    } catch (error) {
+        console.log(``, error);
+    }
+}
