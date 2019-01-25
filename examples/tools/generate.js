@@ -125,17 +125,19 @@ generateTemplateFiles([
     },
 ]);
 
+/*
+ * NOTE: there is many ways you can do this. This is just an example on how you might approch it.
+ */
 async function importVuexStore(results) {
     const basePath = results.output.path;
     const filesAndFolders = results.output.filesAndFolders;
 
     const fullPaths = filesAndFolders
-        .filter((folderPath) => folderPath.includes('.'))
-        .map((folderPath) => `${basePath}/${folderPath}`)
-        .map((path) => {
-            return `import ${filename(path)} from '${path}'`;
-        })
-        .join('\n');
+        .filter((folderPath) => folderPath.includes('.'))           // remove folders and only keep files
+        .map((folderPath) => `${basePath}/${folderPath}`)           // build file path
+        .map((folderPath) => folderPath.replace('src/', ''))        // remove 'src' from path
+        .map((path) => `import ${filename(path)} from '${path}'`)   // create import statement
+        .join('\n');                                                // put all imports on there own line
 
     try {
         await insertLine('src/import-test.ts').append(fullPaths);
