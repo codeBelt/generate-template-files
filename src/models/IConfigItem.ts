@@ -12,5 +12,5 @@ export default interface IConfigItem {
         path: string;
         pathAndFileNameDefaultCase: CaseConverterEnum | string;
     };
-    onComplete?: (results: IResults) => void | null;
+    onComplete?: (results: IResults) => void;
 }

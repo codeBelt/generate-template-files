@@ -76,7 +76,7 @@ As outlined in the `examples` folder, I prefer to create a `tools` folder and pl
 
 ## API
 
-The `generateTemplateFiles` method takes an array of `IConfigItem` items.
+The `generateTemplateFiles` function takes an array of `IConfigItem` items.
 
 #### `IConfigItem`
 
