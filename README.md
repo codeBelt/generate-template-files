@@ -40,7 +40,7 @@ generateTemplateFiles([
         },
         stringReplacers: ['__store__', '__model__'],
         output: {
-            path: './src/app/stores/__store__(lowerCase)',
+            path: './src/stores/__store__(lowerCase)',
             pathAndFileNameDefaultCase: '(kebabCase)',
         },
         onComplete: (results) => {
@@ -55,7 +55,7 @@ generateTemplateFiles([
         },
         stringReplacers: ['__store__', '__model__'],
         output: {
-            path: './src/app/stores/__store__/__store__(lowerCase)/__store__(pascalCase)Action.ts',
+            path: './src/stores/__store__/__store__(lowerCase)/__store__(pascalCase)Action.ts',
             pathAndFileNameDefaultCase: '(kebabCase)',
         },
     },

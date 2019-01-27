@@ -13,6 +13,9 @@ import IDefaultCaseConverter from './models/IDefaultCaseConverter';
 import CheckUtility from './utilities/CheckUtility';
 
 export default class GenerateTemplateFiles {
+    /**
+     * Main method to create your template files. Accepts an array of `IConfigItem` items.
+     */
     public async generate(options: IConfigItem[]): Promise<void> {
         const selectedConfigItem: IConfigItem = await this._getSelectedItem(options);
         const answeredReplacers: IReplacer[] = await this._getReplacerSlotValues(selectedConfigItem);
@@ -197,7 +200,7 @@ export default class GenerateTemplateFiles {
      * @param outputPathReplacers
      * @param replacers
      * @param outputPath
-     * @param entryFolderPath
+     * @param entryFolderPath some info `entryFolderPath`
      * @private
      */
     private async _createFiles(
@@ -255,6 +258,8 @@ export default class GenerateTemplateFiles {
         }
     }
 
+    /**
+     */
     private _onComplete(selectedConfigItem: IConfigItem, outputPath: string, outputtedFilesAndFolders: string[], stringReplacers: IReplacer[]): void {
         if (typeof selectedConfigItem.onComplete === 'function') {
             const results: IResults = {
