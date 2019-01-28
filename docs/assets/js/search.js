@@ -204,8 +204,8 @@ typedoc.search.data = {
         {
             id: 27,
             kind: 32,
-            name: 'filesAndFolders',
-            url: 'interfaces/iresults.html#output.__type.filesandfolders',
+            name: 'files',
+            url: 'interfaces/iresults.html#output.__type.files',
             classes: 'tsd-kind-variable tsd-parent-kind-type-literal tsd-is-not-exported',
             parent: 'IResults.output.__type',
         },

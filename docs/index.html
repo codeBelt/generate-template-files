@@ -164,14 +164,63 @@ generateTemplateFiles([
                             </li>
                             <li>
                                 <code>onComplete</code> - <code>optional</code> Takes a callback function that is called once the file(s) have been
-                                outputted. A <code>IResults</code> object will be passed to the callback which has the following properties:
-                                <ul>
-                                    <li><code>output.path</code> - The file(s) output path</li>
-                                    <li><code>output.filesAndFolders</code> - List of folder and filenames created</li>
-                                    <li><code>stringReplacers</code> - List of Replacer Slots; name and values entered during the setup process</li>
-                                </ul>
+                                outputted. A <a href="#iresults">IResults</a> object will be passed to the callback.
                             </li>
                         </ul>
+                        <h6 id="example">Example</h6>
+                        <pre><code class="language-javascript">{
+    <span class="hljs-attr">option</span>: <span class="hljs-string">'Create Redux Store'</span>,
+    <span class="hljs-attr">defaultCase</span>: <span class="hljs-string">'(pascalCase)'</span>,
+    <span class="hljs-attr">entry</span>: {
+        <span class="hljs-attr">folderPath</span>: <span class="hljs-string">'./tools/templates/react/redux-store/'</span>,
+    },
+    <span class="hljs-attr">stringReplacers</span>: [<span class="hljs-string">'__store__'</span>, <span class="hljs-string">'__model__'</span>],
+    <span class="hljs-attr">output</span>: {
+        <span class="hljs-attr">path</span>: <span class="hljs-string">'./src/stores/__store__(lowerCase)'</span>,
+        <span class="hljs-attr">pathAndFileNameDefaultCase</span>: <span class="hljs-string">'(kebabCase)'</span>,
+    },
+    <span class="hljs-attr">onComplete</span>: <span class="hljs-function">(<span class="hljs-params">results</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(results);
+    },
+},</code></pre>
+                        <h4 id="iresults"><code>IResults</code></h4>
+                        <p>
+                            Below is an example of what you receive from the <code>onComplete</code> callback. It has the output path, list of files
+                            and folders created and the <a href="#replacer-slots">Replacer Slots</a> with the value entered.
+                        </p>
+                        <ul>
+                            <li><code>output.path</code> - The file(s) output path</li>
+                            <li><code>output.files</code> - List of files created</li>
+                            <li>
+                                <code>stringReplacers</code> - List of <a href="#replacer-slots">Replacer Slots</a>; name and values entered during
+                                the setup process
+                            </li>
+                        </ul>
+                        <h6 id="example">Example</h6>
+                        <pre><code class="language-javascript">{
+    <span class="hljs-attr">output</span>: {
+        <span class="hljs-attr">path</span>: <span class="hljs-string">'./src/stores/some-thing'</span>,
+        <span class="hljs-attr">files</span>: [
+            <span class="hljs-string">'./src/stores/some-thing/SomeThingModule.ts'</span>,
+            <span class="hljs-string">'./src/stores/some-thing/SomeThingModuleAction.ts'</span>,
+            <span class="hljs-string">'./src/stores/some-thing/SomeThingModuleGetter.ts'</span>,
+            <span class="hljs-string">'./src/stores/some-thing/SomeThingModuleMutation.ts'</span>,
+            <span class="hljs-string">'./src/stores/some-thing/SomeThingService.ts'</span>,
+            <span class="hljs-string">'./src/stores/some-thing/models/actions/ISomeThingState.ts'</span>,
+            <span class="hljs-string">'./src/stores/some-thing/models/actions/OtherThingResponseModel.ts'</span>
+        ]
+    },
+    <span class="hljs-attr">stringReplacers</span>: [
+        {
+            <span class="hljs-attr">slot</span>: <span class="hljs-string">'__store__'</span>,
+            <span class="hljs-attr">slotValue</span>: <span class="hljs-string">'some thing'</span>
+        },
+        {
+            <span class="hljs-attr">slot</span>: <span class="hljs-string">'__model__'</span>,
+            <span class="hljs-attr">slotValue</span>: <span class="hljs-string">'other thing'</span>
+        }
+    ]
+}</code></pre>
                         <h3 id="replacer-slots">Replacer Slots</h3>
                         <p><a href="#replacer-slots">Replacer Slots</a> are unique string value(s) to be replaced by the generator.</p>
                         <p>For example you can use something like this in your template files and/or in the file path names.</p>

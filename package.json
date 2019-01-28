@@ -30,7 +30,7 @@
     "---------- PRODUCTION --------------------------------------": "",
     "docs": "typedoc --out ./docs ./src --mode file --tsconfig ./tsconfig.json",
     "postdocs": "prettier --write './docs/**/*'",
-    "prebuild": "npm run type-check && npm run clean && npm run build:types && npm run docs",
+    "prebuild": "npm run type-check && npm run clean && npm run build:types",
     "build": "rollup -c",
     "---------- TESTING -----------------------------------------": "",
     "test": "npm run lint && npm run unit",
