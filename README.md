@@ -40,7 +40,7 @@ generateTemplateFiles([
         },
         stringReplacers: ['__store__', '__model__'],
         output: {
-            path: './src/app/stores/__store__(lowerCase)',
+            path: './src/stores/__store__(lowerCase)',
             pathAndFileNameDefaultCase: '(kebabCase)',
         },
         onComplete: (results) => {
@@ -55,7 +55,7 @@ generateTemplateFiles([
         },
         stringReplacers: ['__store__', '__model__'],
         output: {
-            path: './src/app/stores/__store__/__store__(lowerCase)/__store__(pascalCase)Action.ts',
+            path: './src/stores/__store__/__store__(lowerCase)/__store__(pascalCase)Action.ts',
             pathAndFileNameDefaultCase: '(kebabCase)',
         },
     },
@@ -86,10 +86,67 @@ The `generateTemplateFiles` function takes an array of `IConfigItem` items.
 -   `stringReplacers` - An array of [Replacer Slots](#replacer-slots) used to replace content in the designated `entry.folderPath`.
 -   `output.path` - The desired output path for generated files. [Case Converters](#case-converters) and [Replacer Slots](#replacer-slots) can be used to make the path somewhat dynamic.
 -   `output.pathAndFileNameDefaultCase` - The [Case Converters](#case-converters) to use for the file path and file name(s).
--   `onComplete` - `optional` Takes a callback function that is called once the file(s) have been outputted. A `IResults` object will be passed to the callback which has the following properties:
-    -   `output.path` - The file(s) output path
-    -   `output.filesAndFolders` - List of folder and filenames created
-    -   `stringReplacers` - List of Replacer Slots; name and values entered during the setup process
+-   `onComplete` - `optional` Takes a callback function that is called once the file(s) have been outputted. A [IResults](#iresults) object will be passed to the callback.
+
+###### Example
+
+```javascript
+{
+    option: 'Create Redux Store',
+    defaultCase: '(pascalCase)',
+    entry: {
+        folderPath: './tools/templates/react/redux-store/',
+    },
+    stringReplacers: ['__store__', '__model__'],
+    output: {
+        path: './src/stores/__store__(lowerCase)',
+        pathAndFileNameDefaultCase: '(kebabCase)',
+    },
+    onComplete: (results) => {
+        console.log(results);
+    },
+},
+```
+
+#### `IResults`
+
+Below is an example of what you receive from the `onComplete` callback. It has the output path, list of files and folders created and the [Replacer Slots](#replacer-slots) with the value entered.
+
+-   `output.path` - The file(s) output path
+-   `output.filesAndFolders` - List of folder and filenames created
+-   `stringReplacers` - List of [Replacer Slots](#replacer-slots); name and values entered during the setup process
+
+###### Example
+
+```javascript
+{
+    output: {
+        path: './src/stores/some-thing',
+        filesAndFolders: [
+            'SomeThingModule.ts',
+            'SomeThingModuleAction.ts',
+            'SomeThingModuleGetter.ts',
+            'SomeThingModuleMutation.ts',
+            'SomeThingService.ts',
+            'models',
+            'models/actions',
+            'models/actions/ISomeThingState.ts',
+            'models/actions/OtherThingResponseModel.ts',
+            'models/getters'
+        ]
+    },
+    stringReplacers: [
+        {
+            slot: '__store__',
+            slotValue: 'some thing'
+        },
+        {
+            slot: '__model__',
+            slotValue: 'other thing'
+        }
+    ]
+}
+```
 
 ### Replacer Slots
 

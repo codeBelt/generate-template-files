@@ -1,3 +1,6 @@
+/**
+ * @ignore
+ */
 export default class CheckUtility {
     /**
      * Helper function for throwing errors if a given expression evaluates to false.
