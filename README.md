@@ -29,7 +29,7 @@ $ yarn add generate-template-files
 3. Run `node generate.js` within Terminal (Mac) or Powershell (Win) once you've added your template files.
 
 ```js
-const generateTemplateFiles = require('generate-template-files');
+const {generateTemplateFiles} = require('generate-template-files');
 
 generateTemplateFiles([
     {
@@ -40,7 +40,7 @@ generateTemplateFiles([
         },
         stringReplacers: ['__store__', '__model__'],
         output: {
-            path: './src/app/stores/__store__(lowerCase)',
+            path: './src/stores/__store__(lowerCase)',
             pathAndFileNameDefaultCase: '(kebabCase)',
         },
         onComplete: (results) => {
@@ -55,7 +55,7 @@ generateTemplateFiles([
         },
         stringReplacers: ['__store__', '__model__'],
         output: {
-            path: './src/app/stores/__store__/__store__(lowerCase)/__store__(pascalCase)Action.ts',
+            path: './src/stores/__store__/__store__(lowerCase)/__store__(pascalCase)Action.ts',
             pathAndFileNameDefaultCase: '(kebabCase)',
         },
     },
@@ -76,7 +76,7 @@ As outlined in the `examples` folder, I prefer to create a `tools` folder and pl
 
 ## API
 
-The `generateTemplateFiles` method takes an array of `IConfigItem` items.
+The `generateTemplateFiles` function takes an array of `IConfigItem` items.
 
 #### `IConfigItem`
 
@@ -86,10 +86,64 @@ The `generateTemplateFiles` method takes an array of `IConfigItem` items.
 -   `stringReplacers` - An array of [Replacer Slots](#replacer-slots) used to replace content in the designated `entry.folderPath`.
 -   `output.path` - The desired output path for generated files. [Case Converters](#case-converters) and [Replacer Slots](#replacer-slots) can be used to make the path somewhat dynamic.
 -   `output.pathAndFileNameDefaultCase` - The [Case Converters](#case-converters) to use for the file path and file name(s).
--   `onComplete` - `optional` Takes a callback function that is called once the file(s) have been outputted. A `IResults` object will be passed to the callback which has the following properties:
-    -   `output.path` - The file(s) output path
-    -   `output.filesAndFolders` - List of folder and filenames created
-    -   `stringReplacers` - List of Replacer Slots; name and values entered during the setup process
+-   `onComplete` - `optional` Takes a callback function that is called once the file(s) have been outputted. A [IResults](#iresults) object will be passed to the callback.
+
+###### Example
+
+```javascript
+{
+    option: 'Create Redux Store',
+    defaultCase: '(pascalCase)',
+    entry: {
+        folderPath: './tools/templates/react/redux-store/',
+    },
+    stringReplacers: ['__store__', '__model__'],
+    output: {
+        path: './src/stores/__store__(lowerCase)',
+        pathAndFileNameDefaultCase: '(kebabCase)',
+    },
+    onComplete: (results) => {
+        console.log(results);
+    },
+},
+```
+
+#### `IResults`
+
+Below is an example of what you receive from the `onComplete` callback. It has the output path, list of files and folders created and the [Replacer Slots](#replacer-slots) with the value entered.
+
+-   `output.path` - The file(s) output path
+-   `output.files` - List of files created
+-   `stringReplacers` - List of [Replacer Slots](#replacer-slots); name and values entered during the setup process
+
+###### Example
+
+```javascript
+{
+    output: {
+        path: './src/stores/some-thing',
+        files: [
+            './src/stores/some-thing/SomeThingModule.ts',
+            './src/stores/some-thing/SomeThingModuleAction.ts',
+            './src/stores/some-thing/SomeThingModuleGetter.ts',
+            './src/stores/some-thing/SomeThingModuleMutation.ts',
+            './src/stores/some-thing/SomeThingService.ts',
+            './src/stores/some-thing/models/actions/ISomeThingState.ts',
+            './src/stores/some-thing/models/actions/OtherThingResponseModel.ts'
+        ]
+    },
+    stringReplacers: [
+        {
+            slot: '__store__',
+            slotValue: 'some thing'
+        },
+        {
+            slot: '__model__',
+            slotValue: 'other thing'
+        }
+    ]
+}
+```
 
 ### Replacer Slots
 

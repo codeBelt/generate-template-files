@@ -13,6 +13,9 @@ import IDefaultCaseConverter from './models/IDefaultCaseConverter';
 import CheckUtility from './utilities/CheckUtility';
 
 export default class GenerateTemplateFiles {
+    /**
+     * Main method to create your template files. Accepts an array of `IConfigItem` items.
+     */
     public async generate(options: IConfigItem[]): Promise<void> {
         const selectedConfigItem: IConfigItem = await this._getSelectedItem(options);
         const answeredReplacers: IReplacer[] = await this._getReplacerSlotValues(selectedConfigItem);
@@ -41,9 +44,6 @@ export default class GenerateTemplateFiles {
 
     /**
      * Ask what template options the user wants to use
-     *
-     * @param options
-     * @private
      */
     private async _getSelectedItem(options: IConfigItem[]): Promise<IConfigItem> {
         const templateQuestions: any = {
@@ -63,13 +63,14 @@ export default class GenerateTemplateFiles {
     }
 
     /**
-     *
-     * @param selectedConfigItem
-     * @private
      */
     private _getDefaultCaseConverters(selectedConfigItem: IConfigItem): IDefaultCaseConverter {
-        const defaultContentCase: CaseConverterEnum = get(selectedConfigItem, 'defaultCase', CaseConverterEnum.None);
-        const defaultOutputPath: CaseConverterEnum = get(selectedConfigItem, 'output.pathAndFileNameDefaultCase', defaultContentCase);
+        const defaultContentCase: CaseConverterEnum = get(selectedConfigItem, 'defaultCase', CaseConverterEnum.None) as CaseConverterEnum;
+        const defaultOutputPath: CaseConverterEnum = get(
+            selectedConfigItem,
+            'output.pathAndFileNameDefaultCase',
+            defaultContentCase
+        ) as CaseConverterEnum;
 
         return {
             contentCase: defaultContentCase,
@@ -79,9 +80,6 @@ export default class GenerateTemplateFiles {
 
     /**
      * New question asking what should text should be used to replace the template text.
-     *
-     * @param selectedConfigItem
-     * @private
      */
     private async _getReplacerSlotValues(selectedConfigItem: IConfigItem): Promise<IReplacer[]> {
         const replacerQuestions: any[] = selectedConfigItem.stringReplacers.map((str: string) => {
@@ -113,10 +111,6 @@ export default class GenerateTemplateFiles {
 
     /**
      * Create every variation for the for the replacement keys
-     *
-     * @param replacers
-     * @param defaultCase
-     * @private
      */
     private _getReplacers(replacers: IReplacer[], defaultCase: CaseConverterEnum): IReplacer[] {
         const caseTypes: string[] = Object.values(CaseConverterEnum);
@@ -143,10 +137,6 @@ export default class GenerateTemplateFiles {
     }
 
     /**
-     *
-     * @param outputPathReplacers
-     * @param selectedConfigItem
-     * @private
      */
     private async _getOutputPath(outputPathReplacers: IReplacer[], selectedConfigItem: IConfigItem): Promise<string> {
         // Create the output path replacing any template keys.
@@ -165,9 +155,6 @@ export default class GenerateTemplateFiles {
     }
 
     /**
-     *
-     * @param outputPath
-     * @private
      */
     private async _shouldWriteFiles(outputPath: string): Promise<boolean> {
         const doesPathExist: boolean = await pathExists(outputPath);
@@ -188,13 +175,6 @@ export default class GenerateTemplateFiles {
 
     /**
      * Process and copy files.
-     *
-     * @param replacerKeyValue
-     * @param outputPathReplacers
-     * @param replacers
-     * @param outputPath
-     * @param entryFolderPath
-     * @private
      */
     private async _createFiles(
         answeredReplacer: IReplacer[],
@@ -251,12 +231,16 @@ export default class GenerateTemplateFiles {
         }
     }
 
+    /**
+     */
     private _onComplete(selectedConfigItem: IConfigItem, outputPath: string, outputtedFilesAndFolders: string[], stringReplacers: IReplacer[]): void {
+        const files: string[] = outputtedFilesAndFolders.filter((path: string) => path.includes('.'));
+
         if (typeof selectedConfigItem.onComplete === 'function') {
             const results: IResults = {
                 output: {
                     path: outputPath,
-                    filesAndFolders: outputtedFilesAndFolders,
+                    files: files.map((file: string) => `${outputPath}/${file}`),
                 },
                 stringReplacers,
             };

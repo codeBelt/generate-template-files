@@ -1,16 +1,76 @@
 import CaseConverterEnum from '../constants/CaseConverterEnum';
 import IResults from './IResults';
 
+/**
+ * ```
+ * {
+ *     option: 'Create Redux Store',
+ *     defaultCase: '(pascalCase)',
+ *     entry: {
+ *         folderPath: './tools/templates/react/redux-store/',
+ *     },
+ *     stringReplacers: ['__store__', '__model__'],
+ *     output: {
+ *         path: './src/stores/__store__(lowerCase)',
+ *         pathAndFileNameDefaultCase: '(kebabCase)',
+ *     },
+ *     onComplete: (results) => {
+ *         console.log(`results`, results);
+ *     },
+ * }
+ * ```
+ */
 export default interface IConfigItem {
+    /**
+     * The name of the option to choose when asked
+     *
+     * ```
+     * option: 'Some Option Name',
+     * ```
+     */
     option: string;
-    defaultCase: CaseConverterEnum;
+    /**
+     * The default [Case Converters](#case-converters) to use with the [Replacer Slots](#replacer-slots) in the template files or path/file name. Default is `(noCase)`.
+     *
+     * ```
+     * defaultCase: '(pascalCase)',
+     * ```
+     */
+    defaultCase: CaseConverterEnum | string;
+    /**
+     * ```
+     * entry: {
+     *     folderPath: './folder/to/templates/',
+     * },
+     * ```
+     */
     entry: {
         folderPath: string;
     };
+    /**
+     * ```
+     * stringReplacers: ['__store__', '__model__'],
+     * ```
+     */
     stringReplacers: string[];
+    /**
+     * ```
+     * output: {
+     *     path: './src/stores/__store__(lowerCase)',
+     *     pathAndFileNameDefaultCase: '(kebabCase)',
+     * },
+     * ```
+     */
     output: {
         path: string;
-        pathAndFileNameDefaultCase: CaseConverterEnum;
+        pathAndFileNameDefaultCase: CaseConverterEnum | string;
     };
-    onComplete?: (results: IResults) => void | null;
+    /**
+     * ```
+     * onComplete: (results) => {
+     *     console.log(`results`, results);
+     * },
+     * ```
+     */
+    onComplete?: (results: IResults) => void;
 }

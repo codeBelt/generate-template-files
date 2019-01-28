@@ -4,5 +4,9 @@
   "description": "",
   "scripts": {
     "generate": "node ./tools/generate.js"
+  },
+  "devDependencies": {
+    "file-name": "0.1.0",
+    "insert-line": "1.1.0"
   }
 }

@@ -1,6 +1,17 @@
 import CaseConverterEnum from '../constants/CaseConverterEnum';
 
+/**
+ * Utility class to convert the case type of strings.
+ */
 export default class StringUtility {
+    /**
+     * Helper method for {@link CaseConverterEnum} to convert text into the proper case.
+     *
+     * ```
+     * StringUtility.toCase('livesDown_by-the.River', CaseConverterEnum.PascalCase);
+     * // 'LivesDownByTheRiver'
+     * ```
+     */
     public static toCase(str: string, caseType: CaseConverterEnum): string {
         switch (caseType) {
             case CaseConverterEnum.CamelCase:
@@ -32,24 +43,19 @@ export default class StringUtility {
     /**
      * Converts a string to a sentence case string.
      *
-     * @method toSentence
-     * @param str {string}
-     * @param [separator] {string} Can be any string you want to use as a separator.
-     * @returns {string}
-     * @public
-     * @static
-     * @example
-     *      StringUtility.toSentence("livesDown_by-the.River");
-     *      // 'lives down by the river'
+     * ```
+     * StringUtility.toSentence('livesDown_by-the.River');
+     * // 'lives down by the river'
      *
-     *      StringUtility.toSentence("livesDown_by-the.River", '-');
-     *      // 'lives-down-by-the-river'
+     * StringUtility.toSentence('livesDown_by-the.River', '-');
+     * // 'lives-down-by-the-river'
      *
-     *      StringUtility.toSentence("livesDown_by-the.River", '_');
-     *      // 'lives_down_by_the_river'
+     * StringUtility.toSentence('livesDown_by-the.River', '_');
+     * // 'lives_down_by_the_river'
      *
-     *      StringUtility.toSentence("livesDown_by-the.River", '/');
-     *      // 'lives/down/by/the/river'
+     * StringUtility.toSentence('livesDown_by-the.River', '/');
+     * // 'lives/down/by/the/river'
+     * ```
      */
     public static toSentence(str: string, separator: string = ' '): string {
         return (
@@ -74,14 +80,10 @@ export default class StringUtility {
     /**
      * Converts a string to a camel case string.
      *
-     * @method toCamelCase
-     * @param str {string}
-     * @returns {string}
-     * @public
-     * @static
-     * @example
-     *      StringUtility.toCamelCase("livesDown_by-the.River");
-     *      // 'livesDownByTheRiver'
+     * ```
+     * StringUtility.toCamelCase('livesDown_by-the.River');
+     * // 'livesDownByTheRiver'
+     * ```
      */
     public static toCamelCase(str: string): string {
         return (
@@ -96,14 +98,10 @@ export default class StringUtility {
     /**
      * Converts a hyphen string to a pascal case string.
      *
-     * @method toPascalCase
-     * @param str {string}
-     * @returns {string}
-     * @public
-     * @static
-     * @example
-     *      StringUtility.toPascalCase("livesDown_by-the.River");
-     *      // 'LivesDownByTheRiver'
+     * ```
+     * StringUtility.toPascalCase('livesDown_by-the.River');
+     * // 'LivesDownByTheRiver'
+     * ```
      */
     public static toPascalCase(str: string): string {
         return (
@@ -118,14 +116,10 @@ export default class StringUtility {
     /**
      * Converts a string to a constant case string.
      *
-     * @method toConstantCase
-     * @param str {string}
-     * @returns {string}
-     * @public
-     * @static
-     * @example
-     *      StringUtility.toConstantCase("livesDown_by-the.River");
-     *      // 'LIVES_DOWN_BY_THE_RIVER'
+     * ```
+     * StringUtility.toConstantCase('livesDown_by-the.River');
+     * // 'LIVES_DOWN_BY_THE_RIVER'
+     * ```
      */
     public static toConstantCase(str: string): string {
         return StringUtility.toSentence(str, '_').toUpperCase();
@@ -134,14 +128,10 @@ export default class StringUtility {
     /**
      * Converts a string to a title case string.
      *
-     * @method toTitleCase
-     * @param str {string}
-     * @returns {string}
-     * @public
-     * @static
-     * @example
-     *      StringUtility.toTitleCase("livesDown_by-the.River");
-     *      // 'Lives Down By The River'
+     * ```
+     * StringUtility.toTitleCase('livesDown_by-the.River');
+     * // 'Lives Down By The River'
+     * ```
      */
     public static toTitleCase(str: string): string {
         return StringUtility.toSentence(str).replace(/\w\S*/g, (txt: string) => {
@@ -152,14 +142,10 @@ export default class StringUtility {
     /**
      * Converts a string to a sentence case string.
      *
-     * @method toSentenceCase
-     * @param str {string}
-     * @returns {string}
-     * @public
-     * @static
-     * @example
-     *      StringUtility.toSentenceCase("livesDown_by-the.River");
-     *      // 'Lives down by the river'
+     * ```
+     * StringUtility.toSentenceCase('livesDown_by-the.River');
+     * // 'Lives down by the river'
+     * ```
      */
     public static toSentenceCase(str: string): string {
         const sentence: string = StringUtility.toSentence(str);

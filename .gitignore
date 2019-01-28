@@ -3,5 +3,6 @@ dist/
 .idea
 .code
 .DS_Store
-examples/src
+examples/src/**/*
+!examples/src/import-test.ts
 coverage

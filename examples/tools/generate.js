@@ -1,7 +1,9 @@
-const generateTemplateFiles = require('../../dist/generate-template-files.cjs');
-
+const {generateTemplateFiles, StringUtility} = require('../../dist/generate-template-files.cjs');
 // Note: In your file it will be like this:
-// const generateTemplateFiles = require('generate-template-files');
+// const {generateTemplateFiles, StringUtility} = require('generate-template-files');
+
+const filename = require('file-name');
+const insertLine = require('insert-line');
 
 generateTemplateFiles([
     // Angular
@@ -29,9 +31,10 @@ generateTemplateFiles([
             path: './src/stores/__store__(kebabCase)',
             pathAndFileNameDefaultCase: '(pascalCase)',
         },
-        onComplete: (results) => {
+        onComplete: async (results) => {
             console.log(`results`, results);
-        }
+            await importVuexStore(results);
+        },
     },
     // React
     {
@@ -72,9 +75,6 @@ generateTemplateFiles([
             path: './src/views/__name__(kebabCase)',
             pathAndFileNameDefaultCase: '(pascalCase)',
         },
-        onComplete: (results) => {
-            console.log(`results`, results);
-        }
     },
     {
         option: 'React Connected Component',
@@ -87,9 +87,6 @@ generateTemplateFiles([
             path: './src/views/__name__(kebabCase)',
             pathAndFileNameDefaultCase: '(pascalCase)',
         },
-        onComplete: (results) => {
-            console.log(`results`, results);
-        }
     },
     {
         option: 'Model',
@@ -102,9 +99,6 @@ generateTemplateFiles([
             path: './src/models/__model__Model.ts',
             pathAndFileNameDefaultCase: '(pascalCase)',
         },
-        onComplete: (results) => {
-            console.log(`results`, results);
-        }
     },
     {
         option: 'Interface',
@@ -131,3 +125,21 @@ generateTemplateFiles([
         },
     },
 ]);
+
+/*
+ * NOTE: there is many ways you can do this. This is just an example on how you might approch it.
+ */
+async function importVuexStore(results) {
+    const files = results.output.files;
+
+    const fullPaths = files
+        .map((folderPath) => folderPath.replace('src/', ''))        // remove 'src' from path
+        .map((path) => `import ${filename(path)} from '${path}'`)   // create import statement
+        .join('\n');                                                // put all imports on there own line
+
+    try {
+        await insertLine('src/import-test.ts').append(fullPaths);
+    } catch (error) {
+        console.log(``, error);
+    }
+}

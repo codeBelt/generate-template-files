@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html class="default no-js">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>generate-template-files</title>
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="assets/css/main.css" />
+    </head>
+    <body>
+        <header>
+            <div class="tsd-page-toolbar">
+                <div class="container">
+                    <div class="table-wrap">
+                        <div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+                            <div class="field">
+                                <label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+                                <input id="tsd-search-field" type="text" />
+                            </div>
+                            <ul class="results">
+                                <li class="state loading">Preparing search index...</li>
+                                <li class="state failure">The search index is not available</li>
+                            </ul>
+                            <a href="index.html" class="title">generate-template-files</a>
+                        </div>
+                        <div class="table-cell" id="tsd-widgets">
+                            <div id="tsd-filter">
+                                <a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+                                <div class="tsd-filter-group">
+                                    <div class="tsd-select" id="tsd-filter-visibility">
+                                        <span class="tsd-select-label">All</span>
+                                        <ul class="tsd-select-list">
+                                            <li data-value="public">Public</li>
+                                            <li data-value="protected">Public/Protected</li>
+                                            <li data-value="private" class="selected">All</li>
+                                        </ul>
+                                    </div>
+                                    <input type="checkbox" id="tsd-filter-inherited" checked />
+                                    <label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+                                    <input type="checkbox" id="tsd-filter-externals" checked />
+                                    <label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+                                    <input type="checkbox" id="tsd-filter-only-exported" />
+                                    <label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+                                </div>
+                            </div>
+                            <a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tsd-page-title">
+                <div class="container">
+                    <ul class="tsd-breadcrumb">
+                        <li><a href="globals.html">Globals</a></li>
+                    </ul>
+                    <h1>generate-template-files</h1>
+                </div>
+            </div>
+        </header>
+        <div class="container container-main">
+            <div class="row">
+                <div class="col-8 col-content">
+                    <div class="tsd-panel tsd-typography">
+                        <h1 id="generate-template-files"><code>generate-template-files</code></h1>
+                        <p>
+                            <a href="https://npmjs.org/package/generate-template-files"
+                                ><img src="http://img.shields.io/npm/v/generate-template-files.svg?style=flat-square" alt="NPM version"
+                            /></a>
+                            <a href="https://npmjs.org/package/generate-template-files"
+                                ><img src="http://img.shields.io/npm/dm/generate-template-files.svg?style=flat-square" alt="Downloads"
+                            /></a>
+                        </p>
+                        <p>
+                            A simple generator that is independent from any language. Create custom boilerplate, scaffolding, skeleton, and templating
+                            code files that you need to create over and over again. All you need is <a href="https://nodejs.org">NodeJS</a> installed
+                            to get started.
+                        </p>
+                        <blockquote><p>Find this useful? Give it a :star:</p></blockquote>
+                        <p><img src="./examples/generate.gif" alt="gif image created with licecap" /></p>
+                        <h2 id="install">Install</h2>
+                        <p>With <a href="http://npmjs.com">NPM</a>:</p>
+                        <pre><code class="language-command">$ npm install generate-template-files</code></pre>
+                        <p>With <a href="https://yarnpkg.com">Yarn</a>:</p>
+                        <pre><code class="language-command">$ yarn add generate-template-files</code></pre>
+                        <h2 id="usage">Usage</h2>
+                        <ol>
+                            <li>
+                                Check out the <code>examples</code> folder or create a file called <code>generate.js</code>. Note that this file name
+                                is flexible.
+                            </li>
+                            <li>In that file, add in the example code below.</li>
+                            <li>
+                                Run <code>node generate.js</code> within Terminal (Mac) or Powershell (Win) once you&#39;ve added your template files.
+                            </li>
+                        </ol>
+                        <pre><code class="language-js"><span class="hljs-keyword">const</span> {generateTemplateFiles} = <span class="hljs-built_in">require</span>(<span class="hljs-string">'generate-template-files'</span>);
+
+generateTemplateFiles([
+    {
+        <span class="hljs-attr">option</span>: <span class="hljs-string">'Create Redux Store'</span>,
+        <span class="hljs-attr">defaultCase</span>: <span class="hljs-string">'(pascalCase)'</span>,
+        <span class="hljs-attr">entry</span>: {
+            <span class="hljs-attr">folderPath</span>: <span class="hljs-string">'./tools/templates/react/redux-store/'</span>,
+        },
+        <span class="hljs-attr">stringReplacers</span>: [<span class="hljs-string">'__store__'</span>, <span class="hljs-string">'__model__'</span>],
+        <span class="hljs-attr">output</span>: {
+            <span class="hljs-attr">path</span>: <span class="hljs-string">'./src/stores/__store__(lowerCase)'</span>,
+            <span class="hljs-attr">pathAndFileNameDefaultCase</span>: <span class="hljs-string">'(kebabCase)'</span>,
+        },
+        <span class="hljs-attr">onComplete</span>: <span class="hljs-function">(<span class="hljs-params">results</span>) =&gt;</span> {
+            <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`results`</span>, results);
+        },
+    },
+    {
+        <span class="hljs-attr">option</span>: <span class="hljs-string">'Create Reduce Action'</span>,
+        <span class="hljs-attr">defaultCase</span>: <span class="hljs-string">'(pascalCase)'</span>,
+        <span class="hljs-attr">entry</span>: {
+            <span class="hljs-attr">folderPath</span>: <span class="hljs-string">'./tools/templates/react/redux-store/__store__Action.ts'</span>,
+        },
+        <span class="hljs-attr">stringReplacers</span>: [<span class="hljs-string">'__store__'</span>, <span class="hljs-string">'__model__'</span>],
+        <span class="hljs-attr">output</span>: {
+            <span class="hljs-attr">path</span>: <span class="hljs-string">'./src/stores/__store__/__store__(lowerCase)/__store__(pascalCase)Action.ts'</span>,
+            <span class="hljs-attr">pathAndFileNameDefaultCase</span>: <span class="hljs-string">'(kebabCase)'</span>,
+        },
+    },
+]);</code></pre>
+                        <p>
+                            As outlined in the <code>examples</code> folder, I prefer to create a <code>tools</code> folder and place
+                            <code>generate.js</code> w/ <code>templates</code> files in there. Additionally, I&#39;ll add a script task (<code
+                                >&quot;generate&quot;: &quot;node ./tools/generate.js&quot;</code
+                            >) to my <code>package.json</code> file for convienent running of the generator using <code>npm run generate</code> or
+                            <code>yarn generate</code>.
+                        </p>
+                        <pre><code>┣━ package.json
+┣━ src
+┗━ tools/
+   ┣━ generate.js
+   ┗━ templates/
+      ┣━ <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">SomeFile</span>.</span></span>js
+      ┗━ <span class="hljs-constructor">__name__(<span class="hljs-params">pascalCase</span>)</span><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Action</span>.</span></span>ts</code></pre>
+                        <h2 id="api">API</h2>
+                        <p>The <code>generateTemplateFiles</code> function takes an array of <code>IConfigItem</code> items.</p>
+                        <h4 id="iconfigitem"><code>IConfigItem</code></h4>
+                        <ul>
+                            <li><code>option</code> - The name of the option to choose when asked.</li>
+                            <li>
+                                <code>defaultCase</code> - The default <a href="#case-converters">Case Converters</a> to use with the
+                                <a href="#replacer-slots">Replacer Slots</a> in the template files. Default is <code>(noCase)</code>.
+                            </li>
+                            <li><code>entry.folderPath</code> - Path to a folder of files or a single template file.</li>
+                            <li>
+                                <code>stringReplacers</code> - An array of <a href="#replacer-slots">Replacer Slots</a> used to replace content in the
+                                designated <code>entry.folderPath</code>.
+                            </li>
+                            <li>
+                                <code>output.path</code> - The desired output path for generated files.
+                                <a href="#case-converters">Case Converters</a> and <a href="#replacer-slots">Replacer Slots</a> can be used to make
+                                the path somewhat dynamic.
+                            </li>
+                            <li>
+                                <code>output.pathAndFileNameDefaultCase</code> - The <a href="#case-converters">Case Converters</a> to use for the
+                                file path and file name(s).
+                            </li>
+                            <li>
+                                <code>onComplete</code> - <code>optional</code> Takes a callback function that is called once the file(s) have been
+                                outputted. A <a href="#iresults">IResults</a> object will be passed to the callback.
+                            </li>
+                        </ul>
+                        <h6 id="example">Example</h6>
+                        <pre><code class="language-javascript">{
+    <span class="hljs-attr">option</span>: <span class="hljs-string">'Create Redux Store'</span>,
+    <span class="hljs-attr">defaultCase</span>: <span class="hljs-string">'(pascalCase)'</span>,
+    <span class="hljs-attr">entry</span>: {
+        <span class="hljs-attr">folderPath</span>: <span class="hljs-string">'./tools/templates/react/redux-store/'</span>,
+    },
+    <span class="hljs-attr">stringReplacers</span>: [<span class="hljs-string">'__store__'</span>, <span class="hljs-string">'__model__'</span>],
+    <span class="hljs-attr">output</span>: {
+        <span class="hljs-attr">path</span>: <span class="hljs-string">'./src/stores/__store__(lowerCase)'</span>,
+        <span class="hljs-attr">pathAndFileNameDefaultCase</span>: <span class="hljs-string">'(kebabCase)'</span>,
+    },
+    <span class="hljs-attr">onComplete</span>: <span class="hljs-function">(<span class="hljs-params">results</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(results);
+    },
+},</code></pre>
+                        <h4 id="iresults"><code>IResults</code></h4>
+                        <p>
+                            Below is an example of what you receive from the <code>onComplete</code> callback. It has the output path, list of files
+                            and folders created and the <a href="#replacer-slots">Replacer Slots</a> with the value entered.
+                        </p>
+                        <ul>
+                            <li><code>output.path</code> - The file(s) output path</li>
+                            <li><code>output.files</code> - List of files created</li>
+                            <li>
+                                <code>stringReplacers</code> - List of <a href="#replacer-slots">Replacer Slots</a>; name and values entered during
+                                the setup process
+                            </li>
+                        </ul>
+                        <h6 id="example">Example</h6>
+                        <pre><code class="language-javascript">{
+    <span class="hljs-attr">output</span>: {
+        <span class="hljs-attr">path</span>: <span class="hljs-string">'./src/stores/some-thing'</span>,
+        <span class="hljs-attr">files</span>: [
+            <span class="hljs-string">'./src/stores/some-thing/SomeThingModule.ts'</span>,
+            <span class="hljs-string">'./src/stores/some-thing/SomeThingModuleAction.ts'</span>,
+            <span class="hljs-string">'./src/stores/some-thing/SomeThingModuleGetter.ts'</span>,
+            <span class="hljs-string">'./src/stores/some-thing/SomeThingModuleMutation.ts'</span>,
+            <span class="hljs-string">'./src/stores/some-thing/SomeThingService.ts'</span>,
+            <span class="hljs-string">'./src/stores/some-thing/models/actions/ISomeThingState.ts'</span>,
+            <span class="hljs-string">'./src/stores/some-thing/models/actions/OtherThingResponseModel.ts'</span>
+        ]
+    },
+    <span class="hljs-attr">stringReplacers</span>: [
+        {
+            <span class="hljs-attr">slot</span>: <span class="hljs-string">'__store__'</span>,
+            <span class="hljs-attr">slotValue</span>: <span class="hljs-string">'some thing'</span>
+        },
+        {
+            <span class="hljs-attr">slot</span>: <span class="hljs-string">'__model__'</span>,
+            <span class="hljs-attr">slotValue</span>: <span class="hljs-string">'other thing'</span>
+        }
+    ]
+}</code></pre>
+                        <h3 id="replacer-slots">Replacer Slots</h3>
+                        <p><a href="#replacer-slots">Replacer Slots</a> are unique string value(s) to be replaced by the generator.</p>
+                        <p>For example you can use something like this in your template files and/or in the file path names.</p>
+                        <ul>
+                            <li><code>~replacerSlot~</code></li>
+                            <li><code>{{something else}}</code></li>
+                            <li><code>__AnythingYouWant__</code></li>
+                        </ul>
+                        <h3 id="case-converters">Case Converters</h3>
+                        <p><a href="#case-converters">Case Converters</a> transform the string value entered upon use of the generator.</p>
+                        <p>Example</p>
+                        <ul>
+                            <li>
+                                In the generator template <code>__replacerSlot__</code> is appended by the <code>(pascalCase)</code> converter such as
+                                <code>__replacerSlot__(pascalCase)</code>.
+                            </li>
+                            <li>
+                                When the generator is run, the string <code>&quot;product reducer&quot;</code> is provided for
+                                <code>__replacerSlot__</code>.
+                            </li>
+                            <li>As a result, the converter will produce <code>ProductReducer</code>.</li>
+                        </ul>
+                        <p>Here is the string <code>Lives down BY the River</code> with each of the converters:</p>
+                        <pre><code><span class="hljs-comment">(noCase)</span>        <span class="hljs-comment">// Lives down BY the River</span>
+<span class="hljs-comment">(camelCase)</span>     <span class="hljs-comment">// livesDownByTheRiver</span>
+<span class="hljs-comment">(constantCase)</span>  <span class="hljs-comment">// LIVES_DOWN_BY_THE_RIVER</span>
+<span class="hljs-comment">(dotCase)</span>       <span class="hljs-comment">// lives.down.by.the.river</span>
+<span class="hljs-comment">(kebabCase)</span>     <span class="hljs-comment">// lives-down-by-the-river</span>
+<span class="hljs-comment">(lowerCase)</span>     <span class="hljs-comment">// livesdownbytheriver</span>
+<span class="hljs-comment">(pascalCase)</span>    <span class="hljs-comment">// LivesDownByTheRiver</span>
+<span class="hljs-comment">(pathCase)</span>      <span class="hljs-comment">// lives/down/by/the/river</span>
+<span class="hljs-comment">(sentenceCase)</span>  <span class="hljs-comment">// Lives down by the river</span>
+<span class="hljs-comment">(snakeCase)</span>     <span class="hljs-comment">// lives_down_by_the_river</span>
+<span class="hljs-comment">(titleCase)</span>     <span class="hljs-comment">// Lives Down By The River</span></code></pre>
+                        <p>
+                            One Rule: no spaces between the <a href="#replacer-slots">Replacer Slots</a> and
+                            <a href="#case-converters">Case Converters</a>. If there is a space, <a href="#case-converters">Case Converters</a> will
+                            not work.
+                        </p>
+                        <ul>
+                            <li>:white_check_mark: <code>__name__(camelCase)</code></li>
+                            <li>:warning: <code>__name__ (camelCase)</code></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+                    <nav class="tsd-navigation primary">
+                        <ul>
+                            <li class="globals  ">
+                                <a href="globals.html"><em>Globals</em></a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <nav class="tsd-navigation secondary menu-sticky">
+                        <ul class="before-current">
+                            <li class=" tsd-kind-enum">
+                                <a href="enums/caseconverterenum.html" class="tsd-kind-icon">Case<wbr />Converter<wbr />Enum</a>
+                            </li>
+                            <li class=" tsd-kind-class">
+                                <a href="classes/generatetemplatefiles.html" class="tsd-kind-icon">Generate<wbr />Template<wbr />Files</a>
+                            </li>
+                            <li class=" tsd-kind-class">
+                                <a href="classes/stringutility.html" class="tsd-kind-icon">String<wbr />Utility</a>
+                            </li>
+                            <li class=" tsd-kind-interface">
+                                <a href="interfaces/iconfigitem.html" class="tsd-kind-icon">IConfig<wbr />Item</a>
+                            </li>
+                            <li class=" tsd-kind-interface">
+                                <a href="interfaces/idefaultcaseconverter.html" class="tsd-kind-icon">IDefault<wbr />Case<wbr />Converter</a>
+                            </li>
+                            <li class=" tsd-kind-interface"><a href="interfaces/ireplacer.html" class="tsd-kind-icon">IReplacer</a></li>
+                            <li class=" tsd-kind-interface"><a href="interfaces/iresults.html" class="tsd-kind-icon">IResults</a></li>
+                            <li class=" tsd-kind-function">
+                                <a href="globals.html#generatetemplatefiles" class="tsd-kind-icon">generate<wbr />Template<wbr />Files</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <footer class="with-border-bottom">
+            <div class="container">
+                <h2>Legend</h2>
+                <div class="tsd-legend-group">
+                    <ul class="tsd-legend">
+                        <li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+                        <li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+                        <li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+                        <li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+                        <li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+                        <li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+                        <li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+                    </ul>
+                    <ul class="tsd-legend">
+                        <li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+                        <li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+                        <li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+                        <li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+                    </ul>
+                    <ul class="tsd-legend">
+                        <li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+                        <li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+                        <li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+                        <li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+                        <li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+                        <li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+                    </ul>
+                    <ul class="tsd-legend">
+                        <li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+                        <li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+                        <li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+                        <li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+                        <li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+                        <li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+                        <li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+                    </ul>
+                    <ul class="tsd-legend">
+                        <li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
+                            <span class="tsd-kind-icon">Inherited constructor</span>
+                        </li>
+                        <li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+                            <span class="tsd-kind-icon">Inherited property</span>
+                        </li>
+                        <li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+                        <li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
+                            <span class="tsd-kind-icon">Inherited accessor</span>
+                        </li>
+                    </ul>
+                    <ul class="tsd-legend">
+                        <li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+                            <span class="tsd-kind-icon">Protected property</span>
+                        </li>
+                        <li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+                        <li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected">
+                            <span class="tsd-kind-icon">Protected accessor</span>
+                        </li>
+                    </ul>
+                    <ul class="tsd-legend">
+                        <li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+                        <li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+                        <li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+                    </ul>
+                    <ul class="tsd-legend">
+                        <li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+                        <li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
+        <div class="container tsd-generator">
+            <p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+        </div>
+        <div class="overlay"></div>
+        <script src="assets/js/main.js"></script>
+        <script>
+            if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');
+        </script>
+    </body>
+</html>
