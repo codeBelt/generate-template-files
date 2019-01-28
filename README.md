@@ -113,7 +113,7 @@ The `generateTemplateFiles` function takes an array of `IConfigItem` items.
 Below is an example of what you receive from the `onComplete` callback. It has the output path, list of files and folders created and the [Replacer Slots](#replacer-slots) with the value entered.
 
 -   `output.path` - The file(s) output path
--   `output.filesAndFolders` - List of folder and filenames created
+-   `output.files` - List of files created
 -   `stringReplacers` - List of [Replacer Slots](#replacer-slots); name and values entered during the setup process
 
 ###### Example
@@ -122,17 +122,14 @@ Below is an example of what you receive from the `onComplete` callback. It has t
 {
     output: {
         path: './src/stores/some-thing',
-        filesAndFolders: [
-            'SomeThingModule.ts',
-            'SomeThingModuleAction.ts',
-            'SomeThingModuleGetter.ts',
-            'SomeThingModuleMutation.ts',
-            'SomeThingService.ts',
-            'models',
-            'models/actions',
-            'models/actions/ISomeThingState.ts',
-            'models/actions/OtherThingResponseModel.ts',
-            'models/getters'
+        files: [
+            './src/stores/some-thing/SomeThingModule.ts',
+            './src/stores/some-thing/SomeThingModuleAction.ts',
+            './src/stores/some-thing/SomeThingModuleGetter.ts',
+            './src/stores/some-thing/SomeThingModuleMutation.ts',
+            './src/stores/some-thing/SomeThingService.ts',
+            './src/stores/some-thing/models/actions/ISomeThingState.ts',
+            './src/stores/some-thing/models/actions/OtherThingResponseModel.ts'
         ]
     },
     stringReplacers: [

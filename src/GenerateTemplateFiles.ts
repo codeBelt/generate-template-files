@@ -234,11 +234,13 @@ export default class GenerateTemplateFiles {
     /**
      */
     private _onComplete(selectedConfigItem: IConfigItem, outputPath: string, outputtedFilesAndFolders: string[], stringReplacers: IReplacer[]): void {
+        const files: string[] = outputtedFilesAndFolders.filter((path: string) => path.includes('.'));
+
         if (typeof selectedConfigItem.onComplete === 'function') {
             const results: IResults = {
                 output: {
                     path: outputPath,
-                    filesAndFolders: outputtedFilesAndFolders,
+                    files: files.map((file: string) => `${outputPath}/${file}`),
                 },
                 stringReplacers,
             };

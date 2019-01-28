@@ -32,6 +32,7 @@ generateTemplateFiles([
             pathAndFileNameDefaultCase: '(pascalCase)',
         },
         onComplete: async (results) => {
+            console.log(`results`, results);
             await importVuexStore(results);
         },
     },
@@ -129,12 +130,9 @@ generateTemplateFiles([
  * NOTE: there is many ways you can do this. This is just an example on how you might approch it.
  */
 async function importVuexStore(results) {
-    const basePath = results.output.path;
-    const filesAndFolders = results.output.filesAndFolders;
+    const files = results.output.files;
 
-    const fullPaths = filesAndFolders
-        .filter((folderPath) => folderPath.includes('.'))           // remove folders and only keep files
-        .map((folderPath) => `${basePath}/${folderPath}`)           // build file path
+    const fullPaths = files
         .map((folderPath) => folderPath.replace('src/', ''))        // remove 'src' from path
         .map((path) => `import ${filename(path)} from '${path}'`)   // create import statement
         .join('\n');                                                // put all imports on there own line
