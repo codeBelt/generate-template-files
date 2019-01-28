@@ -114,7 +114,7 @@ Below is an example of what you receive from the `onComplete` callback. It has t
 
 -   `output.path` - The file(s) output path
 -   `output.filesAndFolders` - List of folder and filenames created
--   `stringReplacers` - List of Replacer Slots; name and values entered during the setup process
+-   `stringReplacers` - List of [Replacer Slots](#replacer-slots); name and values entered during the setup process
 
 ###### Example
 
