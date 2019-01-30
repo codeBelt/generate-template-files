@@ -110,7 +110,7 @@ The `generateTemplateFiles` function takes an array of `IConfigItem` items.
 
 #### `IResults`
 
-Below is an example of what you receive from the `onComplete` callback. It has the output path, list of files and folders created and the [Replacer Slots](#replacer-slots) with the value entered.
+Below is an example of what you receive from the `onComplete` callback. It has the output path, list of files created and the [Replacer Slots](#replacer-slots) with the value entered.
 
 -   `output.path` - The file(s) output path
 -   `output.files` - List of files created
