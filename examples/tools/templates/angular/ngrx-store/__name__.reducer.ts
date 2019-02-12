@@ -4,12 +4,12 @@ import {__name__Action, __name__ActionUnion} from './__name__(kebabCase).action'
 import {__model__ResponseModel} from './models/__model__(kebabCase)-response.model';
 
 export class __name__Reducer {
-    private static readonly _initialState: I__name__ReducerState = {
+    public static readonly initialState: I__name__ReducerState = {
         isLoading__model__: false,
         __model__(camelCase): null,
     };
 
-    public static reducer(state: I__name__ReducerState = __name__Reducer._initialState, action: IAction<__name__ActionUnion>): I__name__ReducerState {
+    public static reducer(state: I__name__ReducerState = __name__Reducer.initialState, action: IAction<__name__ActionUnion>): I__name__ReducerState {
         switch (action.type) {
             case __name__Action.LOAD___model__(constantCase):
                 return {

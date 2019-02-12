@@ -11,7 +11,7 @@ describe('__name__Reducer', () => {
 
 
     beforeEach(() => {
-        initialState = __name__Reducer['_initialState'];
+        initialState = __name__Reducer['initialState'];
     });
 
     afterEach(() => {
