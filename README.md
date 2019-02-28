@@ -8,6 +8,8 @@ A simple generator that is independent from any language. Create custom boilerpl
 
 ![gif image created with licecap](./examples/generate.gif)
 
+Medium Article - [Generate Template Files with Ease](https://medium.com/@robertsavian/generate-template-files-with-ease-876c6741e6e5)
+
 ## Install
 
 With [NPM](http://npmjs.com):
