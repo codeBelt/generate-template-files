@@ -13,7 +13,7 @@ class __name__ extends React.Component<IProps & IStateToProps & DispatchProp<IAc
 
     public render(): JSX.Element {
         return (
-            <div>
+            <div className={styles.container}>
                 __name__(sentenceCase)
             </div>
         );
