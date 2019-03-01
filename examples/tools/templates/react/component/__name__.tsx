@@ -15,7 +15,7 @@ export default class __name__ extends React.Component<IProps, IState> {
 
     public render(): JSX.Element {
         return (
-            <div>
+            <div className={styles.container}>
                 __name__(sentenceCase)
             </div>
         )

@@ -3,8 +3,8 @@ import styles from './__name__.module.scss';
 import * as React from 'react';
 import {connect, DispatchProp} from 'react-redux';
 
-interface IState {}
 interface IProps {}
+interface IState {}
 interface IStateToProps {}
 
 const mapStateToProps = (state: IStore, ownProps: IProps): IStateToProps => ({});
