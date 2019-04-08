@@ -90,7 +90,7 @@ The `generateTemplateFiles` function takes an array of `IConfigItem` items.
 -   `output.pathAndFileNameDefaultCase` - The [Case Converters](#case-converters) to use for the file path and file name(s).
 -   `onComplete` - `optional` Takes a callback function that is called once the file(s) have been outputted. A [IResults](#iresults) object will be passed to the callback.
 
-###### Example
+###### Setup Example
 
 ```javascript
 {
@@ -118,7 +118,7 @@ Below is an example of what you receive from the `onComplete` callback. It has t
 -   `output.files` - List of files created
 -   `stringReplacers` - List of [Replacer Slots](#replacer-slots); name and values entered during the setup process
 
-###### Example
+###### Example data you would get from the onComplate callback
 
 ```javascript
 {
