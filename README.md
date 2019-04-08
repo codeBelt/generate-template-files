@@ -90,7 +90,7 @@ The `generateTemplateFiles` function takes an array of `IConfigItem` items.
 -   `output.pathAndFileNameDefaultCase` - The [Case Converters](#case-converters) to use for the file path and file name(s).
 -   `onComplete` - `optional` Takes a callback function that is called once the file(s) have been outputted. A [IResults](#iresults) object will be passed to the callback.
 
-###### Setup Example
+###### Example
 
 ```javascript
 {
