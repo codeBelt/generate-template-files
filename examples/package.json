@@ -1,7 +1,7 @@
 {
   "name": "examples",
   "version": "1.0.0",
-  "description": "This is a used with dynamic replacers",
+  "description": "This is to be used with dynamic replacers as an example",
   "scripts": {
     "generate": "node ./tools/generate.js"
   },
