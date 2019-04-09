@@ -1,5 +1,6 @@
 import CaseConverterEnum from '../constants/CaseConverterEnum';
 import IResults from './IResults';
+import IReplacer from './IReplacer';
 
 /**
  * ```
@@ -53,6 +54,12 @@ export default interface IConfigItem {
      * ```
      */
     stringReplacers: string[];
+    /**
+     * ```
+     * dynamicReplacers: [{slot:'__description__', slotValue: config.description}],
+     * ```
+     */
+    dynamicReplacers?: IReplacer[];
     /**
      * ```
      * output: {

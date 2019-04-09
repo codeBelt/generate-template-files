@@ -99,7 +99,7 @@ export default class GenerateTemplateFiles {
 
         CheckUtility.check(Object.keys(answer).length > 0, '"stringReplacers" needs at least one item.');
 
-        return Object.entries(answer).map(
+        const replacers: IReplacer[] = Object.entries(answer).map(
             ([key, value]: [string, string]): IReplacer => {
                 return {
                     slot: key,
@@ -107,6 +107,9 @@ export default class GenerateTemplateFiles {
                 };
             }
         );
+        const dynamicReplacers: IReplacer[] = selectedConfigItem.dynamicReplacers || [];
+
+        return [...replacers, ...dynamicReplacers];
     }
 
     /**

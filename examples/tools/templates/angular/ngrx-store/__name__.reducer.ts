@@ -3,6 +3,9 @@ import {IAction} from '../i-action';
 import {__name__Action, __name__ActionUnion} from './__name__(kebabCase).action';
 import {__model__ResponseModel} from './models/__model__(kebabCase)-response.model';
 
+// Version: __version__(noCase)
+// Description: __description__(noCase)
+
 export class __name__Reducer {
     public static readonly initialState: I__name__ReducerState = {
         isLoading__model__: false,
