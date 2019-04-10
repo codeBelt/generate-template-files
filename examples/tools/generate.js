@@ -24,6 +24,9 @@ generateTemplateFiles([
             path: './src/app/stores/__name__(lowerCase)',
             pathAndFileNameDefaultCase: '(kebabCase)',
         },
+        onComplete: async (results) => {
+            console.log(`results`, results);
+        },
     },
     // Vue
     {
