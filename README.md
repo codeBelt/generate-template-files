@@ -86,9 +86,10 @@ The `generateTemplateFiles` function takes an array of `IConfigItem` items.
 -   `defaultCase` - The default [Case Converters](#case-converters) to use with the [Replacer Slots](#replacer-slots) in the template files. Default is `(noCase)`.
 -   `entry.folderPath` - Path to a folder of files or a single template file.
 -   `stringReplacers` - An array of [Replacer Slots](#replacer-slots) used to replace content in the designated `entry.folderPath`.
+-   `dynamicReplacers` - (Optional) An array of IReplacer used to replace content in the designated `entry.folderPath`.
 -   `output.path` - The desired output path for generated files. [Case Converters](#case-converters) and [Replacer Slots](#replacer-slots) can be used to make the path somewhat dynamic.
 -   `output.pathAndFileNameDefaultCase` - The [Case Converters](#case-converters) to use for the file path and file name(s).
--   `onComplete` - `optional` Takes a callback function that is called once the file(s) have been outputted. A [IResults](#iresults) object will be passed to the callback.
+-   `onComplete` - (Optional) Takes a callback function that is called once the file(s) have been outputted. A [IResults](#iresults) object will be passed to the callback.
 
 ###### Example
 
@@ -100,6 +101,10 @@ The `generateTemplateFiles` function takes an array of `IConfigItem` items.
         folderPath: './tools/templates/react/redux-store/',
     },
     stringReplacers: ['__store__', '__model__'],
+    dynamicReplacers: [
+        {slot:'__version__', slotValue: config.version},
+        {slot:'__description__', slotValue: config.description}
+    ],
     output: {
         path: './src/stores/__store__(lowerCase)',
         pathAndFileNameDefaultCase: '(kebabCase)',

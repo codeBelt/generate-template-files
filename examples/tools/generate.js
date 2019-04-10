@@ -5,6 +5,8 @@ const {generateTemplateFiles, StringUtility} = require('../../dist/generate-temp
 const filename = require('file-name');
 const insertLine = require('insert-line');
 
+const config = require('../package.json');
+
 generateTemplateFiles([
     // Angular
     {
@@ -14,9 +16,16 @@ generateTemplateFiles([
             folderPath: './tools/templates/angular/ngrx-store/',
         },
         stringReplacers: ['__name__', '__model__'],
+        dynamicReplacers: [
+            {slot:'__version__', slotValue: config.version},
+            {slot:'__description__', slotValue: config.description}
+        ],
         output: {
             path: './src/app/stores/__name__(lowerCase)',
             pathAndFileNameDefaultCase: '(kebabCase)',
+        },
+        onComplete: async (results) => {
+            console.log(`results`, results);
         },
     },
     // Vue
