@@ -62,18 +62,6 @@ generateTemplateFiles([
         }
     },
     {
-        option: 'React Redux Action',
-        defaultCase: '(pascalCase)',
-        entry: {
-            folderPath: './tools/templates/react/redux-store/__store__Action.ts',
-        },
-        stringReplacers: ['__store__', '__model__'],
-        output: {
-            path: './src/stores/__store__/__store__(lowerCase)/__store__(pascalCase)Action.ts',
-            pathAndFileNameDefaultCase: '(kebabCase)',
-        },
-    },
-    {
         option: 'React Component',
         defaultCase: '(pascalCase)',
         entry: {
@@ -94,6 +82,18 @@ generateTemplateFiles([
         stringReplacers: ['__name__'],
         output: {
             path: './src/views/__name__(kebabCase)',
+            pathAndFileNameDefaultCase: '(pascalCase)',
+        },
+    },
+    {
+        option: 'Selector',
+        defaultCase: '(pascalCase)',
+        entry: {
+            folderPath: './tools/templates/react/selectors/',
+        },
+        stringReplacers: ['__name__'],
+        output: {
+            path: './src/selectors/__name__(kebabCase)',
             pathAndFileNameDefaultCase: '(pascalCase)',
         },
     },

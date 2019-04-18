@@ -1,22 +1,28 @@
-import IAction from '../IAction';
-import __model__ResponseModel from './models/__model__ResponseModel';
+import __model__ResponseModel from './models/__model__(kebabCase)/__model__ResponseModel';
+import __store__Effects from './__store__Effects';
 
 export type __store__ActionUnion = void | __model__ResponseModel;
 
 export default class __store__Action {
-    public static readonly LOAD___model__(constantCase): string = '__store__Action.LOAD___model__(constantCase)';
-    public static readonly LOAD___model__(constantCase)_SUCCESS: string = '__store__Action.LOAD___model__(constantCase)_SUCCESS';
+    public static readonly REQUEST___model__(constantCase): string = '__store__Action.REQUEST___model__(constantCase)';
+    public static readonly REQUEST___model__(constantCase)_FINISHED: string = '__store__Action.REQUEST___model__(constantCase)_FINISHED';
 
-    public static load__model__(): IAction<void> {
-        return {
-            type: __store__Action.LOAD___model__(constantCase),
+    public static fetch__model__(): any {
+        return async (dispatch, getState) => {
+            dispatch({type: __store__Action.REQUEST___model__(constantCase)});
+
+            const model: __model__ResponseModel | HttpErrorResponseModel = await __store__Effects.fetch__model__();
+
+            dispatch(__store__Action.fetch__model__Finished(model));
         };
     }
 
-    public static load__model__Success(models: __model__ResponseModel): IAction<__model__ResponseModel> {
+    public static fetch__model__Finished(model: __model__ResponseModel | HttpErrorResponseModel): IAction<__model__ResponseModel | HttpErrorResponseModel> {
         return {
-            type: __store__Action.LOAD___model__(constantCase)_SUCCESS,
-            payload: models,
+            type: __store__Action.REQUEST___model__(constantCase)_FINISHED,
+            payload: model,
+            error: model instanceof HttpErrorResponseModel,
         };
     }
+
 }

@@ -10,7 +10,7 @@ export default class __model__Model extends BaseModel {
     public readonly exampleProperty: string = '';
 
     /*
-     * Client-Side properties
+     * Client-Side properties (Not from API)
      */
     public noneApiProperties: unknown = null;
 
@@ -19,9 +19,9 @@ export default class __model__Model extends BaseModel {
 
         this.update(data);
     }
-    
+
     public update(data: Partial<__model__Model>): void {
         super.update(data);
     }
-    
+
 }

@@ -13,7 +13,7 @@ class __name__ extends React.Component<IProps & IStateToProps & DispatchProp<IAc
 
     public render(): JSX.Element {
         return (
-            <div className={styles.container}>
+            <div className={styles.wrapper}>
                 __name__(sentenceCase)
             </div>
         );
@@ -21,4 +21,5 @@ class __name__ extends React.Component<IProps & IStateToProps & DispatchProp<IAc
 
 }
 
+export { __name__ as Unconnected };
 export default connect(mapStateToProps)(__name__);
