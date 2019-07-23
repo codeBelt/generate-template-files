@@ -43,6 +43,48 @@ export default class GenerateTemplateFiles {
     }
 
     /**
+     * Method to create *all* template files from `IConfigItem` items array all at once,
+     * rather than allowing the user to select and process a single option from the array.
+     * Accepts an array of `IConfigItem` items.
+     */
+    public async generateInSequence(options: IConfigItem[]): Promise<void> {
+        const BRIGHT_CYAN_ANSI_CODE = '\x1b[1m\x1b[36m%s\x1b[0m';
+        const GREEN_ANSI_CODE = '\x1b[32m%s\x1b[0m';
+
+        const seedOption = options[0];
+
+        /* Only get these values once - use them to seed the rest of the template option sequence */
+        const answeredReplacers: IReplacer[] = await this._getReplacerSlotValues(seedOption);
+        const {contentCase, outputPathCase} = this._getDefaultCaseConverters(seedOption);
+        const contentReplacers: IReplacer[] = this._getReplacers(answeredReplacers, contentCase);
+        const outputPathReplacers: IReplacer[] = this._getReplacers(answeredReplacers, outputPathCase);
+
+        for (const option of options) {
+            console.log(BRIGHT_CYAN_ANSI_CODE, `Template: ${option.option}`);
+            const outputPath: string = await this._getOutputPath(outputPathReplacers, option);
+            const shouldWriteFiles: boolean = await this._shouldWriteFiles(outputPath);
+
+            if (shouldWriteFiles === false) {
+                console.info('No new files created');
+
+                return;
+            }
+
+            const outputtedFilesAndFolders: string[] = await this._createFiles(
+                answeredReplacers,
+                outputPathReplacers,
+                contentReplacers,
+                outputPath,
+                option.entry.folderPath
+            );
+
+            this._onComplete(option, outputPath, outputtedFilesAndFolders, answeredReplacers);
+        }
+
+        console.log(GREEN_ANSI_CODE, '...Done!');
+    }
+
+    /**
      * Ask what template options the user wants to use
      */
     private async _getSelectedItem(options: IConfigItem[]): Promise<IConfigItem> {
@@ -82,34 +124,34 @@ export default class GenerateTemplateFiles {
      * New question asking what should text should be used to replace the template text.
      */
     private async _getReplacerSlotValues(selectedConfigItem: IConfigItem): Promise<IReplacer[]> {
-        const replacerQuestions: any[] = selectedConfigItem.stringReplacers.map((str: string) => {
-            return {
-                type: 'input',
-                name: str,
-                message: `Replace ${str} with:`,
-                validate: (replacerSlotValue: string) => {
-                    const isValid: boolean = Boolean(replacerSlotValue.trim());
-
-                    return isValid || 'You must provide an answer.';
-                },
-            };
-        });
-
-        const answer: {[replacer: string]: string} = await enquirer.prompt(replacerQuestions);
-
-        CheckUtility.check(Object.keys(answer).length > 0, '"stringReplacers" needs at least one item.');
-
-        const replacers: IReplacer[] = Object.entries(answer).map(
-            ([key, value]: [string, string]): IReplacer => {
-                return {
-                    slot: key,
-                    slotValue: value,
-                };
-            }
-        );
         const dynamicReplacers: IReplacer[] = selectedConfigItem.dynamicReplacers || [];
+        let stringReplacers: IReplacer[] = [];
+        if (!dynamicReplacers.length) {
+            CheckUtility.check(Object.keys(selectedConfigItem.stringReplacers).length > 0, '"stringReplacers" needs at least one item.');
+            const replacerQuestions: any[] = selectedConfigItem.stringReplacers.map((str: string) => {
+                return {
+                    type: 'input',
+                    name: str,
+                    message: `Replace ${str} with:`,
+                    validate: (replacerSlotValue: string) => {
+                        const isValid: boolean = Boolean(replacerSlotValue.trim());
 
-        return [...replacers, ...dynamicReplacers];
+                        return isValid || 'You must provide an answer.';
+                    },
+                };
+            });
+            const answer: {[replacer: string]: string} = await enquirer.prompt(replacerQuestions);
+            stringReplacers = Object.entries(answer).map(
+                ([key, value]: [string, string]): IReplacer => {
+                    return {
+                        slot: key,
+                        slotValue: value,
+                    };
+                }
+            );
+        }
+
+        return [...stringReplacers, ...dynamicReplacers];
     }
 
     /**

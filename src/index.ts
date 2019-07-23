@@ -14,8 +14,29 @@ export type IConfigItem = IConfigItemDefault;
 export type IReplacer = IReplacerDefault;
 
 /**
- * Main method to create your template files. Accepts an array of `IConfigItem` items.
+ * Main method to create your template files.
+ * Accepts an array of `IConfigItem` items.
+ * Allows user to select from the `IConfigItem` items and process a single one.
  */
-export function generateTemplateFiles(data: IConfigItem[]): Promise<void> {
-    return new GenerateTemplateFiles().generate(data);
+export function generateTemplateFiles(options: IConfigItem[]): Promise<void> {
+    if (options.length > 0) {
+        return new GenerateTemplateFiles().generate(options);
+    }
+
+    console.error('No config items found.');
+    return Promise.reject();
+}
+
+/**
+ * Accessory method to create all template files in a suite of `IConfigItem` items.
+ * Accepts an array of `IConfigItem` items.
+ * Will walk through the array and process every one.
+ */
+export function generateTemplateFilesInSequence(options: IConfigItem[]): Promise<void> {
+    if (options.length > 0) {
+        return new GenerateTemplateFiles().generateInSequence(options);
+    }
+
+    console.error('No config items found.');
+    return Promise.reject();
 }
