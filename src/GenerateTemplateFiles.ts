@@ -43,8 +43,8 @@ export default class GenerateTemplateFiles {
     }
 
     /**
-     * Method to create *all* template files from `IConfigItem` items array all at once,
-     * rather than allowing the user to select and process a single option from the array.
+     * Method to create all template files from `IConfigItem` items array at once,
+     * rather than allowing the user to select and process a single option.
      * Accepts an array of `IConfigItem` items.
      */
     public async generateInSequence(options: IConfigItem[]): Promise<void> {
@@ -59,15 +59,16 @@ export default class GenerateTemplateFiles {
         const contentReplacers: IReplacer[] = this._getReplacers(answeredReplacers, contentCase);
         const outputPathReplacers: IReplacer[] = this._getReplacers(answeredReplacers, outputPathCase);
 
+        let i = 1;
         for (const option of options) {
-            console.log(BRIGHT_CYAN_ANSI_CODE, `Template: ${option.option}`);
+            console.log(BRIGHT_CYAN_ANSI_CODE, `Processing ${i} of ${options.length}: ${option.option}`);
             const outputPath: string = await this._getOutputPath(outputPathReplacers, option);
             const shouldWriteFiles: boolean = await this._shouldWriteFiles(outputPath);
 
             if (shouldWriteFiles === false) {
                 console.info('No new files created');
 
-                return;
+                break;
             }
 
             const outputtedFilesAndFolders: string[] = await this._createFiles(
@@ -79,6 +80,7 @@ export default class GenerateTemplateFiles {
             );
 
             this._onComplete(option, outputPath, outputtedFilesAndFolders, answeredReplacers);
+            i += 1;
         }
 
         console.log(GREEN_ANSI_CODE, '...Done!');
