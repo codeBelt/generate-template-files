@@ -10,7 +10,7 @@ const config = require('../package.json');
 generateTemplateFiles([
     // Angular
     {
-        option: "Angular Ngrx Store",
+        optionName: "Angular Ngrx Store",
         defaultCase: '(pascalCase)',
         entry: {
             folderPath: './tools/templates/angular/ngrx-store/',
@@ -30,7 +30,7 @@ generateTemplateFiles([
     },
     // Vue
     {
-        option: 'Vue Vuex Store',
+        optionName: 'Vue Vuex Store',
         defaultCase: '(pascalCase)',
         entry: {
             folderPath: './tools/templates/vue/vuex-store/',
@@ -47,7 +47,7 @@ generateTemplateFiles([
     },
     // React
     {
-        option: 'React Redux Store',
+        optionName: 'React Redux Store',
         defaultCase: '(pascalCase)',
         entry: {
             folderPath: './tools/templates/react/redux-store/',
@@ -62,7 +62,7 @@ generateTemplateFiles([
         }
     },
     {
-        option: 'React Component',
+        optionName: 'React Component',
         defaultCase: '(pascalCase)',
         entry: {
             folderPath: './tools/templates/react/component/',
@@ -74,7 +74,7 @@ generateTemplateFiles([
         },
     },
     {
-        option: 'React Connected Component',
+        optionName: 'React Connected Component',
         defaultCase: '(pascalCase)',
         entry: {
             folderPath: './tools/templates/react/connected-component/',
@@ -86,7 +86,7 @@ generateTemplateFiles([
         },
     },
     {
-        option: 'Selector',
+        optionName: 'Selector',
         defaultCase: '(pascalCase)',
         entry: {
             folderPath: './tools/templates/react/selectors/',
@@ -98,7 +98,7 @@ generateTemplateFiles([
         },
     },
     {
-        option: 'Model',
+        optionName: 'Model',
         defaultCase: '(pascalCase)',
         entry: {
             folderPath: './tools/templates/react/__model__Model.ts',
@@ -110,7 +110,7 @@ generateTemplateFiles([
         },
     },
     {
-        option: 'Interface',
+        optionName: 'Interface',
         defaultCase: '(pascalCase)',
         entry: {
             folderPath: './tools/templates/react/I__interface__.ts',
@@ -122,7 +122,7 @@ generateTemplateFiles([
         },
     },
     {
-        option: 'Enum',
+        optionName: 'Enum',
         defaultCase: '(pascalCase)',
         entry: {
             folderPath: './tools/templates/react/__enum__Enum.ts',

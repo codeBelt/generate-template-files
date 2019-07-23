@@ -37,7 +37,7 @@ const config = require('../package.json');
 
 generateTemplateFiles([
     {
-        option: 'Create Redux Store',
+        optionName: 'Create Redux Store',
         defaultCase: '(pascalCase)',
         entry: {
             folderPath: './tools/templates/react/redux-store/',
@@ -49,16 +49,13 @@ generateTemplateFiles([
         },
     },
     {
-        option: 'Create Reduce Action',
+        optionName: 'Create Reduce Action',
         defaultCase: '(pascalCase)',
         entry: {
             folderPath: './tools/templates/react/redux-store/__store__Action.ts',
         },
         stringReplacers: ['__store__', '__model__'],
-        dynamicReplacers: [
-            {slot:'__version__', slotValue: config.version},
-            {slot:'__description__', slotValue: config.description}
-        ],
+        dynamicReplacers: [{slot: '__version__', slotValue: config.version}, {slot: '__description__', slotValue: config.description}],
         output: {
             path: './src/stores/__store__/__store__(lowerCase)/__store__(pascalCase)Action.ts',
             pathAndFileNameDefaultCase: '(kebabCase)',
@@ -88,7 +85,7 @@ The `generateTemplateFiles` function takes an array of `IConfigItem` items.
 
 #### `IConfigItem`
 
--   `option` - The name of the option to choose when asked.
+-   `optionName` - The name of the option to choose when asked.
 -   `defaultCase` - The default [Case Converters](#case-converters) to use with the [Replacer Slots](#replacer-slots) in the template files. Default is `(noCase)`.
 -   `entry.folderPath` - Path to a folder of files or a single template file.
 -   `stringReplacers` - An array of [Replacer Slots](#replacer-slots) used to replace content in the designated `entry.folderPath`.
@@ -101,7 +98,7 @@ The `generateTemplateFiles` function takes an array of `IConfigItem` items.
 
 ```javascript
 {
-    option: 'Create Redux Store',
+    optionName: 'Create Redux Store',
     defaultCase: '(pascalCase)',
     entry: {
         folderPath: './tools/templates/react/redux-store/',

@@ -29,7 +29,7 @@ export default interface IConfigItem {
      * option: 'Some Option Name',
      * ```
      */
-    option: string;
+    optionName: string;
     /**
      * The default [Case Converters](#case-converters) to use with the [Replacer Slots](#replacer-slots) in the template files or path/file name. Default is `(noCase)`.
      *

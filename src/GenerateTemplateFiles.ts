@@ -61,7 +61,7 @@ export default class GenerateTemplateFiles {
 
         let i = 1;
         for (const option of options) {
-            console.log(BRIGHT_CYAN_ANSI_CODE, `Processing ${i} of ${options.length}: ${option.option}`);
+            console.log(BRIGHT_CYAN_ANSI_CODE, `Processing ${i} of ${options.length}: ${option.optionName}`);
             const outputPath: string = await this._getOutputPath(outputPathReplacers, option);
             const shouldWriteFiles: boolean = await this._shouldWriteFiles(outputPath);
 
@@ -94,7 +94,7 @@ export default class GenerateTemplateFiles {
             type: 'autocomplete',
             name: 'optionChoice',
             message: 'What do you want to generate?',
-            choices: options.map((configItem: IConfigItem) => configItem.option),
+            choices: options.map((configItem: IConfigItem) => configItem.optionName),
             suggest(input: string, choices: string[]) {
                 return choices.filter((choice: any) => {
                     return choice.message.toLowerCase().startsWith(input.toLowerCase());
@@ -103,7 +103,7 @@ export default class GenerateTemplateFiles {
         };
         const templateAnswers: {optionChoice: string} = await enquirer.prompt(templateQuestions);
 
-        return options.find((item: IConfigItem) => item.option === templateAnswers.optionChoice) as IConfigItem;
+        return options.find((item: IConfigItem) => item.optionName === templateAnswers.optionChoice) as IConfigItem;
     }
 
     /**
