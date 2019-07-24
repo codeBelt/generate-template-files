@@ -16,6 +16,11 @@ export type IReplacer = IReplacerDefault;
 /**
  * Main method to create your template files. Accepts an array of `IConfigItem` items.
  */
-export function generateTemplateFiles(data: IConfigItem[]): Promise<void> {
-    return new GenerateTemplateFiles().generate(data);
+export function generateTemplateFiles(data: IConfigItem[], shouldGenerateAll: boolean = false): Promise<void> {
+    if (data.length > 0) {
+        return shouldGenerateAll ? new GenerateTemplateFiles().generateAll(data) : new GenerateTemplateFiles().generate(data);
+    }
+
+    console.error('No config items found.');
+    return Promise.reject();
 }

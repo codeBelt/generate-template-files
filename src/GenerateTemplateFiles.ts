@@ -43,6 +43,50 @@ export default class GenerateTemplateFiles {
     }
 
     /**
+     * Method to create all template files from `IConfigItem` items array at once,
+     * rather than allowing the user to select and process only a single option.
+     * Accepts an array of `IConfigItem` items.
+     */
+    public async generateAll(options: IConfigItem[]): Promise<void> {
+        const BRIGHT_CYAN_ANSI_CODE = '\x1b[1m\x1b[36m%s\x1b[0m';
+        const GREEN_ANSI_CODE = '\x1b[32m%s\x1b[0m';
+
+        const seedOption = options[0];
+
+        /* Only get these values once - use them to seed the rest of the template options */
+        const answeredReplacers: IReplacer[] = await this._getReplacerSlotValues(seedOption);
+        const {contentCase, outputPathCase} = this._getDefaultCaseConverters(seedOption);
+        const contentReplacers: IReplacer[] = this._getReplacers(answeredReplacers, contentCase);
+        const outputPathReplacers: IReplacer[] = this._getReplacers(answeredReplacers, outputPathCase);
+
+        let i = 1;
+        for (const option of options) {
+            console.log(BRIGHT_CYAN_ANSI_CODE, `Processing ${i} of ${options.length}: ${option.option}`);
+            const outputPath: string = await this._getOutputPath(outputPathReplacers, option);
+            const shouldWriteFiles: boolean = await this._shouldWriteFiles(outputPath);
+
+            if (shouldWriteFiles === false) {
+                console.info('No new files created');
+
+                break;
+            }
+
+            const outputtedFilesAndFolders: string[] = await this._createFiles(
+                answeredReplacers,
+                outputPathReplacers,
+                contentReplacers,
+                outputPath,
+                option.entry.folderPath
+            );
+
+            this._onComplete(option, outputPath, outputtedFilesAndFolders, answeredReplacers);
+            i += 1;
+        }
+
+        console.log(GREEN_ANSI_CODE, '...Done!');
+    }
+
+    /**
      * Ask what template options the user wants to use
      */
     private async _getSelectedItem(options: IConfigItem[]): Promise<IConfigItem> {
