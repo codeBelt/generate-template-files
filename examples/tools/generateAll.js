@@ -13,7 +13,7 @@ generateTemplateFiles([
         },
     },
     {
-        option: 'Create create new C# API',
+        option: 'Create new C# API',
         defaultCase: '(upperCase)',
         entry: {
             folderPath: './templates/new-service-cs-api/',
