@@ -52,7 +52,9 @@
             <div class="tsd-page-title">
                 <div class="container">
                     <ul class="tsd-breadcrumb">
-                        <li><a href="globals.html">Globals</a></li>
+                        <li>
+                            <a href="globals.html">Globals</a>
+                        </li>
                     </ul>
                     <h1>generate-template-files</h1>
                 </div>
@@ -62,7 +64,13 @@
             <div class="row">
                 <div class="col-8 col-content">
                     <div class="tsd-panel tsd-typography">
-                        <h1 id="generate-template-files"><code>generate-template-files</code></h1>
+                        <a
+                            href="#codegenerate-template-filescode"
+                            id="codegenerate-template-filescode"
+                            style="color: inherit; text-decoration: none;"
+                        >
+                            <h1><code>generate-template-files</code></h1>
+                        </a>
                         <p>
                             <a href="https://npmjs.org/package/generate-template-files"
                                 ><img src="http://img.shields.io/npm/v/generate-template-files.svg?style=flat-square" alt="NPM version"
@@ -76,14 +84,26 @@
                             code files that you need to create over and over again. All you need is <a href="https://nodejs.org">NodeJS</a> installed
                             to get started.
                         </p>
-                        <blockquote><p>Find this useful? Give it a :star:</p></blockquote>
+                        <blockquote>
+                            <p>Find this useful? Give it a :star:</p>
+                        </blockquote>
                         <p><img src="./examples/generate.gif" alt="gif image created with licecap" /></p>
-                        <h2 id="install">Install</h2>
+                        <p>
+                            Medium Article -
+                            <a href="https://medium.com/@robertsavian/generate-template-files-with-ease-19b320615359"
+                                >Generate Template Files with Ease</a
+                            >
+                        </p>
+                        <a href="#install" id="install" style="color: inherit; text-decoration: none;">
+                            <h2>Install</h2>
+                        </a>
                         <p>With <a href="http://npmjs.com">NPM</a>:</p>
                         <pre><code class="language-command">$ npm install generate-template-files</code></pre>
                         <p>With <a href="https://yarnpkg.com">Yarn</a>:</p>
                         <pre><code class="language-command">$ yarn add generate-template-files</code></pre>
-                        <h2 id="usage">Usage</h2>
+                        <a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+                            <h2>Usage</h2>
+                        </a>
                         <ol>
                             <li>
                                 Check out the <code>examples</code> folder or create a file called <code>generate.js</code>. Note that this file name
@@ -95,6 +115,8 @@
                             </li>
                         </ol>
                         <pre><code class="language-js"><span class="hljs-keyword">const</span> {generateTemplateFiles} = <span class="hljs-built_in">require</span>(<span class="hljs-string">'generate-template-files'</span>);
+
+<span class="hljs-keyword">const</span> config = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../package.json'</span>);
 
 generateTemplateFiles([
     {
@@ -108,9 +130,6 @@ generateTemplateFiles([
             <span class="hljs-attr">path</span>: <span class="hljs-string">'./src/stores/__store__(lowerCase)'</span>,
             <span class="hljs-attr">pathAndFileNameDefaultCase</span>: <span class="hljs-string">'(kebabCase)'</span>,
         },
-        <span class="hljs-attr">onComplete</span>: <span class="hljs-function">(<span class="hljs-params">results</span>) =&gt;</span> {
-            <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`results`</span>, results);
-        },
     },
     {
         <span class="hljs-attr">option</span>: <span class="hljs-string">'Create Reduce Action'</span>,
@@ -119,9 +138,16 @@ generateTemplateFiles([
             <span class="hljs-attr">folderPath</span>: <span class="hljs-string">'./tools/templates/react/redux-store/__store__Action.ts'</span>,
         },
         <span class="hljs-attr">stringReplacers</span>: [<span class="hljs-string">'__store__'</span>, <span class="hljs-string">'__model__'</span>],
+        <span class="hljs-attr">dynamicReplacers</span>: [
+            {<span class="hljs-attr">slot</span>:<span class="hljs-string">'__version__'</span>, <span class="hljs-attr">slotValue</span>: config.version},
+            {<span class="hljs-attr">slot</span>:<span class="hljs-string">'__description__'</span>, <span class="hljs-attr">slotValue</span>: config.description}
+        ],
         <span class="hljs-attr">output</span>: {
             <span class="hljs-attr">path</span>: <span class="hljs-string">'./src/stores/__store__/__store__(lowerCase)/__store__(pascalCase)Action.ts'</span>,
             <span class="hljs-attr">pathAndFileNameDefaultCase</span>: <span class="hljs-string">'(kebabCase)'</span>,
+        },
+        <span class="hljs-attr">onComplete</span>: <span class="hljs-function">(<span class="hljs-params">results</span>) =&gt;</span> {
+            <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`results`</span>, results);
         },
     },
 ]);</code></pre>
@@ -139,9 +165,13 @@ generateTemplateFiles([
    ┗━ templates/
       ┣━ <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">SomeFile</span>.</span></span>js
       ┗━ <span class="hljs-constructor">__name__(<span class="hljs-params">pascalCase</span>)</span><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Action</span>.</span></span>ts</code></pre>
-                        <h2 id="api">API</h2>
+                        <a href="#api" id="api" style="color: inherit; text-decoration: none;">
+                            <h2>API</h2>
+                        </a>
                         <p>The <code>generateTemplateFiles</code> function takes an array of <code>IConfigItem</code> items.</p>
-                        <h4 id="iconfigitem"><code>IConfigItem</code></h4>
+                        <a href="#codeiconfigitemcode" id="codeiconfigitemcode" style="color: inherit; text-decoration: none;">
+                            <h4><code>IConfigItem</code></h4>
+                        </a>
                         <ul>
                             <li><code>option</code> - The name of the option to choose when asked.</li>
                             <li>
@@ -154,6 +184,10 @@ generateTemplateFiles([
                                 designated <code>entry.folderPath</code>.
                             </li>
                             <li>
+                                <code>dynamicReplacers</code> - (Optional) An array of IReplacer used to replace content in the designated
+                                <code>entry.folderPath</code>.
+                            </li>
+                            <li>
                                 <code>output.path</code> - The desired output path for generated files.
                                 <a href="#case-converters">Case Converters</a> and <a href="#replacer-slots">Replacer Slots</a> can be used to make
                                 the path somewhat dynamic.
@@ -163,11 +197,13 @@ generateTemplateFiles([
                                 file path and file name(s).
                             </li>
                             <li>
-                                <code>onComplete</code> - <code>optional</code> Takes a callback function that is called once the file(s) have been
-                                outputted. A <a href="#iresults">IResults</a> object will be passed to the callback.
+                                <code>onComplete</code> - (Optional) Takes a callback function that is called once the file(s) have been outputted. A
+                                <a href="#iresults">IResults</a> object will be passed to the callback.
                             </li>
                         </ul>
-                        <h6 id="example">Example</h6>
+                        <a href="#example" id="example" style="color: inherit; text-decoration: none;">
+                            <h6>Example</h6>
+                        </a>
                         <pre><code class="language-javascript">{
     <span class="hljs-attr">option</span>: <span class="hljs-string">'Create Redux Store'</span>,
     <span class="hljs-attr">defaultCase</span>: <span class="hljs-string">'(pascalCase)'</span>,
@@ -175,6 +211,10 @@ generateTemplateFiles([
         <span class="hljs-attr">folderPath</span>: <span class="hljs-string">'./tools/templates/react/redux-store/'</span>,
     },
     <span class="hljs-attr">stringReplacers</span>: [<span class="hljs-string">'__store__'</span>, <span class="hljs-string">'__model__'</span>],
+    <span class="hljs-attr">dynamicReplacers</span>: [
+        {<span class="hljs-attr">slot</span>:<span class="hljs-string">'__version__'</span>, <span class="hljs-attr">slotValue</span>: config.version},
+        {<span class="hljs-attr">slot</span>:<span class="hljs-string">'__description__'</span>, <span class="hljs-attr">slotValue</span>: config.description}
+    ],
     <span class="hljs-attr">output</span>: {
         <span class="hljs-attr">path</span>: <span class="hljs-string">'./src/stores/__store__(lowerCase)'</span>,
         <span class="hljs-attr">pathAndFileNameDefaultCase</span>: <span class="hljs-string">'(kebabCase)'</span>,
@@ -183,10 +223,12 @@ generateTemplateFiles([
         <span class="hljs-built_in">console</span>.log(results);
     },
 },</code></pre>
-                        <h4 id="iresults"><code>IResults</code></h4>
+                        <a href="#codeiresultscode" id="codeiresultscode" style="color: inherit; text-decoration: none;">
+                            <h4><code>IResults</code></h4>
+                        </a>
                         <p>
                             Below is an example of what you receive from the <code>onComplete</code> callback. It has the output path, list of files
-                            and folders created and the <a href="#replacer-slots">Replacer Slots</a> with the value entered.
+                            created and the <a href="#replacer-slots">Replacer Slots</a> with the value entered.
                         </p>
                         <ul>
                             <li><code>output.path</code> - The file(s) output path</li>
@@ -196,7 +238,13 @@ generateTemplateFiles([
                                 the setup process
                             </li>
                         </ul>
-                        <h6 id="example">Example</h6>
+                        <a
+                            href="#example-data-you-would-get-from-the-oncomplate-callback"
+                            id="example-data-you-would-get-from-the-oncomplate-callback"
+                            style="color: inherit; text-decoration: none;"
+                        >
+                            <h6>Example data you would get from the onComplate callback</h6>
+                        </a>
                         <pre><code class="language-javascript">{
     <span class="hljs-attr">output</span>: {
         <span class="hljs-attr">path</span>: <span class="hljs-string">'./src/stores/some-thing'</span>,
@@ -221,7 +269,9 @@ generateTemplateFiles([
         }
     ]
 }</code></pre>
-                        <h3 id="replacer-slots">Replacer Slots</h3>
+                        <a href="#replacer-slots" id="replacer-slots" style="color: inherit; text-decoration: none;">
+                            <h3>Replacer Slots</h3>
+                        </a>
                         <p><a href="#replacer-slots">Replacer Slots</a> are unique string value(s) to be replaced by the generator.</p>
                         <p>For example you can use something like this in your template files and/or in the file path names.</p>
                         <ul>
@@ -229,7 +279,9 @@ generateTemplateFiles([
                             <li><code>{{something else}}</code></li>
                             <li><code>__AnythingYouWant__</code></li>
                         </ul>
-                        <h3 id="case-converters">Case Converters</h3>
+                        <a href="#case-converters" id="case-converters" style="color: inherit; text-decoration: none;">
+                            <h3>Case Converters</h3>
+                        </a>
                         <p><a href="#case-converters">Case Converters</a> transform the string value entered upon use of the generator.</p>
                         <p>Example</p>
                         <ul>
@@ -291,8 +343,12 @@ generateTemplateFiles([
                             <li class=" tsd-kind-interface">
                                 <a href="interfaces/idefaultcaseconverter.html" class="tsd-kind-icon">IDefault<wbr />Case<wbr />Converter</a>
                             </li>
-                            <li class=" tsd-kind-interface"><a href="interfaces/ireplacer.html" class="tsd-kind-icon">IReplacer</a></li>
-                            <li class=" tsd-kind-interface"><a href="interfaces/iresults.html" class="tsd-kind-icon">IResults</a></li>
+                            <li class=" tsd-kind-interface">
+                                <a href="interfaces/ireplacer.html" class="tsd-kind-icon">IReplacer</a>
+                            </li>
+                            <li class=" tsd-kind-interface">
+                                <a href="interfaces/iresults.html" class="tsd-kind-icon">IResults</a>
+                            </li>
                             <li class=" tsd-kind-function">
                                 <a href="globals.html#generatetemplatefiles" class="tsd-kind-icon">generate<wbr />Template<wbr />Files</a>
                             </li>
@@ -313,6 +369,7 @@ generateTemplateFiles([
                         <li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
                         <li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
                         <li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+                        <li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
                     </ul>
                     <ul class="tsd-legend">
                         <li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -371,7 +428,7 @@ generateTemplateFiles([
             </div>
         </footer>
         <div class="container tsd-generator">
-            <p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+            <p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
         </div>
         <div class="overlay"></div>
         <script src="assets/js/main.js"></script>
