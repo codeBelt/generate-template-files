@@ -1,7 +1,7 @@
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 import __store__Action from './__store__Action';
-import __store__Effects from './__store__Effects';
+import __store__Effect from './__store__Effect';
 import __model__ResponseModel from './models/__model__(kebabCase)/__model__ResponseModel';
 
 describe('__store__Action', () => {
@@ -18,7 +18,7 @@ describe('__store__Action', () => {
         it('has a successful response', async () => {
             const expectedResponse = new __model__ResponseModel({});
 
-            jest.spyOn(__store__Effects, 'fetch__model__').mockImplementation(() => expectedResponse);
+            jest.spyOn(__store__Effect, 'fetch__model__').mockImplementation(() => expectedResponse);
 
             await store.dispatch(__store__Action.fetch__model__());
 
@@ -38,7 +38,7 @@ describe('__store__Action', () => {
         it('has a error response', async () => {
             const expectedResponse = new HttpErrorResponseModel();
 
-            jest.spyOn(__store__Effects, 'fetch__model__').mockImplementation(() => expectedResponse);
+            jest.spyOn(__store__Effect, 'fetch__model__').mockImplementation(() => expectedResponse);
 
             await store.dispatch(__store__Action.fetch__model__());
 

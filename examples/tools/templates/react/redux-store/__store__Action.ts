@@ -1,5 +1,5 @@
 import __model__ResponseModel from './models/__model__(kebabCase)/__model__ResponseModel';
-import __store__Effects from './__store__Effects';
+import __store__Effect from './__store__Effect';
 
 export type __store__ActionUnion = void | __model__ResponseModel;
 
@@ -11,7 +11,7 @@ export default class __store__Action {
         return async (dispatch, getState) => {
             dispatch({type: __store__Action.REQUEST___model__(constantCase)});
 
-            const model: __model__ResponseModel | HttpErrorResponseModel = await __store__Effects.fetch__model__();
+            const model: __model__ResponseModel | HttpErrorResponseModel = await __store__Effect.fetch__model__();
 
             dispatch(__store__Action.fetch__model__Finished(model));
         };
