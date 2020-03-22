@@ -56,8 +56,8 @@ generateTemplateFiles([
         },
         stringReplacers: ['__store__', '__model__'],
         dynamicReplacers: [
-            {slot:'__version__', slotValue: config.version},
-            {slot:'__description__', slotValue: config.description}
+            {slot: '__version__', slotValue: config.version},
+            {slot: '__description__', slotValue: config.description},
         ],
         output: {
             path: './src/stores/__store__/__store__(lowerCase)/__store__(pascalCase)Action.ts',
