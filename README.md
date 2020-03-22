@@ -91,6 +91,7 @@ The `generateTemplateFiles` function takes an array of `IConfigItem` items.
 -   `option` - The name of the option to choose when asked.
 -   `defaultCase` - The default [Case Converters](#case-converters) to use with the [Replacer Slots](#replacer-slots) in the template files. Default is `(noCase)`.
 -   `entry.folderPath` - Path to a folder of files or a single template file.
+
 -   `stringReplacers` - An array of [Replacer Slots](#replacer-slots) used to replace content in the designated `entry.folderPath`.
 -   `dynamicReplacers` - (Optional) An array of IReplacer used to replace content in the designated `entry.folderPath`.
 -   `output.path` - The desired output path for generated files. [Case Converters](#case-converters) and [Replacer Slots](#replacer-slots) can be used to make the path somewhat dynamic.

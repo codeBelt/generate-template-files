@@ -101,4 +101,22 @@ describe('StringUtility', () => {
             });
         });
     });
+
+    describe('isString', () => {
+        it('should return true.', () => {
+            const actualResult = StringUtility.isString('str');
+            const expectedResult = true;
+
+            expect(actualResult).toBe(expectedResult);
+        });
+
+        it('should return false.', () => {
+            const falseItems = [undefined, null, true, false, 0, 1, {}, {prop: 'data'}];
+            const expectedResult = false;
+
+            falseItems.forEach((value) => {
+                expect(StringUtility.isString(value)).toEqual(expectedResult);
+            });
+        });
+    });
 });

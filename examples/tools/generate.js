@@ -15,7 +15,7 @@ generateTemplateFiles([
         entry: {
             folderPath: './tools/templates/angular/ngrx-store/',
         },
-        stringReplacers: ['__name__', '__model__'],
+        stringReplacers: ['__name__', { question: 'Insert model name', value: '__model__' }],
         dynamicReplacers: [
             {slot:'__version__', slotValue: config.version},
             {slot:'__description__', slotValue: config.description}

@@ -152,4 +152,16 @@ export default class StringUtility {
 
         return sentence.charAt(0).toUpperCase() + sentence.substr(1).toLowerCase();
     }
+
+    /**
+     * Determines if the value is a string value
+     *
+     * ```
+     * StringUtility.isString('livesDown_by-the.River');
+     * // true
+     * ```
+     */
+    public static isString(value: unknown): value is string {
+        return typeof value === 'string';
+    }
 }
