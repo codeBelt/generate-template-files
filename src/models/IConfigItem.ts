@@ -1,6 +1,7 @@
 import CaseConverterEnum from '../constants/CaseConverterEnum';
 import IResults from './IResults';
 import IReplacer from './IReplacer';
+import IReplacerSlotQuestion from './IReplacerSlotQuestion';
 
 /**
  * ```
@@ -53,7 +54,7 @@ export default interface IConfigItem {
      * stringReplacers: ['__store__', '__model__'],
      * ```
      */
-    stringReplacers: string[];
+    stringReplacers: (string | IReplacerSlotQuestion)[];
     /**
      * ```
      * dynamicReplacers: [{slot:'__description__', slotValue: config.description}],
