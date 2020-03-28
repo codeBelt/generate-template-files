@@ -89,12 +89,12 @@ The `generateTemplateFiles` function takes an array of `IConfigItem` items.
 #### `IConfigItem`
 
 -   `option` - The name of the option to choose when asked.
--   `defaultCase` - The default [Case Converters](#case-converters) to use with the [Replacer Slots](#replacer-slots) in the template files. Default is `(noCase)`.
+-   `defaultCase` - The default [Case Converters](#case-converters) to use with the [Replacer Slots](#replacer-slots-or-ireplacerslotquestion) in the template files. Default is `(noCase)`.
 -   `entry.folderPath` - Path to a folder of files or a single template file.
 
--   `stringReplacers` - An array of [Replacer Slots](#replacer-slots) used to replace content in the designated `entry.folderPath`.
+-   `stringReplacers` - An array of [Replacer Slots](#replacer-slots-or-ireplacerslotquestion) used to replace content in the designated `entry.folderPath`.
 -   `dynamicReplacers` - (Optional) An array of IReplacer used to replace content in the designated `entry.folderPath`.
--   `output.path` - The desired output path for generated files. [Case Converters](#case-converters) and [Replacer Slots](#replacer-slots) can be used to make the path somewhat dynamic.
+-   `output.path` - The desired output path for generated files. [Case Converters](#case-converters) and [Replacer Slots](#replacer-slots-or-ireplacerslotquestion) can be used to make the path somewhat dynamic.
 -   `output.pathAndFileNameDefaultCase` - The [Case Converters](#case-converters) to use for the file path and file name(s).
 -   `onComplete` - (Optional) Takes a callback function that is called once the file(s) have been outputted. A [IResults](#iresults) object will be passed to the callback.
 
@@ -124,13 +124,13 @@ The `generateTemplateFiles` function takes an array of `IConfigItem` items.
 
 #### `IResults`
 
-Below is an example of what you receive from the `onComplete` callback. It has the output path, list of files created and the [Replacer Slots](#replacer-slots) with the value entered.
+Below is an example of what you receive from the `onComplete` callback. It has the output path, list of files created and the [Replacer Slots](#replacer-slots-or-ireplacerslotquestion) with the value entered.
 
 -   `output.path` - The file(s) output path
 -   `output.files` - List of files created
--   `stringReplacers` - List of [Replacer Slots](#replacer-slots); name and values entered during the setup process
+-   `stringReplacers` - List of [Replacer Slots](#replacer-slots-or-ireplacerslotquestion); name and values entered during the setup process
 
-###### Example data you would get from the onComplate callback
+###### Example data you would get from the onComplete callback
 
 ```javascript
 {
@@ -161,7 +161,7 @@ Below is an example of what you receive from the `onComplete` callback. It has t
 
 ### Replacer Slots or IReplacerSlotQuestion
 
-[Replacer Slots](#replacer-slots) are unique string value(s) to be replaced by the generator. An array of string values and/or `IReplacerSlotQuestion` objects can be used.
+[Replacer Slots](#replacer-slots-or-ireplacerslotquestion) are unique string value(s) to be replaced by the generator. An array of string values and/or `IReplacerSlotQuestion` objects can be used.
 
 ```javascript
 stringReplacers: ['__store__', {question: 'Insert model name', slot: '__model__'}];
@@ -197,7 +197,7 @@ Here is the string `Lives down BY the River` with each of the converters:
     (snakeCase)     // lives_down_by_the_river
     (titleCase)     // Lives Down By The River
 
-One Rule: no spaces between the [Replacer Slots](#replacer-slots) and [Case Converters](#case-converters). If there is a space, [Case Converters](#case-converters) will not work.
+One Rule: no spaces between the [Replacer Slots](#replacer-slots-or-ireplacerslotquestion) and [Case Converters](#case-converters). If there is a space, [Case Converters](#case-converters) will not work.
 
 -   :white_check_mark: `__name__(camelCase)`
 -   :warning: `__name__ (camelCase)`
