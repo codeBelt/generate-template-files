@@ -11,7 +11,7 @@ import IReplacer from './models/IReplacer';
 import IResults from './models/IResults';
 import IDefaultCaseConverter from './models/IDefaultCaseConverter';
 import CheckUtility from './utilities/CheckUtility';
-import IStringReplacerQuestion from './models/IStringReplacerQuestion';
+import IReplacerSlotQuestion from './models/IReplacerSlotQuestion';
 
 export default class GenerateTemplateFiles {
     /**
@@ -83,7 +83,7 @@ export default class GenerateTemplateFiles {
      * New question asking what should text should be used to replace the template text.
      */
     private async _getReplacerSlotValues(selectedConfigItem: IConfigItem): Promise<IReplacer[]> {
-        const replacerQuestions: any[] = selectedConfigItem.stringReplacers.map((item: string | IStringReplacerQuestion) => {
+        const replacerQuestions: any[] = selectedConfigItem.stringReplacers.map((item: string | IReplacerSlotQuestion) => {
             return {
                 type: 'input',
                 name: StringUtility.isString(item) ? item : item.slot,

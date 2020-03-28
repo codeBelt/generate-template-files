@@ -4,7 +4,7 @@ import StringUtilityDefault from './utilities/StringUtility';
 import CaseConverterEnumDefault from './constants/CaseConverterEnum';
 import IResultsDefault from './models/IResults';
 import IReplacerDefault from './models/IReplacer';
-import IStringReplacerQuestionDefault from './models/IStringReplacerQuestion';
+import IReplacerSlotQuestionDefault from './models/IReplacerSlotQuestion';
 
 export {StringUtilityDefault as StringUtility};
 export {CaseConverterEnumDefault as CaseConverterEnum};
@@ -13,7 +13,7 @@ export {CaseConverterEnumDefault as CaseConverterEnum};
 export type IResults = IResultsDefault;
 export type IConfigItem = IConfigItemDefault;
 export type IReplacer = IReplacerDefault;
-export type IStringReplacerQuestion = IStringReplacerQuestionDefault;
+export type IReplacerSlotQuestion = IReplacerSlotQuestionDefault;
 
 /**
  * Main method to create your template files. Accepts an array of `IConfigItem` items.
