@@ -42,7 +42,7 @@ generateTemplateFiles([
         entry: {
             folderPath: './tools/templates/react/redux-store/',
         },
-        stringReplacers: ['__store__', '__model__'],
+        stringReplacers: ['__store__', {question: 'Insert model name', slot: '__model__'}],
         output: {
             path: './src/stores/__store__(lowerCase)',
             pathAndFileNameDefaultCase: '(kebabCase)',
@@ -107,7 +107,7 @@ The `generateTemplateFiles` function takes an array of `IConfigItem` items.
     entry: {
         folderPath: './tools/templates/react/redux-store/',
     },
-    stringReplacers: ['__store__', '__model__'],
+    stringReplacers: ['__store__', { question: 'Insert model name', slot: '__model__' }],
     dynamicReplacers: [
         {slot:'__version__', slotValue: config.version},
         {slot:'__description__', slotValue: config.description}
@@ -159,11 +159,15 @@ Below is an example of what you receive from the `onComplete` callback. It has t
 }
 ```
 
-### Replacer Slots
+### Replacer Slots or IReplacerSlotQuestion
 
-[Replacer Slots](#replacer-slots) are unique string value(s) to be replaced by the generator.
+[Replacer Slots](#replacer-slots) are unique string value(s) to be replaced by the generator. An array of string values and/or `IReplacerSlotQuestion` objects can be used.
 
-For example you can use something like this in your template files and/or in the file path names.
+```javascript
+stringReplacers: ['__store__', {question: 'Insert model name', slot: '__model__'}];
+```
+
+Replacer slot can be any string value you want to use. You can use something like this in your template files and/or in the file path names.
 
 -   `~replacerSlot~`
 -   `{{something else}}`
