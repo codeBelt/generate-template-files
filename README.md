@@ -175,7 +175,7 @@ Replacer slot can be any string value you want to use. You can use something lik
 
 #### `IReplacerSlotQuestion`
 
-Below is an example of what you receive from the `onComplete` callback.
+Below is an example of a `IReplacerSlotQuestion`
 
 ```javascript
 {question: 'Insert model name', slot: '__model__'}
