@@ -173,6 +173,17 @@ Replacer slot can be any string value you want to use. You can use something lik
 -   `{{something else}}`
 -   `__AnythingYouWant__`
 
+#### `IReplacerSlotQuestion`
+
+Below is an example of what you receive from the `onComplete` callback.
+
+```javascript
+{question: 'Insert model name', slot: '__model__'}
+```
+
+-   `question` - The question to ask the use what value should be used for the replacer `slot`
+-   `slot` - The string value for the [Replacer Slots](#replacer-slots-or-ireplacerslotquestion)
+
 ### Case Converters
 
 [Case Converters](#case-converters) transform the string value entered upon use of the generator.
