@@ -86,7 +86,7 @@ export default class GenerateTemplateFiles {
         const replacerQuestions: any[] = selectedConfigItem.stringReplacers.map((item: string | IStringReplacerQuestion) => {
             return {
                 type: 'input',
-                name: StringUtility.isString(item) ? item : item.value,
+                name: StringUtility.isString(item) ? item : item.slot,
                 message: StringUtility.isString(item) ? `Replace ${item} with` : item.question,
                 validate: (replacerSlotValue: string) => {
                     const isValid: boolean = Boolean(replacerSlotValue.trim());
