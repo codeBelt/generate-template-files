@@ -83,7 +83,8 @@ export default class GenerateTemplateFiles {
      * New question asking what should text should be used to replace the template text.
      */
     private async _getReplacerSlotValues(selectedConfigItem: IConfigItem): Promise<IReplacer[]> {
-        const replacerQuestions: any[] = selectedConfigItem.stringReplacers.map((item: string | IReplacerSlotQuestion) => {
+        const stringReplacers: (string | IReplacerSlotQuestion)[] = selectedConfigItem.stringReplacers ?? [];
+        const replacerQuestions: any[] = stringReplacers.map((item: string | IReplacerSlotQuestion) => {
             return {
                 type: 'input',
                 name: StringUtility.isString(item) ? item : item.slot,
@@ -98,8 +99,6 @@ export default class GenerateTemplateFiles {
 
         const answer: {[replacer: string]: string} = await enquirer.prompt(replacerQuestions);
 
-        CheckUtility.check(Object.keys(answer).length > 0, '"stringReplacers" needs at least one item.');
-
         const replacers: IReplacer[] = Object.entries(answer).map(
             ([key, value]: [string, string]): IReplacer => {
                 return {
@@ -109,6 +108,10 @@ export default class GenerateTemplateFiles {
             }
         );
         const dynamicReplacers: IReplacer[] = selectedConfigItem.dynamicReplacers || [];
+
+        const hasStringOrDynamicReplacers: boolean = stringReplacers.length > 0 || dynamicReplacers.length > 0;
+
+        CheckUtility.check(hasStringOrDynamicReplacers, '"stringReplacers" or "dynamicReplacers" needs at least one item.');
 
         return [...replacers, ...dynamicReplacers];
     }
