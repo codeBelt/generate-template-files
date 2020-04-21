@@ -54,7 +54,7 @@ export default interface IConfigItem {
      * stringReplacers: ['__store__', '__model__'],
      * ```
      */
-    stringReplacers: (string | IReplacerSlotQuestion)[];
+    stringReplacers?: (string | IReplacerSlotQuestion)[];
     /**
      * ```
      * dynamicReplacers: [{slot:'__description__', slotValue: config.description}],
