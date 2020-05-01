@@ -32,6 +32,14 @@ export default interface IConfigItem {
      */
     option: string;
     /**
+     * The option name's alias. You should use this alias with the command line mode.
+     *
+     * ```
+     * option: 'mycommand',
+     * ```
+     */
+    alias: string;
+    /**
      * The default [Case Converters](#case-converters) to use with the [Replacer Slots](#replacer-slots) in the template files or path/file name. Default is `(noCase)`.
      *
      * ```

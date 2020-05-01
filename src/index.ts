@@ -19,5 +19,5 @@ export type IReplacerSlotQuestion = IReplacerSlotQuestionDefault;
  * Main method to create your template files. Accepts an array of `IConfigItem` items.
  */
 export function generateTemplateFiles(data: IConfigItem[]): Promise<void> {
-    return new GenerateTemplateFiles().generate(data);
+    return new GenerateTemplateFiles().generate(data, process.argv.slice(2));
 }

@@ -10,21 +10,40 @@ import IConfigItem from './models/IConfigItem';
 import IReplacer from './models/IReplacer';
 import IResults from './models/IResults';
 import IDefaultCaseConverter from './models/IDefaultCaseConverter';
-import CheckUtility from './utilities/CheckUtility';
 import IReplacerSlotQuestion from './models/IReplacerSlotQuestion';
+import IMainParams from './models/IMainParams';
+import CheckUtility from './utilities/CheckUtility';
+import {EMode} from './enums/EMode.enum';
 
 export default class GenerateTemplateFiles {
+    private mode: EMode = EMode.prompt;
+
     /**
-     * Main method to create your template files. Accepts an array of `IConfigItem` items.
+     * Main method to create your template files. Accepts an array of `IConfigItem` items and
      */
-    public async generate(options: IConfigItem[]): Promise<void> {
-        const selectedConfigItem: IConfigItem = await this._getSelectedItem(options);
-        const answeredReplacers: IReplacer[] = await this._getReplacerSlotValues(selectedConfigItem);
-        const {contentCase, outputPathCase} = this._getDefaultCaseConverters(selectedConfigItem);
-        const contentReplacers: IReplacer[] = this._getReplacers(answeredReplacers, contentCase);
-        const outputPathReplacers: IReplacer[] = this._getReplacers(answeredReplacers, outputPathCase);
-        const outputPath: string = await this._getOutputPath(outputPathReplacers, selectedConfigItem);
-        const shouldWriteFiles: boolean = await this._shouldWriteFiles(outputPath);
+    public async generate(options: IConfigItem[], commandLineArgs: string[]): Promise<void> {
+        if (commandLineArgs.length) {
+            this.mode = EMode.commandLine;
+        }
+
+        let selectedConfigItem: IConfigItem,
+            answeredReplacers: IReplacer[],
+            outputPathReplacers: IReplacer[],
+            contentReplacers: IReplacer[],
+            outputPath: string,
+            shouldWriteFiles: boolean,
+            forceWrite: boolean | undefined;
+
+        try {
+            ({selectedConfigItem, answeredReplacers, outputPathReplacers, contentReplacers, outputPath, forceWrite} =
+                this.mode === EMode.prompt ? await this._promptMode(options) : await this._commandLineMode(options, commandLineArgs));
+
+            shouldWriteFiles = await this._shouldWriteFiles(outputPath, forceWrite);
+        } catch (err) {
+            console.error(err.message ? err.message : 'An error has occured');
+
+            return;
+        }
 
         if (shouldWriteFiles === false) {
             console.info('No new files created');
@@ -41,6 +60,103 @@ export default class GenerateTemplateFiles {
         );
 
         this._onComplete(selectedConfigItem, outputPath, outputtedFilesAndFolders, answeredReplacers);
+    }
+
+    /**
+     */
+    private async _promptMode(configItems: IConfigItem[]): Promise<IMainParams> {
+        const selectedConfigItem: IConfigItem = await this._getSelectedItem(configItems);
+        const answeredReplacers: IReplacer[] = await this._getReplacerSlotValues(selectedConfigItem);
+        const {contentCase, outputPathCase} = this._getDefaultCaseConverters(selectedConfigItem);
+        const contentReplacers: IReplacer[] = this._getReplacers(answeredReplacers, contentCase);
+        const outputPathReplacers: IReplacer[] = this._getReplacers(answeredReplacers, outputPathCase);
+        const outputPath: string = await this._getOutputPath(outputPathReplacers, selectedConfigItem);
+
+        return {selectedConfigItem, answeredReplacers, contentReplacers, outputPathReplacers, outputPath};
+    }
+
+    /**
+     */
+    private async _commandLineMode(configItems: IConfigItem[], commandLineArgs: string[]): Promise<IMainParams> {
+        const aliases: string[] = configItems.map((configItem: IConfigItem) => configItem.alias);
+        const aliasFromArgs: string = commandLineArgs.shift() as string;
+        const index: number = aliases.findIndex((alias: string) => alias === aliasFromArgs);
+        if (index === -1) {
+            throw new Error(`${aliasFromArgs} does not match with any alias of your configs`);
+        }
+
+        const selectedConfigItem: IConfigItem = configItems[index];
+        const {replacers, forceWrite, outputPathArg} = this._commandLineArgsParser(selectedConfigItem, commandLineArgs);
+        const {contentCase, outputPathCase} = this._getDefaultCaseConverters(selectedConfigItem);
+        const contentReplacers: IReplacer[] = this._getReplacers(replacers, contentCase);
+        const outputPathReplacers: IReplacer[] = this._getReplacers(replacers, outputPathCase);
+        const outputPath: string = outputPathArg ? outputPathArg : await this._getOutputPath(outputPathReplacers, selectedConfigItem);
+
+        return {selectedConfigItem, answeredReplacers: replacers, contentReplacers, outputPathReplacers, outputPath, forceWrite};
+    }
+
+    /**
+     */
+    private _commandLineArgsParser(
+        selectedConfigItem: IConfigItem,
+        args: string[]
+    ): {replacers: IReplacer[]; forceWrite: boolean; outputPathArg?: string} {
+        const stringReplacers: {[key: string]: string} = {};
+        let forceWrite: boolean = false;
+        let outputPath: string | undefined = undefined;
+
+        args.forEach((arg: string) => {
+            if (arg === '--force' || arg === '-f') {
+                forceWrite = true;
+            } else {
+                const [option, value]: [string, string] = arg.split('=') as [string, string];
+                if (!option || !value) {
+                    throw new Error(`${arg} is not well formatted`);
+                }
+                if (option === 'outputpath') {
+                    outputPath = value;
+                } else {
+                    const optionUnderscore = '__' + option + '__';
+                    if (!selectedConfigItem.stringReplacers?.length) {
+                        throw new Error(`Too much arguments`);
+                    }
+                    const test = selectedConfigItem.stringReplacers.some((item: string | IReplacerSlotQuestion) => {
+                        if (typeof item === 'string') {
+                            return item === optionUnderscore;
+                        }
+                        return item.slot === optionUnderscore;
+                    });
+                    if (!test) {
+                        throw new Error(`${option} is not a valid string replacer from ${selectedConfigItem.option} config`);
+                    }
+                    if (stringReplacers[option]) {
+                        throw new Error(`The ${option} string replacer is already defined`);
+                    }
+                    stringReplacers[optionUnderscore] = value;
+                }
+            }
+        });
+
+        const replacers: IReplacer[] = Object.keys(stringReplacers).map((key: string) => ({
+            slot: key,
+            slotValue: stringReplacers[key],
+        }));
+
+        if (replacers.length !== (selectedConfigItem.stringReplacers as (string | IReplacerSlotQuestion)[]).length) {
+            throw new Error('At least one string replacer is missing');
+        }
+
+        const dynamicReplacers: IReplacer[] = selectedConfigItem.dynamicReplacers || [];
+
+        const hasStringOrDynamicReplacers: boolean = replacers.length > 0 || dynamicReplacers.length > 0;
+
+        CheckUtility.check(hasStringOrDynamicReplacers, '"stringReplacers" or "dynamicReplacers" needs at least one item.');
+
+        return {
+            replacers: [...replacers, ...dynamicReplacers],
+            forceWrite,
+            outputPathArg: outputPath,
+        };
     }
 
     /**
@@ -149,40 +265,50 @@ export default class GenerateTemplateFiles {
             return replaceString(outputPath, replacer.slot, replacer.slotValue);
         }, selectedConfigItem.output.path);
 
-        const outputPathAnswer: any = await enquirer.prompt({
-            type: 'input',
-            name: 'outputPath',
-            message: 'Output path:',
-            initial: outputPathFormatted,
-        });
-
-        return outputPathAnswer.outputPath;
+        if (this.mode === EMode.prompt) {
+            const outputPathAnswer: any = await enquirer.prompt({
+                type: 'input',
+                name: 'outputPath',
+                message: 'Output path:',
+                initial: outputPathFormatted,
+            });
+            return outputPathAnswer.outputPath;
+        }
+        return outputPathFormatted;
     }
 
     /**
      */
-    private async _shouldWriteFiles(outputPath: string): Promise<boolean> {
+    private async _shouldWriteFiles(outputPath: string, forceWrite?: boolean): Promise<boolean> {
         const doesPathExist: boolean = await pathExists(outputPath);
 
         if (doesPathExist === false) {
             return true;
         }
 
-        const overwriteFilesAnswer: any = await enquirer.prompt({
-            name: 'overwrite',
-            message: 'Overwrite files, continue?',
-            type: 'confirm',
-            default: false,
-        });
+        if (this.mode === EMode.prompt) {
+            const overwriteFilesAnswer: any = await enquirer.prompt({
+                name: 'overwrite',
+                message: 'Overwrite files, continue?',
+                type: 'confirm',
+                default: false,
+            });
 
-        return overwriteFilesAnswer.overwrite;
+            return overwriteFilesAnswer.overwrite;
+        }
+
+        if (!forceWrite) {
+            console.info('Use --force option to overwrite existing files');
+        }
+
+        return !!forceWrite;
     }
 
     /**
      * Process and copy files.
      */
     private async _createFiles(
-        answeredReplacer: IReplacer[],
+        answeredReplacers: IReplacer[],
         outputPathReplacers: IReplacer[],
         replacers: IReplacer[],
         outputPath: string,
@@ -196,7 +322,7 @@ export default class GenerateTemplateFiles {
             dot: true,
             junk: true,
             rename: (fileFolderPath: string): string => {
-                const fileOrFolder: string = answeredReplacer.reduce((path: string) => {
+                const fileOrFolder: string = answeredReplacers.reduce((path: string) => {
                     let formattedFilePath: string = path;
 
                     outputPathReplacers.forEach((replacer: IReplacer) => {
