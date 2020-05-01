@@ -116,15 +116,14 @@ export default class GenerateTemplateFiles {
                 if (option === 'outputpath') {
                     outputPath = value;
                 } else {
-                    const optionUnderscore = '__' + option + '__';
                     if (!selectedConfigItem.stringReplacers?.length) {
                         throw new Error(`Too much arguments`);
                     }
                     const test = selectedConfigItem.stringReplacers.some((item: string | IReplacerSlotQuestion) => {
                         if (typeof item === 'string') {
-                            return item === optionUnderscore;
+                            return item === option;
                         }
-                        return item.slot === optionUnderscore;
+                        return item.slot === option;
                     });
                     if (!test) {
                         throw new Error(`${option} is not a valid string replacer from ${selectedConfigItem.option} config`);
@@ -132,7 +131,7 @@ export default class GenerateTemplateFiles {
                     if (stringReplacers[option]) {
                         throw new Error(`The ${option} string replacer is already defined`);
                     }
-                    stringReplacers[optionUnderscore] = value;
+                    stringReplacers[option] = value;
                 }
             }
         });
