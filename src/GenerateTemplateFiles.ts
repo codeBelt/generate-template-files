@@ -52,10 +52,8 @@ export default class GenerateTemplateFiles {
             name: 'optionChoice',
             message: 'What do you want to generate?',
             choices: options.map((configItem: IConfigItem) => configItem.option),
-            suggest(input: string, choices: string[]) {
-                return choices.filter((choice: any) => {
-                    return choice.message.toLowerCase().startsWith(input.toLowerCase());
-                });
+            suggest(input: string, choices: any[]) {
+                return choices.filter((choice: any) => (choice.message as string).toLowerCase().includes(input.toLowerCase()));
             },
         };
         const templateAnswers: {optionChoice: string} = await enquirer.prompt(templateQuestions);
