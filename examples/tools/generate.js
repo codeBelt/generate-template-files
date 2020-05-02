@@ -10,22 +10,22 @@ const config = require('../package.json');
 generateTemplateFiles([
     // Angular
     {
-        option: "Angular Ngrx Store",
+        option: 'Angular Ngrx Store',
         defaultCase: '(pascalCase)',
         entry: {
             folderPath: './tools/templates/angular/ngrx-store/',
         },
-        stringReplacers: ['__name__', { question: 'Insert model name', slot: '__model__' }],
+        stringReplacers: ['__name__', {question: 'Insert model name', slot: '__model__'}],
         dynamicReplacers: [
-            {slot:'__version__', slotValue: config.version},
-            {slot:'__description__', slotValue: config.description}
+            {slot: '__version__', slotValue: config.version},
+            {slot: '__description__', slotValue: config.description},
         ],
         output: {
             path: './src/app/stores/__name__(lowerCase)',
             pathAndFileNameDefaultCase: '(kebabCase)',
         },
         onComplete: async (results) => {
-            console.log(`results`, results);
+            // console.log(`results`, results);
         },
     },
     // Vue
@@ -59,7 +59,7 @@ generateTemplateFiles([
         },
         onComplete: (results) => {
             console.log(`results`, results);
-        }
+        },
     },
     {
         option: 'React Component',
@@ -142,9 +142,9 @@ async function importVuexStore(results) {
     const files = results.output.files;
 
     const fullPaths = files
-        .map((folderPath) => folderPath.replace('src/', ''))        // remove 'src' from path
-        .map((path) => `import ${filename(path)} from '${path}'`)   // create import statement
-        .join('\n');                                                // put all imports on there own line
+        .map((folderPath) => folderPath.replace('src/', '')) // remove 'src' from path
+        .map((path) => `import ${filename(path)} from '${path}'`) // create import statement
+        .join('\n'); // put all imports on there own line
 
     try {
         await insertLine('src/import-test.ts').append(fullPaths);

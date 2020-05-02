@@ -56,7 +56,8 @@
     "path-exists": "4.0.0",
     "recursive-copy": "2.0.10",
     "replace-string": "3.0.0",
-    "through2": "3.0.1"
+    "through2": "3.0.1",
+    "yargs": "15.3.1"
   },
   "license": "MIT",
   "devDependencies": {
@@ -72,6 +73,7 @@
     "@types/path-exists": "4.0.2",
     "@types/replace-string": "3.0.0",
     "@types/through2": "2.0.34",
+    "@types/yargs": "15.0.4",
     "husky": "4.2.5",
     "jest": "25.4.0",
     "prettier": "2.0.4",
