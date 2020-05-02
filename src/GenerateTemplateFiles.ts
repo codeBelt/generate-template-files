@@ -71,13 +71,15 @@ export default class GenerateTemplateFiles {
         const contentReplacers: IReplacer[] = this._getReplacers(replacers, contentCase);
         const outputPathReplacers: IReplacer[] = this._getReplacers(replacers, outputPathCase);
         const outputPath: string = await this._getOutputPath(outputPathReplacers, selectedConfigItem);
-        const shouldWriteFiles: boolean = GenerateTemplateFiles.isCommandLine ? yargs.argv.force === true : await this._shouldWriteFiles(outputPath);
+        const shouldWriteFiles: boolean = GenerateTemplateFiles.isCommandLine
+            ? yargs.argv.overwrite === true
+            : await this._shouldWriteFiles(outputPath);
 
         if (shouldWriteFiles === false) {
             console.info('No new files created');
 
             if (GenerateTemplateFiles.isCommandLine) {
-                console.info('Use --force option to overwrite existing files');
+                console.info('Use --overwrite option to overwrite existing files');
             }
 
             return;
