@@ -213,6 +213,30 @@ One Rule: no spaces between the [Replacer Slots](#replacer-slots-or-ireplacerslo
 -   :white_check_mark: `__name__(camelCase)`
 -   :warning: `__name__ (camelCase)`
 
+## Command Line Usage
+
+You can use `generate-template-files` with the command line to generate your template files.
+
+###### Minimum Options
+
+```txt
+node ./tools/generate.js angular-ngrx-store __name__=some-name
+```
+
+###### All Options
+
+```txt
+node ./tools/generate.js angular-ngrx-store __name__=some-name __model__=some-other-name --outputpath=./src/here --overwrite
+```
+
+**Command LIne Script Overview**
+
+-   `node ./tools/generate.js` - Runs the generate-template-files library
+-   `angular-ngrx-store` is the template name; It uses the same option name in the [IConfigItem](#iconfigitem) but converts all options names to kebab-case. For example `option: 'Angular Ngrx Store'` will be converted to `angular-ngrx-store` when using the command line
+-   `__name__=some-name` and `__model__=some-other-name` are [Replacer Slots](#replacer-slots-or-ireplacerslotquestion) and will be converted to `{ slot: "__name__", slotValue: "some-name" }`
+-   `--outputpath=./src/here` - Will override the `output.path` in the [IConfigItem](#iconfigitem)
+-   `--overwrite` - Will overwrite files if the files already exists
+
 [npm-url]: https://npmjs.org/package/generate-template-files
 [downloads-img]: http://img.shields.io/npm/dm/generate-template-files.svg?style=flat-square
 [npm-img]: http://img.shields.io/npm/v/generate-template-files.svg?style=flat-square
