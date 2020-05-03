@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "This is to be used with dynamic replacers as an example",
   "scripts": {
-    "generate": "node ./tools/generate.js"
+    "---------- Normal Example -------------------------------------------": "",
+    "generate": "node ./tools/generate.js",
+    "---------- Command Line Example -------------------------------------": "",
+    "commandline": "node ./tools/generate.js angular-ngrx-store __name__=some-name __model__=some-other-name --outputpath=./src/here --overwrite"
   },
   "devDependencies": {
     "file-name": "0.1.0",

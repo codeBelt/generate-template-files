@@ -12,35 +12,94 @@ import IResults from './models/IResults';
 import IDefaultCaseConverter from './models/IDefaultCaseConverter';
 import CheckUtility from './utilities/CheckUtility';
 import IReplacerSlotQuestion from './models/IReplacerSlotQuestion';
+import yargs from 'yargs';
 
 export default class GenerateTemplateFiles {
+    public static isCommandLine: boolean = Boolean(yargs.argv._.length);
+
     /**
      * Main method to create your template files. Accepts an array of `IConfigItem` items.
      */
     public async generate(options: IConfigItem[]): Promise<void> {
         const selectedConfigItem: IConfigItem = await this._getSelectedItem(options);
         const answeredReplacers: IReplacer[] = await this._getReplacerSlotValues(selectedConfigItem);
+
+        await this._outputFiles(selectedConfigItem, answeredReplacers);
+    }
+
+    /**
+     * Main method to create your template files with the command line.
+     */
+    public async commandLine(options: IConfigItem[]): Promise<void> {
+        const commandLineArgs: string[] = yargs.argv._;
+        const templateName: string = commandLineArgs.shift() ?? '';
+        const slots: string[] = commandLineArgs;
+
+        const selectedConfigItem: IConfigItem | undefined = options.find((configItem: IConfigItem) => {
+            return (
+                StringUtility.toCase(configItem.option, CaseConverterEnum.KebabCase) ===
+                StringUtility.toCase(templateName, CaseConverterEnum.KebabCase)
+            );
+        });
+
+        if (!selectedConfigItem) {
+            CheckUtility.check(Boolean(selectedConfigItem), `There was no IConfigItem found for ${templateName}`);
+
+            return;
+        }
+
+        const replacers: IReplacer[] = slots.map((str: string) => {
+            const [slot, slotValue] = str.split('=');
+
+            const isValidReplacer: boolean = Boolean(slot) && str.includes('=');
+            CheckUtility.check(isValidReplacer, `${str} is not valid as a IReplacer`);
+
+            return {
+                slot,
+                slotValue,
+            };
+        });
+        const dynamicReplacers: IReplacer[] = selectedConfigItem.dynamicReplacers || [];
+
+        await this._outputFiles(selectedConfigItem, [...replacers, ...dynamicReplacers]);
+    }
+
+    private async _outputFiles(selectedConfigItem: IConfigItem, replacers: IReplacer[]): Promise<void> {
+        const hasStringOrDynamicReplacers: boolean = replacers.length > 0;
+
+        if (!hasStringOrDynamicReplacers) {
+            CheckUtility.check(hasStringOrDynamicReplacers, 'You need at least one IReplacer');
+
+            return;
+        }
+
         const {contentCase, outputPathCase} = this._getDefaultCaseConverters(selectedConfigItem);
-        const contentReplacers: IReplacer[] = this._getReplacers(answeredReplacers, contentCase);
-        const outputPathReplacers: IReplacer[] = this._getReplacers(answeredReplacers, outputPathCase);
+        const contentReplacers: IReplacer[] = this._getReplacers(replacers, contentCase);
+        const outputPathReplacers: IReplacer[] = this._getReplacers(replacers, outputPathCase);
         const outputPath: string = await this._getOutputPath(outputPathReplacers, selectedConfigItem);
-        const shouldWriteFiles: boolean = await this._shouldWriteFiles(outputPath);
+        const shouldWriteFiles: boolean = GenerateTemplateFiles.isCommandLine
+            ? yargs.argv.overwrite === true
+            : await this._shouldWriteFiles(outputPath);
 
         if (shouldWriteFiles === false) {
             console.info('No new files created');
+
+            if (GenerateTemplateFiles.isCommandLine) {
+                console.info('Use --overwrite option to overwrite existing files');
+            }
 
             return;
         }
 
         const outputtedFilesAndFolders: string[] = await this._createFiles(
-            answeredReplacers,
+            replacers,
             outputPathReplacers,
             contentReplacers,
             outputPath,
             selectedConfigItem.entry.folderPath
         );
 
-        this._onComplete(selectedConfigItem, outputPath, outputtedFilesAndFolders, answeredReplacers);
+        this._onComplete(selectedConfigItem, outputPath, outputtedFilesAndFolders, replacers);
     }
 
     /**
@@ -109,10 +168,6 @@ export default class GenerateTemplateFiles {
         );
         const dynamicReplacers: IReplacer[] = selectedConfigItem.dynamicReplacers || [];
 
-        const hasStringOrDynamicReplacers: boolean = stringReplacers.length > 0 || dynamicReplacers.length > 0;
-
-        CheckUtility.check(hasStringOrDynamicReplacers, '"stringReplacers" or "dynamicReplacers" needs at least one item.');
-
         return [...replacers, ...dynamicReplacers];
     }
 
@@ -150,6 +205,12 @@ export default class GenerateTemplateFiles {
         const outputPathFormatted: string = outputPathReplacers.reduce((outputPath: string, replacer: IReplacer) => {
             return replaceString(outputPath, replacer.slot, replacer.slotValue);
         }, selectedConfigItem.output.path);
+
+        if (GenerateTemplateFiles.isCommandLine) {
+            const outputPath = yargs.argv.outputpath as string | undefined;
+
+            return outputPath ?? outputPathFormatted;
+        }
 
         const outputPathAnswer: any = await enquirer.prompt({
             type: 'input',
@@ -228,7 +289,7 @@ export default class GenerateTemplateFiles {
         try {
             await recursiveCopy(entryFolderPath, outputPath, recursiveCopyOptions);
 
-            console.info(`Files outed to: '${outputPath}'`);
+            console.info(`Files saved to: '${outputPath}'`);
 
             return outputtedFilesAndFolders.filter(Boolean);
         } catch (error) {

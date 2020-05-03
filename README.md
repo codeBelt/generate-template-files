@@ -2,7 +2,7 @@
 
 [![NPM version][npm-img]][npm-url] [![Downloads][downloads-img]][npm-url]
 
-A simple generator that is independent from any language. Create custom boilerplate, scaffolding, skeleton, and templating code files that you need to create over and over again. All you need is [NodeJS](https://nodejs.org) installed to get started.
+A simple generator that is independent of any language. Create custom boilerplate, scaffolding, skeleton, and templating code files that you need to create over and over again. All you need is [NodeJS](https://nodejs.org) installed to get started.
 
 > Find this useful? Give it a :star:
 
@@ -184,6 +184,16 @@ Below is an example of a `IReplacerSlotQuestion`
 -   `question` - The question to ask the use what value should be used for the replacer `slot`
 -   `slot` - The string value for the [Replacer Slots](#replacer-slots-or-ireplacerslotquestion)
 
+#### Dynamic Replacer Slots
+
+If you have data that is dynamically generated, or you have hard coded values you can use the `dynamicReplacers`:
+
+```javascript
+dynamicReplacers: [
+  {slot:'__description__', slotValue: config.description}
+],
+```
+
 ### Case Converters
 
 [Case Converters](#case-converters) transform the string value entered upon use of the generator.
@@ -191,7 +201,7 @@ Below is an example of a `IReplacerSlotQuestion`
 Example
 
 -   In the generator template `__replacerSlot__` is appended by the `(pascalCase)` converter such as `__replacerSlot__(pascalCase)`.
--   When the generator is run, the string `"product reducer"` is provided for `__replacerSlot__`.
+-   When the generator is ran, the string `"product reducer"` is provided for `__replacerSlot__`.
 -   As a result, the converter will produce `ProductReducer`.
 
 Here is the string `Lives down BY the River` with each of the converters:
@@ -212,6 +222,32 @@ One Rule: no spaces between the [Replacer Slots](#replacer-slots-or-ireplacerslo
 
 -   :white_check_mark: `__name__(camelCase)`
 -   :warning: `__name__ (camelCase)`
+
+## Command Line Usage
+
+You can use `generate-template-files` with the command line to generate your template files.
+
+When using the command line `stringReplacers` will be ignored, and the arguments pass in will be used. Example: `__name__=some-name`. `dynamicReplacers` are still used with the command line.
+
+###### Minimum Options
+
+```txt
+node ./tools/generate.js angular-ngrx-store __name__=some-name
+```
+
+###### All Options
+
+```txt
+node ./tools/generate.js angular-ngrx-store __name__=some-name __model__=some-other-name --outputpath=./src/here --overwrite
+```
+
+**Command LIne Script Overview**
+
+-   `node ./tools/generate.js` - Runs the `generate-template-files` library
+-   `angular-ngrx-store` - The template name; It uses the same option name in the [IConfigItem](#iconfigitem) but converts all options names to kebab-case. For example `option: 'Angular Ngrx Store'` will be converted to `angular-ngrx-store` when using the command line
+-   `__name__=some-name` - Are [Replacer Slots](#replacer-slots-or-ireplacerslotquestion) and will be converted to `{ slot: "__name__", slotValue: "some-name" }`
+-   `--outputpath=./src/here` - Will override the `output.path` in the [IConfigItem](#iconfigitem)
+-   `--overwrite` - Will overwrite files if the files already exists
 
 [npm-url]: https://npmjs.org/package/generate-template-files
 [downloads-img]: http://img.shields.io/npm/dm/generate-template-files.svg?style=flat-square
