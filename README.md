@@ -227,7 +227,7 @@ One Rule: no spaces between the [Replacer Slots](#replacer-slots-or-ireplacerslo
 
 You can use `generate-template-files` with the command line to generate your template files.
 
-When using the command line `stringReplacers` will be ignored, and the arguments pass in will be used. Example: `__name__=some-name`. `dynamicReplacers` are still used with the command line.
+When using the command line `stringReplacers` will need to match the arguments you use.
 
 ###### Minimum Options
 

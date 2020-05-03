@@ -36,10 +36,7 @@ export default class GenerateTemplateFiles {
         const slots: string[] = commandLineArgs;
 
         const selectedConfigItem: IConfigItem | undefined = options.find((configItem: IConfigItem) => {
-            return (
-                StringUtility.toCase(configItem.option, CaseConverterEnum.KebabCase) ===
-                StringUtility.toCase(templateName, CaseConverterEnum.KebabCase)
-            );
+            return StringUtility.toCase(configItem.option, CaseConverterEnum.KebabCase) === templateName;
         });
 
         if (!selectedConfigItem) {
@@ -48,11 +45,20 @@ export default class GenerateTemplateFiles {
             return;
         }
 
-        const replacers: IReplacer[] = slots.map((str: string) => {
+        const stringReplacersSlotNames: string[] | undefined = selectedConfigItem.stringReplacers?.map((item: string | IReplacerSlotQuestion) => {
+            return StringUtility.isString(item) ? item : item.slot;
+        });
+
+        CheckUtility.check(
+            stringReplacersSlotNames?.length === slots.length,
+            `The number of arguments do not match the number of stringReplacers for ${templateName}`
+        );
+
+        const commandLineReplacers: IReplacer[] = slots.map((str: string) => {
             const [slot, slotValue] = str.split('=');
 
-            const isValidReplacer: boolean = Boolean(slot) && str.includes('=');
-            CheckUtility.check(isValidReplacer, `${str} is not valid as a IReplacer`);
+            const isValidReplacer = Boolean(stringReplacersSlotNames?.includes(slot));
+            CheckUtility.check(isValidReplacer, `${slot} is not found in stringReplacers for ${templateName}`);
 
             return {
                 slot,
@@ -61,7 +67,7 @@ export default class GenerateTemplateFiles {
         });
         const dynamicReplacers: IReplacer[] = selectedConfigItem.dynamicReplacers || [];
 
-        await this._outputFiles(selectedConfigItem, [...replacers, ...dynamicReplacers]);
+        await this._outputFiles(selectedConfigItem, [...commandLineReplacers, ...dynamicReplacers]);
     }
 
     private async _outputFiles(selectedConfigItem: IConfigItem, replacers: IReplacer[]): Promise<void> {
