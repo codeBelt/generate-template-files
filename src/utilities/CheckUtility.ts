@@ -9,7 +9,7 @@ export default class CheckUtility {
      */
     public static check(predicate: boolean, errorMessage: string): void {
         if (CheckUtility._isNotTypeBoolean(predicate) === true) {
-            throw CheckUtility.check(false, `CheckUtility.check()'s first argument must be a boolean but argument was of type ${typeof predicate}`);
+            CheckUtility.check(false, `CheckUtility.check()'s first argument must be a boolean but argument was of type ${typeof predicate}`);
         } else if (predicate === true) {
             return;
         }
