@@ -21,53 +21,61 @@ export default class GenerateTemplateFiles {
      * Main method to create your template files. Accepts an array of `IConfigItem` items.
      */
     public async generate(options: IConfigItem[]): Promise<void> {
-        const selectedConfigItem: IConfigItem = await this._getSelectedItem(options);
-        const answeredReplacers: IReplacer[] = await this._getReplacerSlotValues(selectedConfigItem);
+        try {
+            const selectedConfigItem: IConfigItem = await this._getSelectedItem(options);
+            const answeredReplacers: IReplacer[] = await this._getReplacerSlotValues(selectedConfigItem);
 
-        await this._outputFiles(selectedConfigItem, answeredReplacers);
+            await this._outputFiles(selectedConfigItem, answeredReplacers);
+        } catch (err) {
+            console.error(err.message || 'An error has occured');
+        }
     }
 
     /**
      * Main method to create your template files with the command line.
      */
     public async commandLine(options: IConfigItem[]): Promise<void> {
-        const commandLineArgs: string[] = yargs.argv._;
-        const templateName: string = commandLineArgs.shift() ?? '';
-        const slots: string[] = commandLineArgs;
+        try {
+            const commandLineArgs: string[] = yargs.argv._;
+            const templateName: string = commandLineArgs.shift() ?? '';
+            const slots: string[] = commandLineArgs;
 
-        const selectedConfigItem: IConfigItem | undefined = options.find((configItem: IConfigItem) => {
-            return StringUtility.toCase(configItem.option, CaseConverterEnum.KebabCase) === templateName;
-        });
+            const selectedConfigItem: IConfigItem | undefined = options.find((configItem: IConfigItem) => {
+                return StringUtility.toCase(configItem.option, CaseConverterEnum.KebabCase) === templateName;
+            });
 
-        if (!selectedConfigItem) {
-            CheckUtility.check(Boolean(selectedConfigItem), `There was no IConfigItem found for ${templateName}`);
+            if (!selectedConfigItem) {
+                CheckUtility.check(Boolean(selectedConfigItem), `There was no IConfigItem found for ${templateName}`);
 
-            return;
+                return;
+            }
+
+            const stringReplacersSlotNames: string[] | undefined = selectedConfigItem.stringReplacers?.map((item: string | IReplacerSlotQuestion) => {
+                return StringUtility.isString(item) ? item : item.slot;
+            });
+
+            CheckUtility.check(
+                (stringReplacersSlotNames?.length ?? 0) === slots.length,
+                `The number of arguments do not match the number of stringReplacers for ${templateName}`
+            );
+
+            const commandLineReplacers: IReplacer[] = slots.map((str: string) => {
+                const [slot, slotValue] = str.split('=');
+
+                const isValidReplacer = Boolean(stringReplacersSlotNames?.includes(slot));
+                CheckUtility.check(isValidReplacer, `${slot} is not found in stringReplacers for ${templateName}`);
+
+                return {
+                    slot,
+                    slotValue,
+                };
+            });
+            const dynamicReplacers: IReplacer[] = selectedConfigItem.dynamicReplacers || [];
+
+            await this._outputFiles(selectedConfigItem, [...commandLineReplacers, ...dynamicReplacers]);
+        } catch (err) {
+            console.error(err.message || 'An error has occured');
         }
-
-        const stringReplacersSlotNames: string[] | undefined = selectedConfigItem.stringReplacers?.map((item: string | IReplacerSlotQuestion) => {
-            return StringUtility.isString(item) ? item : item.slot;
-        });
-
-        CheckUtility.check(
-            (stringReplacersSlotNames?.length ?? 0) === slots.length,
-            `The number of arguments do not match the number of stringReplacers for ${templateName}`
-        );
-
-        const commandLineReplacers: IReplacer[] = slots.map((str: string) => {
-            const [slot, slotValue] = str.split('=');
-
-            const isValidReplacer = Boolean(stringReplacersSlotNames?.includes(slot));
-            CheckUtility.check(isValidReplacer, `${slot} is not found in stringReplacers for ${templateName}`);
-
-            return {
-                slot,
-                slotValue,
-            };
-        });
-        const dynamicReplacers: IReplacer[] = selectedConfigItem.dynamicReplacers || [];
-
-        await this._outputFiles(selectedConfigItem, [...commandLineReplacers, ...dynamicReplacers]);
     }
 
     private async _outputFiles(selectedConfigItem: IConfigItem, replacers: IReplacer[]): Promise<void> {
