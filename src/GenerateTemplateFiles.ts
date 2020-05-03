@@ -35,8 +35,11 @@ export default class GenerateTemplateFiles {
         const templateName: string = commandLineArgs.shift() ?? '';
         const slots: string[] = commandLineArgs;
 
-        const selectedConfigItem: IConfigItem | undefined = options.find((cc: IConfigItem) => {
-            return StringUtility.toCase(cc.option, CaseConverterEnum.KebabCase) === StringUtility.toCase(templateName, CaseConverterEnum.KebabCase);
+        const selectedConfigItem: IConfigItem | undefined = options.find((configItem: IConfigItem) => {
+            return (
+                StringUtility.toCase(configItem.option, CaseConverterEnum.KebabCase) ===
+                StringUtility.toCase(templateName, CaseConverterEnum.KebabCase)
+            );
         });
 
         if (!selectedConfigItem) {
