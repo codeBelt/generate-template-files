@@ -51,6 +51,9 @@ export default class GenerateTemplateFiles {
         const replacers: IReplacer[] = slots.map((str: string) => {
             const [slot, slotValue] = str.split('=');
 
+            const isValidReplacer: boolean = Boolean(slot) && str.includes('=');
+            CheckUtility.check(isValidReplacer, `${str} is not valid as a IReplacer`);
+
             return {
                 slot,
                 slotValue,
