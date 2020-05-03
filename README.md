@@ -184,6 +184,16 @@ Below is an example of a `IReplacerSlotQuestion`
 -   `question` - The question to ask the use what value should be used for the replacer `slot`
 -   `slot` - The string value for the [Replacer Slots](#replacer-slots-or-ireplacerslotquestion)
 
+#### Dynamic Replacer Slots
+
+If you have data that is dynamically generated or you have hard coded values you can use the `dynamicReplacers`:
+
+```javascript
+dynamicReplacers: [
+  {slot:'__description__', slotValue: config.description}
+],
+```
+
 ### Case Converters
 
 [Case Converters](#case-converters) transform the string value entered upon use of the generator.
@@ -231,9 +241,9 @@ node ./tools/generate.js angular-ngrx-store __name__=some-name __model__=some-ot
 
 **Command LIne Script Overview**
 
--   `node ./tools/generate.js` - Runs the generate-template-files library
--   `angular-ngrx-store` is the template name; It uses the same option name in the [IConfigItem](#iconfigitem) but converts all options names to kebab-case. For example `option: 'Angular Ngrx Store'` will be converted to `angular-ngrx-store` when using the command line
--   `__name__=some-name` and `__model__=some-other-name` are [Replacer Slots](#replacer-slots-or-ireplacerslotquestion) and will be converted to `{ slot: "__name__", slotValue: "some-name" }`
+-   `node ./tools/generate.js` - Runs the `generate-template-files` library
+-   `angular-ngrx-store` - The template name; It uses the same option name in the [IConfigItem](#iconfigitem) but converts all options names to kebab-case. For example `option: 'Angular Ngrx Store'` will be converted to `angular-ngrx-store` when using the command line
+-   `__name__=some-name` - Are [Replacer Slots](#replacer-slots-or-ireplacerslotquestion) and will be converted to `{ slot: "__name__", slotValue: "some-name" }`
 -   `--outputpath=./src/here` - Will override the `output.path` in the [IConfigItem](#iconfigitem)
 -   `--overwrite` - Will overwrite files if the files already exists
 
