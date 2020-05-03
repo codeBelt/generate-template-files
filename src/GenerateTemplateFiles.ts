@@ -50,7 +50,7 @@ export default class GenerateTemplateFiles {
         });
 
         CheckUtility.check(
-            stringReplacersSlotNames?.length === slots.length,
+            (stringReplacersSlotNames?.length ?? 0) === slots.length,
             `The number of arguments do not match the number of stringReplacers for ${templateName}`
         );
 
