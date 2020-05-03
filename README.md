@@ -2,7 +2,7 @@
 
 [![NPM version][npm-img]][npm-url] [![Downloads][downloads-img]][npm-url]
 
-A simple generator that is independent from any language. Create custom boilerplate, scaffolding, skeleton, and templating code files that you need to create over and over again. All you need is [NodeJS](https://nodejs.org) installed to get started.
+A simple generator that is independent of any language. Create custom boilerplate, scaffolding, skeleton, and templating code files that you need to create over and over again. All you need is [NodeJS](https://nodejs.org) installed to get started.
 
 > Find this useful? Give it a :star:
 
@@ -186,7 +186,7 @@ Below is an example of a `IReplacerSlotQuestion`
 
 #### Dynamic Replacer Slots
 
-If you have data that is dynamically generated or you have hard coded values you can use the `dynamicReplacers`:
+If you have data that is dynamically generated, or you have hard coded values you can use the `dynamicReplacers`:
 
 ```javascript
 dynamicReplacers: [
@@ -201,7 +201,7 @@ dynamicReplacers: [
 Example
 
 -   In the generator template `__replacerSlot__` is appended by the `(pascalCase)` converter such as `__replacerSlot__(pascalCase)`.
--   When the generator is run, the string `"product reducer"` is provided for `__replacerSlot__`.
+-   When the generator is ran, the string `"product reducer"` is provided for `__replacerSlot__`.
 -   As a result, the converter will produce `ProductReducer`.
 
 Here is the string `Lives down BY the River` with each of the converters:
@@ -226,6 +226,8 @@ One Rule: no spaces between the [Replacer Slots](#replacer-slots-or-ireplacerslo
 ## Command Line Usage
 
 You can use `generate-template-files` with the command line to generate your template files.
+
+When using the command line `stringReplacers` will be ignored, and the arguments pass in will be used. Example: `__name__=some-name`. `dynamicReplacers` are still used with the command line.
 
 ###### Minimum Options
 
