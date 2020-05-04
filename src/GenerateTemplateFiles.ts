@@ -54,22 +54,22 @@ export default class GenerateTemplateFiles {
                 return StringUtility.isString(item) ? item : item.slot;
             });
 
-            CheckUtility.check(
-                (stringReplacersSlotNames?.length ?? 0) === slots.length,
-                `The number of arguments do not match the number of stringReplacers for ${templateName}`
-            );
-
-            const commandLineReplacers: IReplacer[] = slots.map((str: string) => {
-                const [slot, slotValue] = str.split('=');
+            const commandLineReplacersObject: {[slot: string]: string} = slots.reduce((accumulator, argument: string) => {
+                const [slot, slotValue] = argument.split('=');
+                accumulator[slot] = slotValue;
 
                 const isValidReplacer = Boolean(stringReplacersSlotNames?.includes(slot));
                 CheckUtility.check(isValidReplacer, `${slot} is not found in stringReplacers for ${templateName}`);
 
-                return {
-                    slot,
-                    slotValue,
-                };
-            });
+                return accumulator;
+            }, {});
+
+            const commandLineReplacers: IReplacer[] = Object.entries(commandLineReplacersObject).map(([slot, slotValue]) => ({slot, slotValue}));
+
+            CheckUtility.check(
+                (stringReplacersSlotNames?.length ?? 0) === commandLineReplacers.length,
+                `The number of arguments does not match the number of stringReplacers for ${templateName}`
+            );
             const dynamicReplacers: IReplacer[] = selectedConfigItem.dynamicReplacers || [];
 
             await this._outputFiles(selectedConfigItem, [...commandLineReplacers, ...dynamicReplacers]);
