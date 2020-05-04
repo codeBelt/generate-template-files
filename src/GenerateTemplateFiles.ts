@@ -91,9 +91,7 @@ export default class GenerateTemplateFiles {
         const contentReplacers: IReplacer[] = this._getReplacers(replacers, contentCase);
         const outputPathReplacers: IReplacer[] = this._getReplacers(replacers, outputPathCase);
         const outputPath: string = await this._getOutputPath(outputPathReplacers, selectedConfigItem);
-        const shouldWriteFiles: boolean = GenerateTemplateFiles.isCommandLine
-            ? yargs.argv.overwrite === true
-            : await this._shouldWriteFiles(outputPath);
+        const shouldWriteFiles: boolean = await this._shouldWriteFiles(outputPath);
 
         if (shouldWriteFiles === false) {
             console.info('No new files created');
@@ -243,6 +241,10 @@ export default class GenerateTemplateFiles {
 
         if (doesPathExist === false) {
             return true;
+        }
+
+        if (GenerateTemplateFiles.isCommandLine) {
+            return yargs.argv.overwrite === true;
         }
 
         const overwriteFilesAnswer: any = await enquirer.prompt({
