@@ -72,6 +72,7 @@ export default interface IConfigItem {
     output: {
         path: string;
         pathAndFileNameDefaultCase: CaseConverterEnum | string;
+        overwrite?: boolean; // determines if existing files with the same name be over written.
     };
     /**
      * ```

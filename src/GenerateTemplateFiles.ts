@@ -15,7 +15,7 @@ import IReplacerSlotQuestion from './models/IReplacerSlotQuestion';
 import yargs from 'yargs';
 
 export default class GenerateTemplateFiles {
-    public static isCommandLine: boolean = Boolean(yargs.argv._.length);
+    private _isCommandLine: boolean = false;
 
     /**
      * Main method to create your template files. Accepts an array of `IConfigItem` items.
@@ -77,14 +77,16 @@ export default class GenerateTemplateFiles {
         const contentReplacers: IReplacer[] = this._getReplacers(replacers, contentCase);
         const outputPathReplacers: IReplacer[] = this._getReplacers(replacers, outputPathCase);
         const outputPath: string = await this._getOutputPath(outputPathReplacers, selectedConfigItem);
-        const shouldWriteFiles: boolean = GenerateTemplateFiles.isCommandLine
-            ? yargs.argv.overwrite === true
-            : await this._shouldWriteFiles(outputPath);
+        let shouldWriteFiles: boolean = selectedConfigItem.output.overwrite || yargs.argv.overwrite === true;
+
+        if (!this._isCommandLine) {
+            shouldWriteFiles = selectedConfigItem.output.overwrite || (await this._shouldWriteFiles(outputPath));
+        }
 
         if (shouldWriteFiles === false) {
             console.info('No new files created');
 
-            if (GenerateTemplateFiles.isCommandLine) {
+            if (this._isCommandLine) {
                 console.info('Use --overwrite option to overwrite existing files');
             }
 
@@ -206,7 +208,7 @@ export default class GenerateTemplateFiles {
             return replaceString(outputPath, replacer.slot, replacer.slotValue);
         }, selectedConfigItem.output.path);
 
-        if (GenerateTemplateFiles.isCommandLine) {
+        if (this._isCommandLine) {
             const outputPath = yargs.argv.outputpath as string | undefined;
 
             return outputPath ?? outputPathFormatted;

@@ -96,6 +96,7 @@ The `generateTemplateFiles` function takes an array of `IConfigItem` items.
 -   `dynamicReplacers` - (Optional) An array of IReplacer used to replace content in the designated `entry.folderPath`.
 -   `output.path` - The desired output path for generated files. [Case Converters](#case-converters) and [Replacer Slots](#replacer-slots-or-ireplacerslotquestion) can be used to make the path somewhat dynamic.
 -   `output.pathAndFileNameDefaultCase` - The [Case Converters](#case-converters) to use for the file path and file name(s).
+-   `output.overwrite` - (Optional) When `true` it will overwrite any files that are named the same.
 -   `onComplete` - (Optional) Takes a callback function that is called once the file(s) have been outputted. A [IResults](#iresults) object will be passed to the callback.
 
 ###### Example
