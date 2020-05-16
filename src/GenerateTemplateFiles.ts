@@ -5,12 +5,16 @@ import through from 'through2';
 import replaceString from 'replace-string';
 import StringUtility from './utilities/StringUtility';
 import CaseConverterEnum from './constants/CaseConverterEnum';
-import get from 'lodash.get';
 import IConfigItem from './models/IConfigItem';
 import IReplacer from './models/IReplacer';
 import IResults from './models/IResults';
 import IDefaultCaseConverter from './models/IDefaultCaseConverter';
-import CheckUtility from './utilities/CheckUtility';
+import {
+    throwErrorIfNoConfigItems,
+    throwErrorIfOptionNameIsNotFound,
+    throwErrorIfNoStringOrDynamicReplacers,
+    throwErrorIfStringReplacersDoNotMatch,
+} from './utilities/CheckUtility';
 import IReplacerSlotQuestion from './models/IReplacerSlotQuestion';
 import yargs from 'yargs';
 
@@ -21,6 +25,9 @@ export default class GenerateTemplateFiles {
      * Main method to create your template files. Accepts an array of `IConfigItem` items.
      */
     public async generate(options: IConfigItem[]): Promise<void> {
+        throwErrorIfNoConfigItems(options);
+        throwErrorIfNoStringOrDynamicReplacers(options);
+
         const selectedConfigItem: IConfigItem = await this._getSelectedItem(options);
         const answeredReplacers: IReplacer[] = await this._getReplacerSlotValues(selectedConfigItem);
 
@@ -31,10 +38,12 @@ export default class GenerateTemplateFiles {
      * Main method to create your template files with the command line.
      */
     public async commandLine(options: IConfigItem[]): Promise<void> {
-        const commandLineArgs: string[] = yargs.argv._;
-        const templateName: string = commandLineArgs.shift() ?? '';
-        const slots: string[] = commandLineArgs;
+        this._isCommandLine = true;
 
+        throwErrorIfNoConfigItems(options);
+        throwErrorIfNoStringOrDynamicReplacers(options);
+
+        const [templateName = '', ...replacers] = yargs.argv._;
         const selectedConfigItem: IConfigItem | undefined = options.find((configItem: IConfigItem) => {
             return (
                 StringUtility.toCase(configItem.option, CaseConverterEnum.KebabCase) ===
@@ -42,37 +51,25 @@ export default class GenerateTemplateFiles {
             );
         });
 
-        if (!selectedConfigItem) {
-            CheckUtility.check(Boolean(selectedConfigItem), `There was no IConfigItem found for ${templateName}`);
+        throwErrorIfOptionNameIsNotFound(selectedConfigItem, StringUtility.toCase(templateName, CaseConverterEnum.KebabCase));
 
-            return;
-        }
-
-        const replacers: IReplacer[] = slots.map((str: string) => {
+        const commandLineStringReplacers: IReplacer[] = replacers.map((str: string) => {
             const [slot, slotValue] = str.split('=');
-
-            const isValidReplacer: boolean = Boolean(slot) && str.includes('=');
-            CheckUtility.check(isValidReplacer, `${str} is not valid as a IReplacer`);
 
             return {
                 slot,
                 slotValue,
             };
         });
-        const dynamicReplacers: IReplacer[] = selectedConfigItem.dynamicReplacers || [];
 
-        await this._outputFiles(selectedConfigItem, [...replacers, ...dynamicReplacers]);
+        throwErrorIfStringReplacersDoNotMatch(selectedConfigItem, commandLineStringReplacers);
+
+        const dynamicReplacers: IReplacer[] = selectedConfigItem?.dynamicReplacers || [];
+
+        await this._outputFiles(selectedConfigItem!, [...commandLineStringReplacers, ...dynamicReplacers]);
     }
 
     private async _outputFiles(selectedConfigItem: IConfigItem, replacers: IReplacer[]): Promise<void> {
-        const hasStringOrDynamicReplacers: boolean = replacers.length > 0;
-
-        if (!hasStringOrDynamicReplacers) {
-            CheckUtility.check(hasStringOrDynamicReplacers, 'You need at least one IReplacer');
-
-            return;
-        }
-
         const {contentCase, outputPathCase} = this._getDefaultCaseConverters(selectedConfigItem);
         const contentReplacers: IReplacer[] = this._getReplacers(replacers, contentCase);
         const outputPathReplacers: IReplacer[] = this._getReplacers(replacers, outputPathCase);
@@ -127,12 +124,8 @@ export default class GenerateTemplateFiles {
     /**
      */
     private _getDefaultCaseConverters(selectedConfigItem: IConfigItem): IDefaultCaseConverter {
-        const defaultContentCase: CaseConverterEnum = get(selectedConfigItem, 'defaultCase', CaseConverterEnum.None) as CaseConverterEnum;
-        const defaultOutputPath: CaseConverterEnum = get(
-            selectedConfigItem,
-            'output.pathAndFileNameDefaultCase',
-            defaultContentCase
-        ) as CaseConverterEnum;
+        const defaultContentCase: CaseConverterEnum = selectedConfigItem?.defaultCase ?? CaseConverterEnum.None;
+        const defaultOutputPath: CaseConverterEnum = selectedConfigItem.output?.pathAndFileNameDefaultCase ?? defaultContentCase;
 
         return {
             contentCase: defaultContentCase,

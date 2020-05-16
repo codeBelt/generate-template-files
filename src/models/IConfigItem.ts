@@ -38,7 +38,7 @@ export default interface IConfigItem {
      * defaultCase: '(pascalCase)',
      * ```
      */
-    defaultCase: CaseConverterEnum | string;
+    defaultCase: CaseConverterEnum;
     /**
      * ```
      * entry: {
@@ -71,7 +71,7 @@ export default interface IConfigItem {
      */
     output: {
         path: string;
-        pathAndFileNameDefaultCase: CaseConverterEnum | string;
+        pathAndFileNameDefaultCase?: CaseConverterEnum;
         overwrite?: boolean; // determines if existing files with the same name be over written.
     };
     /**

@@ -6,6 +6,7 @@
     "---------- Normal Example -------------------------------------------": "",
     "generate": "node ./tools/generate.js",
     "---------- Command Line Example -------------------------------------": "",
+    "commandLineSimple": "node ./tools/commandLine.js angular-ngrx-store __name__=some-name __model__=some-other-name",
     "commandline": "node ./tools/commandLine.js angular-ngrx-store __name__=some-name __model__=some-other-name --outputpath=./src/here --overwrite"
   },
   "devDependencies": {

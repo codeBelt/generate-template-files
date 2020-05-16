@@ -52,7 +52,6 @@
   ],
   "dependencies": {
     "enquirer": "2.3.5",
-    "lodash.get": "4.4.2",
     "path-exists": "4.0.0",
     "recursive-copy": "2.0.10",
     "replace-string": "3.0.0",
@@ -69,7 +68,6 @@
     "@babel/preset-typescript": "7.9.0",
     "@babel/runtime": "7.9.6",
     "@types/jest": "25.2.1",
-    "@types/lodash.get": "4.4.6",
     "@types/path-exists": "4.0.2",
     "@types/replace-string": "3.0.0",
     "@types/through2": "2.0.34",
