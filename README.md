@@ -46,6 +46,7 @@ generateTemplateFiles([
         output: {
             path: './src/stores/__store__(lowerCase)',
             pathAndFileNameDefaultCase: '(kebabCase)',
+            overwrite: true,
         },
     },
     {
@@ -228,23 +229,47 @@ One Rule: no spaces between the [Replacer Slots](#replacer-slots-or-ireplacerslo
 
 You can use `generate-template-files` with the command line to generate your template files.
 
+```js
+// generate.js
+const {generateTemplateFilesCommandLine} = require('generate-template-files');
+
+generateTemplateFilesCommandLine([
+    {
+        option: 'Create Reduce Action',
+        defaultCase: '(pascalCase)',
+        entry: {
+            folderPath: './tools/templates/react/redux-store/__store__Action.ts',
+        },
+        stringReplacers: ['__store__', '__model__'],
+        dynamicReplacers: [
+            {slot: '__version__', slotValue: config.version},
+            {slot: '__description__', slotValue: config.description},
+        ],
+        output: {
+            path: './src/stores/__store__/__store__(lowerCase)/__store__(pascalCase)Action.ts',
+            pathAndFileNameDefaultCase: '(kebabCase)',
+        },
+    },
+]);
+```
+
 ###### Minimum Options
 
 ```txt
-node ./tools/generate.js angular-ngrx-store __name__=some-name
+node ./tools/generate.js create-reduce-action __store__=some-name __model__=some-other-name
 ```
 
 ###### All Options
 
 ```txt
-node ./tools/generate.js angular-ngrx-store __name__=some-name __model__=some-other-name --outputpath=./src/here --overwrite
+node ./tools/generate.js create-reduce-action __store__=some-name __model__=some-other-name --outputpath=./src/here --overwrite
 ```
 
 **Command LIne Script Overview**
 
 -   `node ./tools/generate.js` - Runs the `generate-template-files` library
--   `angular-ngrx-store` - The template name; It uses the same option name in the [IConfigItem](#iconfigitem) but converts all options names to kebab-case. For example `option: 'Angular Ngrx Store'` will be converted to `angular-ngrx-store` when using the command line
--   `__name__=some-name` - Are [Replacer Slots](#replacer-slots-or-ireplacerslotquestion) and will be converted to `{ slot: "__name__", slotValue: "some-name" }`
+-   `create-reduce-action` - The template name; It uses the same option name in the [IConfigItem](#iconfigitem) but converts all options names to kebab-case. For example `option: 'Create Reduce Action'` will be converted to `create-reduce-action` when using the command line
+-   `__store__=some-name` - Are [Replacer Slots](#replacer-slots-or-ireplacerslotquestion) and will be converted to `{ slot: "__store__", slotValue: "some-name" }`
 -   `--outputpath=./src/here` - Will override the `output.path` in the [IConfigItem](#iconfigitem)
 -   `--overwrite` - Will overwrite files if the files already exists
 
