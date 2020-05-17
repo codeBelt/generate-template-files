@@ -14,7 +14,7 @@ export const isBooleanType = (value: any) => {
  */
 export const errorIfFalse = (isError: boolean, errorMessage: string): Error | void => {
     if (!isBooleanType(isError)) {
-        return errorIfFalse(false, `errorIfTrue()'s first argument must be a boolean but argument was of type ${typeof isError}`);
+        return errorIfFalse(false, `errorIfTrue() first argument must be a boolean but argument was of type ${typeof isError}`);
     }
 
     if (!isError) {

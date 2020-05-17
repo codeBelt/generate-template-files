@@ -19,7 +19,7 @@ const items = [
         output: {
             path: './src/app/stores/__name__(lowerCase)',
             pathAndFileNameDefaultCase: '(kebabCase)',
-            overwrite: true,
+            overwrite: false,
         },
         onComplete: async (results) => {
             // console.log(`results`, results);
@@ -53,6 +53,7 @@ const items = [
         output: {
             path: './src/stores/__store__(kebabCase)',
             pathAndFileNameDefaultCase: '(pascalCase)',
+            overwrite: true,
         },
         onComplete: (results) => {
             console.log(`results`, results);

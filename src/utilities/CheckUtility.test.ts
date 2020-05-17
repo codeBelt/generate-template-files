@@ -9,7 +9,7 @@ describe('errorIfTrue', () => {
 
     test('should throw an error if input is not a boolean', () => {
         expect(errorIfFalse('true' as any, errorString)).toEqual(
-            new Error("errorIfTrue()'s first argument must be a boolean but argument was of type string")
+            new Error('errorIfTrue() first argument must be a boolean but argument was of type string')
         );
     });
 
