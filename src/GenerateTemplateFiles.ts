@@ -74,11 +74,7 @@ export default class GenerateTemplateFiles {
         const contentReplacers: IReplacer[] = this._getReplacers(replacers, contentCase);
         const outputPathReplacers: IReplacer[] = this._getReplacers(replacers, outputPathCase);
         const outputPath: string = await this._getOutputPath(outputPathReplacers, selectedConfigItem);
-        let shouldWriteFiles: boolean = selectedConfigItem.output.overwrite || yargs.argv.overwrite === true;
-
-        if (!this._isCommandLine) {
-            shouldWriteFiles = selectedConfigItem.output.overwrite || (await this._shouldWriteFiles(outputPath));
-        }
+        const shouldWriteFiles: boolean = await this._shouldWriteFiles(outputPath, selectedConfigItem);
 
         if (shouldWriteFiles === false) {
             console.info('No new files created');
@@ -219,11 +215,19 @@ export default class GenerateTemplateFiles {
 
     /**
      */
-    private async _shouldWriteFiles(outputPath: string): Promise<boolean> {
+    private async _shouldWriteFiles(outputPath: string, selectedConfigItem: IConfigItem): Promise<boolean> {
         const doesPathExist: boolean = await pathExists(outputPath);
 
-        if (doesPathExist === false) {
+        if (!doesPathExist) {
             return true;
+        }
+
+        if (!this._isCommandLine && selectedConfigItem.output.overwrite) {
+            return true;
+        }
+
+        if (this._isCommandLine) {
+            return selectedConfigItem.output.overwrite || yargs.argv.overwrite === true;
         }
 
         const overwriteFilesAnswer: any = await enquirer.prompt({
