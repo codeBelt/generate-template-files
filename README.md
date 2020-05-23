@@ -31,43 +31,43 @@ $ yarn add generate-template-files
 3. Run `node generate.js` within Terminal (Mac) or Powershell (Win) once you've added your template files.
 
 ```js
-const {generateTemplateFiles} = require('generate-template-files');
+const { generateTemplateFiles } = require('generate-template-files');
 
 const config = require('../package.json');
 
 generateTemplateFiles([
-    {
-        option: 'Create Redux Store',
-        defaultCase: '(pascalCase)',
-        entry: {
-            folderPath: './tools/templates/react/redux-store/',
-        },
-        stringReplacers: ['__store__', {question: 'Insert model name', slot: '__model__'}],
-        output: {
-            path: './src/stores/__store__(lowerCase)',
-            pathAndFileNameDefaultCase: '(kebabCase)',
-            overwrite: true,
-        },
+  {
+    option: 'Create Redux Store',
+    defaultCase: '(pascalCase)',
+    entry: {
+      folderPath: './tools/templates/react/redux-store/',
     },
-    {
-        option: 'Create Reduce Action',
-        defaultCase: '(pascalCase)',
-        entry: {
-            folderPath: './tools/templates/react/redux-store/__store__Action.ts',
-        },
-        stringReplacers: ['__store__', '__model__'],
-        dynamicReplacers: [
-            {slot: '__version__', slotValue: config.version},
-            {slot: '__description__', slotValue: config.description},
-        ],
-        output: {
-            path: './src/stores/__store__/__store__(lowerCase)/__store__(pascalCase)Action.ts',
-            pathAndFileNameDefaultCase: '(kebabCase)',
-        },
-        onComplete: (results) => {
-            console.log(`results`, results);
-        },
+    stringReplacers: ['__store__', { question: 'Insert model name', slot: '__model__' }],
+    output: {
+      path: './src/stores/__store__(lowerCase)',
+      pathAndFileNameDefaultCase: '(kebabCase)',
+      overwrite: true,
     },
+  },
+  {
+    option: 'Create Reduce Action',
+    defaultCase: '(pascalCase)',
+    entry: {
+      folderPath: './tools/templates/react/redux-store/__store__Action.ts',
+    },
+    stringReplacers: ['__store__', '__model__'],
+    dynamicReplacers: [
+      { slot: '__version__', slotValue: config.version },
+      { slot: '__description__', slotValue: config.description },
+    ],
+    output: {
+      path: './src/stores/__store__/__store__(lowerCase)/__store__(pascalCase)Action.ts',
+      pathAndFileNameDefaultCase: '(kebabCase)',
+    },
+    onComplete: (results) => {
+      console.log(`results`, results);
+    },
+  },
 ]);
 ```
 
@@ -89,16 +89,16 @@ The `generateTemplateFiles` function takes an array of `IConfigItem` items.
 
 #### `IConfigItem`
 
--   `option` - The name of the option to choose when asked.
--   `defaultCase` - The default [Case Converters](#case-converters) to use with the [Replacer Slots](#replacer-slots-or-ireplacerslotquestion) in the template files. Default is `(noCase)`.
--   `entry.folderPath` - Path to a folder of files or a single template file.
+- `option` - The name of the option to choose when asked.
+- `defaultCase` - The default [Case Converters](#case-converters) to use with the [Replacer Slots](#replacer-slots-or-ireplacerslotquestion) in the template files. Default is `(noCase)`.
+- `entry.folderPath` - Path to a folder of files or a single template file.
 
--   `stringReplacers` - An array of [Replacer Slots](#replacer-slots-or-ireplacerslotquestion) used to replace content in the designated `entry.folderPath`.
--   `dynamicReplacers` - (Optional) An array of IReplacer used to replace content in the designated `entry.folderPath`.
--   `output.path` - The desired output path for generated files. [Case Converters](#case-converters) and [Replacer Slots](#replacer-slots-or-ireplacerslotquestion) can be used to make the path somewhat dynamic.
--   `output.pathAndFileNameDefaultCase` - The [Case Converters](#case-converters) to use for the file path and file name(s).
--   `output.overwrite` - (Optional) When `true` it will overwrite any files that are named the same.
--   `onComplete` - (Optional) Takes a callback function that is called once the file(s) have been outputted. A [IResults](#iresults) object will be passed to the callback.
+- `stringReplacers` - An array of [Replacer Slots](#replacer-slots-or-ireplacerslotquestion) used to replace content in the designated `entry.folderPath`.
+- `dynamicReplacers` - (Optional) An array of IReplacer used to replace content in the designated `entry.folderPath`.
+- `output.path` - The desired output path for generated files. [Case Converters](#case-converters) and [Replacer Slots](#replacer-slots-or-ireplacerslotquestion) can be used to make the path somewhat dynamic.
+- `output.pathAndFileNameDefaultCase` - The [Case Converters](#case-converters) to use for the file path and file name(s).
+- `output.overwrite` - (Optional) When `true` it will overwrite any files that are named the same.
+- `onComplete` - (Optional) Takes a callback function that is called once the file(s) have been outputted. A [IResults](#iresults) object will be passed to the callback.
 
 ###### Example
 
@@ -128,9 +128,9 @@ The `generateTemplateFiles` function takes an array of `IConfigItem` items.
 
 Below is an example of what you receive from the `onComplete` callback. It has the output path, list of files created and the [Replacer Slots](#replacer-slots-or-ireplacerslotquestion) with the value entered.
 
--   `output.path` - The file(s) output path
--   `output.files` - List of files created
--   `stringReplacers` - List of [Replacer Slots](#replacer-slots-or-ireplacerslotquestion); name and values entered during the setup process
+- `output.path` - The file(s) output path
+- `output.files` - List of files created
+- `stringReplacers` - List of [Replacer Slots](#replacer-slots-or-ireplacerslotquestion); name and values entered during the setup process
 
 ###### Example data you would get from the onComplete callback
 
@@ -166,14 +166,14 @@ Below is an example of what you receive from the `onComplete` callback. It has t
 [Replacer Slots](#replacer-slots-or-ireplacerslotquestion) are unique string value(s) to be replaced by the generator. An array of string values and/or `IReplacerSlotQuestion` objects can be used.
 
 ```javascript
-stringReplacers: ['__store__', {question: 'Insert model name', slot: '__model__'}];
+stringReplacers: ['__store__', { question: 'Insert model name', slot: '__model__' }];
 ```
 
 Replacer slot can be any string value you want to use. You can use something like this in your template files and/or in the file path names.
 
--   `~replacerSlot~`
--   `{{something else}}`
--   `__AnythingYouWant__`
+- `~replacerSlot~`
+- `{{something else}}`
+- `__AnythingYouWant__`
 
 #### `IReplacerSlotQuestion`
 
@@ -183,8 +183,8 @@ Below is an example of a `IReplacerSlotQuestion`
 {question: 'Insert model name', slot: '__model__'}
 ```
 
--   `question` - The question to ask the use what value should be used for the replacer `slot`
--   `slot` - The string value for the [Replacer Slots](#replacer-slots-or-ireplacerslotquestion)
+- `question` - The question to ask the use what value should be used for the replacer `slot`
+- `slot` - The string value for the [Replacer Slots](#replacer-slots-or-ireplacerslotquestion)
 
 #### Dynamic Replacer Slots
 
@@ -202,9 +202,9 @@ dynamicReplacers: [
 
 Example
 
--   In the generator template `__replacerSlot__` is appended by the `(pascalCase)` converter such as `__replacerSlot__(pascalCase)`.
--   When the generator is ran, the string `"product reducer"` is provided for `__replacerSlot__`.
--   As a result, the converter will produce `ProductReducer`.
+- In the generator template `__replacerSlot__` is appended by the `(pascalCase)` converter such as `__replacerSlot__(pascalCase)`.
+- When the generator is ran, the string `"product reducer"` is provided for `__replacerSlot__`.
+- As a result, the converter will produce `ProductReducer`.
 
 Here is the string `Lives down BY the River` with each of the converters:
 
@@ -222,8 +222,8 @@ Here is the string `Lives down BY the River` with each of the converters:
 
 One Rule: no spaces between the [Replacer Slots](#replacer-slots-or-ireplacerslotquestion) and [Case Converters](#case-converters). If there is a space, [Case Converters](#case-converters) will not work.
 
--   :white_check_mark: `__name__(camelCase)`
--   :warning: `__name__ (camelCase)`
+- :white_check_mark: `__name__(camelCase)`
+- :warning: `__name__ (camelCase)`
 
 ## Command Line Usage
 
@@ -231,25 +231,25 @@ You can use `generate-template-files` with the command line to generate your tem
 
 ```js
 // generate.js
-const {generateTemplateFilesCommandLine} = require('generate-template-files');
+const { generateTemplateFilesCommandLine } = require('generate-template-files');
 
 generateTemplateFilesCommandLine([
-    {
-        option: 'Create Reduce Action',
-        defaultCase: '(pascalCase)',
-        entry: {
-            folderPath: './tools/templates/react/redux-store/__store__Action.ts',
-        },
-        stringReplacers: ['__store__', '__model__'],
-        dynamicReplacers: [
-            {slot: '__version__', slotValue: config.version},
-            {slot: '__description__', slotValue: config.description},
-        ],
-        output: {
-            path: './src/stores/__store__/__store__(lowerCase)/__store__(pascalCase)Action.ts',
-            pathAndFileNameDefaultCase: '(kebabCase)',
-        },
+  {
+    option: 'Create Reduce Action',
+    defaultCase: '(pascalCase)',
+    entry: {
+      folderPath: './tools/templates/react/redux-store/__store__Action.ts',
     },
+    stringReplacers: ['__store__', '__model__'],
+    dynamicReplacers: [
+      { slot: '__version__', slotValue: config.version },
+      { slot: '__description__', slotValue: config.description },
+    ],
+    output: {
+      path: './src/stores/__store__/__store__(lowerCase)/__store__(pascalCase)Action.ts',
+      pathAndFileNameDefaultCase: '(kebabCase)',
+    },
+  },
 ]);
 ```
 
@@ -267,11 +267,11 @@ node ./tools/generate.js create-reduce-action __store__=some-name __model__=some
 
 **Command LIne Script Overview**
 
--   `node ./tools/generate.js` - Runs the `generate-template-files` library
--   `create-reduce-action` - The template name; It uses the same option name in the [IConfigItem](#iconfigitem) but converts all options names to kebab-case. For example `option: 'Create Reduce Action'` will be converted to `create-reduce-action` when using the command line
--   `__store__=some-name` - Are [Replacer Slots](#replacer-slots-or-ireplacerslotquestion) and will be converted to `{ slot: "__store__", slotValue: "some-name" }`
--   `--outputpath=./src/here` - Will override the `output.path` in the [IConfigItem](#iconfigitem)
--   `--overwrite` - Will overwrite files if the files already exists
+- `node ./tools/generate.js` - Runs the `generate-template-files` library
+- `create-reduce-action` - The template name; It uses the same option name in the [IConfigItem](#iconfigitem) but converts all options names to kebab-case. For example `option: 'Create Reduce Action'` will be converted to `create-reduce-action` when using the command line
+- `__store__=some-name` - Are [Replacer Slots](#replacer-slots-or-ireplacerslotquestion) and will be converted to `{ slot: "__store__", slotValue: "some-name" }`
+- `--outputpath=./src/here` - Will override the `output.path` in the [IConfigItem](#iconfigitem)
+- `--overwrite` - Will overwrite files if the files already exists
 
 [npm-url]: https://npmjs.org/package/generate-template-files
 [downloads-img]: http://img.shields.io/npm/dm/generate-template-files.svg?style=flat-square
