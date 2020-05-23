@@ -10,10 +10,10 @@ import IReplacer from './models/IReplacer';
 import IResults from './models/IResults';
 import IDefaultCaseConverter from './models/IDefaultCaseConverter';
 import {
-    throwErrorIfNoConfigItems,
-    throwErrorIfOptionNameIsNotFound,
-    throwErrorIfNoStringOrDynamicReplacers,
-    throwErrorIfStringReplacersDoNotMatch,
+    errorIfNoConfigItems,
+    errorIfOptionNameIsNotFound,
+    errorIfNoStringOrDynamicReplacers,
+    errorIfStringReplacersDoNotMatch,
 } from './utilities/CheckUtility';
 import IReplacerSlotQuestion from './models/IReplacerSlotQuestion';
 import yargs from 'yargs';
@@ -25,8 +25,8 @@ export default class GenerateTemplateFiles {
      * Main method to create your template files. Accepts an array of `IConfigItem` items.
      */
     public async generate(options: IConfigItem[]): Promise<void> {
-        throwErrorIfNoConfigItems(options);
-        throwErrorIfNoStringOrDynamicReplacers(options);
+        errorIfNoConfigItems(options);
+        errorIfNoStringOrDynamicReplacers(options);
 
         const selectedConfigItem: IConfigItem = await this._getSelectedItem(options);
         const answeredReplacers: IReplacer[] = await this._getReplacerSlotValues(selectedConfigItem);
@@ -40,8 +40,8 @@ export default class GenerateTemplateFiles {
     public async commandLine(options: IConfigItem[]): Promise<void> {
         this._isCommandLine = true;
 
-        throwErrorIfNoConfigItems(options);
-        throwErrorIfNoStringOrDynamicReplacers(options);
+        errorIfNoConfigItems(options);
+        errorIfNoStringOrDynamicReplacers(options);
 
         const [templateName = '', ...replacers] = yargs.argv._;
         const selectedConfigItem: IConfigItem | undefined = options.find((configItem: IConfigItem) => {
@@ -51,7 +51,7 @@ export default class GenerateTemplateFiles {
             );
         });
 
-        throwErrorIfOptionNameIsNotFound(selectedConfigItem, StringUtility.toCase(templateName, CaseConverterEnum.KebabCase));
+        errorIfOptionNameIsNotFound(selectedConfigItem, StringUtility.toCase(templateName, CaseConverterEnum.KebabCase));
 
         const commandLineStringReplacers: IReplacer[] = replacers.map((str: string) => {
             const [slot, slotValue] = str.split('=');
@@ -62,7 +62,7 @@ export default class GenerateTemplateFiles {
             };
         });
 
-        throwErrorIfStringReplacersDoNotMatch(selectedConfigItem, commandLineStringReplacers);
+        errorIfStringReplacersDoNotMatch(selectedConfigItem, commandLineStringReplacers);
 
         const dynamicReplacers: IReplacer[] = selectedConfigItem?.dynamicReplacers || [];
 

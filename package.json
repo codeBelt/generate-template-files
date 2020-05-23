@@ -51,6 +51,7 @@
     "dist/"
   ],
   "dependencies": {
+    "colors": "1.4.0",
     "enquirer": "2.3.5",
     "path-exists": "4.0.0",
     "recursive-copy": "2.0.10",

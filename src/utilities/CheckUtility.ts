@@ -2,6 +2,19 @@ import IConfigItem from '../models/IConfigItem';
 import IReplacer from '../models/IReplacer';
 import StringUtility from './StringUtility';
 import IReplacerSlotQuestion from '../models/IReplacerSlotQuestion';
+import colors from 'colors';
+
+/**
+ * https://timber.io/blog/creating-a-real-world-cli-app-with-node/#errors-and-exit-codes
+ * @param message
+ * @param isError
+ */
+export const errorMessageAndExit = (isError: boolean, message: string) => {
+    if (isError) {
+        console.error(colors.bold.red(`[Error in generate-template-files]:`), colors.red(message));
+        process.exit(1);
+    }
+};
 
 export const isBooleanType = (value: any) => {
     return typeof value === 'boolean';
@@ -22,26 +35,23 @@ export const errorIfFalse = (isError: boolean, errorMessage: string): Error | vo
     }
 };
 
-export const throwErrorIfNoConfigItems = (options: IConfigItem[]) => {
+export const errorIfNoConfigItems = (options: IConfigItem[]) => {
     const hasAtLeastOneItem = Boolean(options?.length);
 
-    if (!hasAtLeastOneItem) {
-        throw new Error('There was no IConfigItem items found.');
-    }
+    errorMessageAndExit(!hasAtLeastOneItem, 'There was no IConfigItem items found.');
 };
 
-export const throwErrorIfOptionNameIsNotFound = (item: IConfigItem | undefined, templateName: string) => {
-    if (!item) {
-        throw new Error(`No IConfigItem found for ${templateName}`);
-    }
+export const errorIfOptionNameIsNotFound = (item: IConfigItem | undefined, templateName: string) => {
+    errorMessageAndExit(!item, `No IConfigItem found for ${templateName}`);
 };
 
-export const throwErrorIfStringReplacersDoNotMatch = (item: IConfigItem | undefined, commandLineStringReplacers: IReplacer[]) => {
+export const errorIfStringReplacersDoNotMatch = (item: IConfigItem | undefined, commandLineStringReplacers: IReplacer[]) => {
     const configItemStringReplacers: (string | IReplacerSlotQuestion)[] = item?.stringReplacers ?? [];
 
-    if (commandLineStringReplacers.length !== configItemStringReplacers.length) {
-        throw new Error('IConfigItem stringReplacers do not match the command line arguments.');
-    }
+    errorMessageAndExit(
+        commandLineStringReplacers.length !== configItemStringReplacers.length,
+        'IConfigItem stringReplacers do not match the command line arguments.'
+    );
 
     const configItemStringReplacersKeys = configItemStringReplacers
         .map((replacer: string | IReplacerSlotQuestion) => {
@@ -55,20 +65,17 @@ export const throwErrorIfStringReplacersDoNotMatch = (item: IConfigItem | undefi
         .sort()
         .join(', ');
 
-    if (configItemStringReplacersKeys !== commandLineStringReplacersKeys) {
-        throw new Error(
-            ` ${configItemStringReplacersKeys} does not match ${commandLineStringReplacersKeys}. IConfigItem stringReplacers do not match the command line arguments.`
-        );
-    }
+    errorMessageAndExit(
+        configItemStringReplacersKeys !== commandLineStringReplacersKeys,
+        `${configItemStringReplacersKeys} does not match ${commandLineStringReplacersKeys}. IConfigItem stringReplacers do not match the command line arguments.`
+    );
 };
 
-export const throwErrorIfNoStringOrDynamicReplacers = (options: IConfigItem[]) => {
+export const errorIfNoStringOrDynamicReplacers = (options: IConfigItem[]) => {
     const hasStringOrDynamicReplacers =
         options.every((item: IConfigItem) => {
             return Boolean(item?.stringReplacers?.length) || Boolean(item?.dynamicReplacers?.length);
         }) && options.length > 0;
 
-    if (!hasStringOrDynamicReplacers) {
-        throw new Error('IConfigItem needs to have a stringReplacers or dynamicReplacers.');
-    }
+    errorMessageAndExit(!hasStringOrDynamicReplacers, 'IConfigItem needs to have a stringReplacers or dynamicReplacers.');
 };
