@@ -44,7 +44,10 @@ export const errorIfNoConfigItems = (options: IConfigItem[]) => {
   errorMessageAndExit(!hasAtLeastOneItem, 'There was no IConfigItem items found.');
 };
 
-export const errorIfOptionNameIsNotFound = (item: IConfigItem | undefined, templateName: string) => {
+export const errorIfOptionNameIsNotFound = (
+  item: IConfigItem | undefined,
+  templateName: string
+) => {
   errorMessageAndExit(!item, `No IConfigItem found for ${templateName}`);
 };
 
@@ -83,5 +86,8 @@ export const errorIfNoStringOrDynamicReplacers = (options: IConfigItem[]) => {
       return Boolean(item?.stringReplacers?.length) || Boolean(item?.dynamicReplacers?.length);
     }) && options.length > 0;
 
-  errorMessageAndExit(!hasStringOrDynamicReplacers, 'IConfigItem needs to have a stringReplacers or dynamicReplacers.');
+  errorMessageAndExit(
+    !hasStringOrDynamicReplacers,
+    'IConfigItem needs to have a stringReplacers or dynamicReplacers.'
+  );
 };

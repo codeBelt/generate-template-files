@@ -51,7 +51,10 @@ export default class GenerateTemplateFiles {
       );
     });
 
-    errorIfOptionNameIsNotFound(selectedConfigItem, StringUtility.toCase(templateName, CaseConverterEnum.KebabCase));
+    errorIfOptionNameIsNotFound(
+      selectedConfigItem,
+      StringUtility.toCase(templateName, CaseConverterEnum.KebabCase)
+    );
 
     const commandLineStringReplacers: IReplacer[] = replacers.map((str: string) => {
       const [slot, slotValue] = str.split('=');
@@ -66,10 +69,16 @@ export default class GenerateTemplateFiles {
 
     const dynamicReplacers: IReplacer[] = selectedConfigItem?.dynamicReplacers || [];
 
-    await this._outputFiles(selectedConfigItem!, [...commandLineStringReplacers, ...dynamicReplacers]);
+    await this._outputFiles(selectedConfigItem!, [
+      ...commandLineStringReplacers,
+      ...dynamicReplacers,
+    ]);
   }
 
-  private async _outputFiles(selectedConfigItem: IConfigItem, replacers: IReplacer[]): Promise<void> {
+  private async _outputFiles(
+    selectedConfigItem: IConfigItem,
+    replacers: IReplacer[]
+  ): Promise<void> {
     const { contentCase, outputPathCase } = this._getDefaultCaseConverters(selectedConfigItem);
     const contentReplacers: IReplacer[] = this._getReplacers(replacers, contentCase);
     const outputPathReplacers: IReplacer[] = this._getReplacers(replacers, outputPathCase);
@@ -114,13 +123,16 @@ export default class GenerateTemplateFiles {
     };
     const templateAnswers: { optionChoice: string } = await enquirer.prompt(templateQuestions);
 
-    return options.find((item: IConfigItem) => item.option === templateAnswers.optionChoice) as IConfigItem;
+    return options.find(
+      (item: IConfigItem) => item.option === templateAnswers.optionChoice
+    ) as IConfigItem;
   }
 
   /**
    */
   private _getDefaultCaseConverters(selectedConfigItem: IConfigItem): IDefaultCaseConverter {
-    const defaultContentCase: CaseConverterEnum = selectedConfigItem?.defaultCase ?? CaseConverterEnum.None;
+    const defaultContentCase: CaseConverterEnum =
+      selectedConfigItem?.defaultCase ?? CaseConverterEnum.None;
     const defaultOutputPath: CaseConverterEnum =
       selectedConfigItem.output?.pathAndFileNameDefaultCase ?? defaultContentCase;
 
@@ -134,7 +146,8 @@ export default class GenerateTemplateFiles {
    * New question asking what should text should be used to replace the template text.
    */
   private async _getReplacerSlotValues(selectedConfigItem: IConfigItem): Promise<IReplacer[]> {
-    const stringReplacers: (string | IReplacerSlotQuestion)[] = selectedConfigItem.stringReplacers ?? [];
+    const stringReplacers: (string | IReplacerSlotQuestion)[] =
+      selectedConfigItem.stringReplacers ?? [];
     const replacerQuestions: any[] = stringReplacers.map((item: string | IReplacerSlotQuestion) => {
       return {
         type: 'input',
@@ -169,34 +182,43 @@ export default class GenerateTemplateFiles {
   private _getReplacers(replacers: IReplacer[], defaultCase: CaseConverterEnum): IReplacer[] {
     const caseTypes: string[] = Object.values(CaseConverterEnum);
 
-    return replacers.reduce((previousReplacers: IReplacer[], answeredReplacer: IReplacer): IReplacer[] => {
-      const { slot, slotValue } = answeredReplacer;
+    return replacers.reduce(
+      (previousReplacers: IReplacer[], answeredReplacer: IReplacer): IReplacer[] => {
+        const { slot, slotValue } = answeredReplacer;
 
-      return [
-        ...previousReplacers,
-        ...caseTypes.map(
-          (caseType: string): IReplacer => {
-            return {
-              slot: `${slot}${caseType}`,
-              slotValue: StringUtility.toCase(slotValue, caseType as CaseConverterEnum),
-            };
-          }
-        ),
-        {
-          slot,
-          slotValue: StringUtility.toCase(slotValue, defaultCase),
-        },
-      ];
-    }, []);
+        return [
+          ...previousReplacers,
+          ...caseTypes.map(
+            (caseType: string): IReplacer => {
+              return {
+                slot: `${slot}${caseType}`,
+                slotValue: StringUtility.toCase(slotValue, caseType as CaseConverterEnum),
+              };
+            }
+          ),
+          {
+            slot,
+            slotValue: StringUtility.toCase(slotValue, defaultCase),
+          },
+        ];
+      },
+      []
+    );
   }
 
   /**
    */
-  private async _getOutputPath(outputPathReplacers: IReplacer[], selectedConfigItem: IConfigItem): Promise<string> {
+  private async _getOutputPath(
+    outputPathReplacers: IReplacer[],
+    selectedConfigItem: IConfigItem
+  ): Promise<string> {
     // Create the output path replacing any template keys.
-    const outputPathFormatted: string = outputPathReplacers.reduce((outputPath: string, replacer: IReplacer) => {
-      return replaceString(outputPath, replacer.slot, replacer.slotValue);
-    }, selectedConfigItem.output.path);
+    const outputPathFormatted: string = outputPathReplacers.reduce(
+      (outputPath: string, replacer: IReplacer) => {
+        return replaceString(outputPath, replacer.slot, replacer.slotValue);
+      },
+      selectedConfigItem.output.path
+    );
 
     if (this._isCommandLine) {
       const outputPath = yargs.argv.outputpath as string | undefined;
@@ -216,7 +238,10 @@ export default class GenerateTemplateFiles {
 
   /**
    */
-  private async _shouldWriteFiles(outputPath: string, selectedConfigItem: IConfigItem): Promise<boolean> {
+  private async _shouldWriteFiles(
+    outputPath: string,
+    selectedConfigItem: IConfigItem
+  ): Promise<boolean> {
     const doesPathExist: boolean = await pathExists(outputPath);
 
     if (!doesPathExist) {

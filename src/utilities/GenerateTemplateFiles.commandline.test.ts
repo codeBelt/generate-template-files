@@ -8,7 +8,9 @@ describe('GenerateTemplateFiles - Command Line', () => {
     const items: IConfigItem[] = [];
     const gtf = new GenerateTemplateFiles();
 
-    expect(() => gtf.commandLine(items)).rejects.toThrowError('There was no IConfigItem items found.');
+    expect(() => gtf.commandLine(items)).rejects.toThrowError(
+      'There was no IConfigItem items found.'
+    );
   });
 
   test('should throw an error if IConfigItem is not found for option name', () => {
@@ -31,7 +33,9 @@ describe('GenerateTemplateFiles - Command Line', () => {
     ];
     const gtf = new GenerateTemplateFiles();
 
-    expect(() => gtf.commandLine(items)).rejects.toThrowError(`No IConfigItem found for ${notFoundOptionName}`);
+    expect(() => gtf.commandLine(items)).rejects.toThrowError(
+      `No IConfigItem found for ${notFoundOptionName}`
+    );
   });
 
   test('should throw an error if no stringReplacers or dynamicReplacers', () => {

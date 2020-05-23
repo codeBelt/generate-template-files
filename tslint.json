@@ -51,6 +51,12 @@
     ],
     "triple-equals": [true, "allow-null-check"],
     "typedef": [true, "parameter", "property-declaration"],
-    "variable-name": [true, "ban-keywords", "check-format", "allow-pascal-case", "allow-leading-underscore"]
+    "variable-name": [
+      true,
+      "ban-keywords",
+      "check-format",
+      "allow-pascal-case",
+      "allow-leading-underscore"
+    ]
   }
 }
