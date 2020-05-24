@@ -1,19 +1,14 @@
-import {errorIfFalse} from './CheckUtility';
+import {displayError} from './CheckUtility';
+import colors from 'colors';
 
-describe('errorIfTrue', () => {
+describe('displayError', () => {
     const errorString = 'Some error thrown for testing purposes';
 
     test('should throw an error if condition is false', () => {
-        expect(errorIfFalse(false, errorString)).toEqual(new Error(errorString));
-    });
+        console.info = jest.fn();
 
-    test('should throw an error if input is not a boolean', () => {
-        expect(errorIfFalse('true' as any, errorString)).toEqual(
-            new Error('errorIfTrue() first argument must be a boolean but argument was of type string')
-        );
-    });
+        displayError(true, errorString);
 
-    test('should not throw an error if condition evaluates to a boolean true', () => {
-        expect(errorIfFalse(true, errorString)).toEqual(undefined);
+        expect(console.info).toHaveBeenCalledWith(colors.bold.red(`[Error in generate-template-files]: ${colors.red(errorString)}`));
     });
 });
