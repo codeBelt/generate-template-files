@@ -7,7 +7,7 @@ describe('displayError', () => {
     test('should throw an error if condition is false', () => {
         console.info = jest.fn();
 
-        displayError(true, errorString);
+        displayError(errorString);
 
         expect(console.info).toHaveBeenCalledWith(colors.bold.red(`[Error in generate-template-files]: ${colors.red(errorString)}`));
     });
