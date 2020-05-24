@@ -6,8 +6,8 @@ import IResultsDefault from './models/IResults';
 import IReplacerDefault from './models/IReplacer';
 import IReplacerSlotQuestionDefault from './models/IReplacerSlotQuestion';
 
-export {StringUtilityDefault as StringUtility};
-export {CaseConverterEnumDefault as CaseConverterEnum};
+export { StringUtilityDefault as StringUtility };
+export { CaseConverterEnumDefault as CaseConverterEnum };
 
 // Workaround for issue of exporting interfaces
 export type IResults = IResultsDefault;
@@ -19,9 +19,12 @@ export type IReplacerSlotQuestion = IReplacerSlotQuestionDefault;
  * Main method to create your template files. Accepts an array of `IConfigItem` items.
  */
 export function generateTemplateFiles(data: IConfigItem[]): Promise<void> {
-    if (GenerateTemplateFiles.isCommandLine) {
-        return new GenerateTemplateFiles().commandLine(data);
-    }
+  return new GenerateTemplateFiles().generate(data);
+}
 
-    return new GenerateTemplateFiles().generate(data);
+/**
+ * Main method to create your template files with command line.
+ */
+export function generateTemplateFilesCommandLine(data: IConfigItem[]): Promise<void> {
+  return new GenerateTemplateFiles().commandLine(data);
 }
