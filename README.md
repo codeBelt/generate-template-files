@@ -208,17 +208,24 @@ Example
 
 Here is the string `Lives down BY the River` with each of the converters:
 
-    (noCase)        // Lives down BY the River
-    (camelCase)     // livesDownByTheRiver
-    (constantCase)  // LIVES_DOWN_BY_THE_RIVER
-    (dotCase)       // lives.down.by.the.river
-    (kebabCase)     // lives-down-by-the-river
-    (lowerCase)     // livesdownbytheriver
-    (pascalCase)    // LivesDownByTheRiver
-    (pathCase)      // lives/down/by/the/river
-    (sentenceCase)  // Lives down by the river
-    (snakeCase)     // lives_down_by_the_river
-    (titleCase)     // Lives Down By The River
+    // If you typed in 'Lives down BY the River' for the __replacerSlot__ and 
+    // used one of the optional Case Converters you would get the following:
+    
+    __replacerSlot__(noCase)        // Lives down BY the River
+    __replacerSlot__(camelCase)     // livesDownByTheRiver
+    __replacerSlot__(constantCase)  // LIVES_DOWN_BY_THE_RIVER
+    __replacerSlot__(dotCase)       // lives.down.by.the.river
+    __replacerSlot__(kebabCase)     // lives-down-by-the-river
+    __replacerSlot__(lowerCase)     // livesdownbytheriver
+    __replacerSlot__(pascalCase)    // LivesDownByTheRiver
+    __replacerSlot__(pathCase)      // lives/down/by/the/river
+    __replacerSlot__(sentenceCase)  // Lives down by the river
+    __replacerSlot__(snakeCase)     // lives_down_by_the_river
+    __replacerSlot__(titleCase)     // Lives Down By The River
+    
+    // Note: you can set a 'defaultCase' converter in IConfigItem so all 
+    // Replacer Slots without a Case Converter will be transformed the same way.
+    __replacerSlot__                // LivesDownByTheRiver
 
 One Rule: no spaces between the [Replacer Slots](#replacer-slots-or-ireplacerslotquestion) and [Case Converters](#case-converters). If there is a space, [Case Converters](#case-converters) will not work.
 
