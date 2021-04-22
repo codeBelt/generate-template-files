@@ -51,7 +51,7 @@ export default class GenerateTemplateFiles {
       throwErrorIfNoConfigItems(options);
       throwErrorIfNoStringOrDynamicReplacers(options);
 
-      const [templateName = '', ...replacers] = yargs.argv._;
+      const [templateName = '', ...replacers] = yargs.argv._ as [string];
       const selectedConfigItem: IConfigItem | undefined = options.find(
         (configItem: IConfigItem) => {
           return (
