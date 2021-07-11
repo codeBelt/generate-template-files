@@ -28,3 +28,12 @@ export function generateTemplateFiles(data: IConfigItem[]): Promise<void> {
 export function generateTemplateFilesCommandLine(data: IConfigItem[]): Promise<void> {
   return new GenerateTemplateFiles().commandLine(data);
 }
+
+/**
+ * Main method to run generate on multiple templates at once, without any interactive prompts.
+ */
+export function generateTemplateFilesBatch(
+  data: Omit<IConfigItem, 'stringReplacers'>[]
+): Promise<void> {
+  return new GenerateTemplateFiles().batchGenerate(data);
+}

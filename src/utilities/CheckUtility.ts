@@ -72,3 +72,16 @@ export const throwErrorIfNoStringOrDynamicReplacers = (options: IConfigItem[]) =
     throw new Error('IConfigItem needs to have a stringReplacers or dynamicReplacers.');
   }
 };
+
+export const throwErrorIfStringReplacersExistOrNoDynamicReplacers = (options: IConfigItem[]) => {
+  const allValidBatchEntries =
+    options.every((item: IConfigItem) => {
+      return !Boolean(item?.stringReplacers?.length) && Boolean(item?.dynamicReplacers?.length);
+    }) && options.length > 0;
+
+  if (!allValidBatchEntries) {
+    throw new Error(
+      'IConfigItem for batchGenerate does not support stringReplacers, and must have dynamicReplacers.'
+    );
+  }
+};

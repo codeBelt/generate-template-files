@@ -209,7 +209,7 @@ Example
 Here is the string `Lives down BY the River` with each of the converters:
 
 ```js
-// If you typed in 'Lives down BY the River' for the a Replacer Slot named '__replacerSlot__' and 
+// If you typed in 'Lives down BY the River' for the a Replacer Slot named '__replacerSlot__' and
 // used one of the optional Case Converters you would get the following:
 
 __replacerSlot__(noCase)        // Lives down BY the River
@@ -224,7 +224,7 @@ __replacerSlot__(sentenceCase)  // Lives down by the river
 __replacerSlot__(snakeCase)     // lives_down_by_the_river
 __replacerSlot__(titleCase)     // Lives Down By The River
 
-// Note: you can set a 'defaultCase' converter in IConfigItem so all 
+// Note: you can set a 'defaultCase' converter in IConfigItem so all
 // Replacer Slots without a Case Converter will be transformed the same way.
 __replacerSlot__                // LivesDownByTheRiver
 ```
@@ -233,6 +233,52 @@ One Rule: no spaces between the [Replacer Slots](#replacer-slots-or-ireplacerslo
 
 - :white_check_mark: `__name__(camelCase)`
 - :warning: `__name__ (camelCase)`
+
+## Batch Usage
+
+You can use `generate-template-files` to generate your template files programmatically, without any interactive prompts. This mode does not support `stringReplacers`.
+
+The following example will generate the component, unit tests, and the SCSS module in one do.
+
+```ts
+// generateTemplateFile.ts
+import { generateTemplateFilesCommandLine, CaseConverterEnum } from 'generate-template-files');
+
+export const componentWithInterface = async (componentName: string, componentScope: string = "common"): Promise<void> => {
+  await generateTemplateFilesBatch([
+    {
+      option: 'Component',
+      defaultCase: CaseConverterEnum.PascalCase,
+      entry: {
+        folderPath: './tools/templates/react/component',
+      },
+      dynamicReplacers: [
+        { slot: '__name__', slotValue: componentName },
+        { slot: '__scope__', slotValue: componentScope },
+      ],
+      output: {
+        path: `./src/component/__scope__(camelCase)`,
+        pathAndFileNameDefaultCase: CaseConverterEnum.PascalCase,
+      },
+    },
+    {
+      option: 'Component Interface',
+      defaultCase: CaseConverterEnum.PascalCase,
+      entry: {
+        folderPath: './tools/templates/react/I__interface__.ts',
+      },
+      dynamicReplacers: [
+        { slot: '__interface__', slotValue: componentName },
+        { slot: '__scope__', slotValue: componentScope },
+      ],
+      output: {
+        path: `./src/component/__scope__(camelCase)/I__interface__.ts`,
+        pathAndFileNameDefaultCase: CaseConverterEnum.PascalCase,
+      },
+    },
+  ]);
+};
+```
 
 ## Command Line Usage
 
