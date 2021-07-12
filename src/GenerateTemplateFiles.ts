@@ -96,18 +96,14 @@ export default class GenerateTemplateFiles {
   public async batchGenerate(options: Omit<IConfigItem, 'stringReplacers'>[]) {
     this._isBatch = true;
 
-    try {
-      throwErrorIfNoConfigItems(options);
-      throwErrorIfStringReplacersExistOrNoDynamicReplacers(options);
+    throwErrorIfNoConfigItems(options);
+    throwErrorIfStringReplacersExistOrNoDynamicReplacers(options);
 
-      for (const selectedConfigItem of options) {
-        const answeredReplacers: IReplacer[] = await this._getDynamicReplacerSlotValues(
-          selectedConfigItem
-        );
-        await this._outputFiles(selectedConfigItem, answeredReplacers);
-      }
-    } catch (error) {
-      displayError(error.message);
+    for (const selectedConfigItem of options) {
+      const answeredReplacers: IReplacer[] = await this._getDynamicReplacerSlotValues(
+        selectedConfigItem
+      );
+      await this._outputFiles(selectedConfigItem, answeredReplacers);
     }
   }
 

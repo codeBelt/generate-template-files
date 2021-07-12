@@ -2,7 +2,7 @@ import GenerateTemplateFiles from '../GenerateTemplateFiles';
 import { IConfigItem } from '../index';
 import CaseConverterEnum from '../constants/CaseConverterEnum';
 
-describe.skip('GenerateTemplateFiles - Batch', () => {
+describe('GenerateTemplateFiles - Batch', () => {
   test('should throw an error if no IConfigItem items', () => {
     const items: IConfigItem[] = [];
     const gtf = new GenerateTemplateFiles();
@@ -12,7 +12,7 @@ describe.skip('GenerateTemplateFiles - Batch', () => {
     );
   });
 
-  test('should throw an error if no stringReplacers or dynamicReplacers', () => {
+  test('should throw an error if no stringReplacers or dynamicReplacers', async () => {
     const items: IConfigItem[] = [
       {
         option: 'some-template',
@@ -27,12 +27,12 @@ describe.skip('GenerateTemplateFiles - Batch', () => {
     ];
     const gtf = new GenerateTemplateFiles();
 
-    expect(() => gtf.commandLine(items)).rejects.toThrowError(
-      'IConfigItem needs to have a stringReplacers or dynamicReplacers.'
+    await expect(() => gtf.batchGenerate(items)).rejects.toThrowError(
+      'IConfigItem for batchGenerate does not support stringReplacers, and must have dynamicReplacers'
     );
   });
 
-  test('should throw an error if batch IConfigItem is not found for option name', () => {
+  test('should throw an error if batch IConfigItem is not found for option name', async () => {
     const items: IConfigItem[] = [
       {
         option: 'some-template',
@@ -48,7 +48,7 @@ describe.skip('GenerateTemplateFiles - Batch', () => {
     ];
     const gtf = new GenerateTemplateFiles();
 
-    expect(() => gtf.batchGenerate(items)).rejects.toThrowError(
+    await expect(() => gtf.batchGenerate(items)).rejects.toThrowError(
       `IConfigItem for batchGenerate does not support stringReplacers, and must have dynamicReplacers.`
     );
   });

@@ -1,7 +1,7 @@
 // generateTemplateFile.js
 const {generateTemplateFilesBatch, CaseConverterEnum} = require('../../dist/generate-template-files.cjs');
 // Note: In your file it will be like this:
-// const {generateTemplateFilesBatch} = require('generate-template-files');
+// const {generateTemplateFilesBatch, CaseConverterEnum} = require('generate-template-files');
 
 const componentName = "Example"
 const componentScope = "common"

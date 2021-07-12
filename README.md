@@ -212,21 +212,21 @@ Here is the string `Lives down BY the River` with each of the converters:
 // If you typed in 'Lives down BY the River' for the a Replacer Slot named '__replacerSlot__' and
 // used one of the optional Case Converters you would get the following:
 
-__replacerSlot__(noCase)        // Lives down BY the River
-__replacerSlot__(camelCase)     // livesDownByTheRiver
-__replacerSlot__(constantCase)  // LIVES_DOWN_BY_THE_RIVER
-__replacerSlot__(dotCase)       // lives.down.by.the.river
-__replacerSlot__(kebabCase)     // lives-down-by-the-river
-__replacerSlot__(lowerCase)     // livesdownbytheriver
-__replacerSlot__(pascalCase)    // LivesDownByTheRiver
-__replacerSlot__(pathCase)      // lives/down/by/the/river
-__replacerSlot__(sentenceCase)  // Lives down by the river
-__replacerSlot__(snakeCase)     // lives_down_by_the_river
-__replacerSlot__(titleCase)     // Lives Down By The River
+__replacerSlot__(noCase); //        Lives down BY the River
+__replacerSlot__(camelCase); //     livesDownByTheRiver
+__replacerSlot__(constantCase); //  LIVES_DOWN_BY_THE_RIVER
+__replacerSlot__(dotCase); //       lives.down.by.the.river
+__replacerSlot__(kebabCase); //     lives-down-by-the-river
+__replacerSlot__(lowerCase); //     livesdownbytheriver
+__replacerSlot__(pascalCase); //    LivesDownByTheRiver
+__replacerSlot__(pathCase); //      lives/down/by/the/river
+__replacerSlot__(sentenceCase); //  Lives down by the river
+__replacerSlot__(snakeCase); //     lives_down_by_the_river
+__replacerSlot__(titleCase); //     Lives Down By The River
 
 // Note: you can set a 'defaultCase' converter in IConfigItem so all
 // Replacer Slots without a Case Converter will be transformed the same way.
-__replacerSlot__                // LivesDownByTheRiver
+__replacerSlot__; //                LivesDownByTheRiver
 ```
 
 One Rule: no spaces between the [Replacer Slots](#replacer-slots-or-ireplacerslotquestion) and [Case Converters](#case-converters). If there is a space, [Case Converters](#case-converters) will not work.
@@ -240,15 +240,15 @@ You can use `generate-template-files` to generate your template files programmat
 
 The following example will generate the component, unit tests, and the SCSS module in one do.
 
-```ts
-// generateTemplateFile.ts
-import { generateTemplateFilesCommandLine, CaseConverterEnum } from 'generate-template-files');
+```js
+// generateTemplateFile.js
+const { generateTemplateFilesBatch } = require('generate-template-files');
 
-export const componentWithInterface = async (componentName: string, componentScope: string = "common"): Promise<void> => {
-  await generateTemplateFilesBatch([
+const componentWithInterface = (componentName, componentScope = 'common') => {
+  generateTemplateFilesBatch([
     {
       option: 'Component',
-      defaultCase: CaseConverterEnum.PascalCase,
+      defaultCase: '(pascalCase)',
       entry: {
         folderPath: './tools/templates/react/component',
       },
@@ -258,12 +258,12 @@ export const componentWithInterface = async (componentName: string, componentSco
       ],
       output: {
         path: `./src/component/__scope__(camelCase)`,
-        pathAndFileNameDefaultCase: CaseConverterEnum.PascalCase,
+        pathAndFileNameDefaultCase: '(pascalCase)',
       },
     },
     {
       option: 'Component Interface',
-      defaultCase: CaseConverterEnum.PascalCase,
+      defaultCase: '(pascalCase)',
       entry: {
         folderPath: './tools/templates/react/I__interface__.ts',
       },
@@ -273,10 +273,12 @@ export const componentWithInterface = async (componentName: string, componentSco
       ],
       output: {
         path: `./src/component/__scope__(camelCase)/I__interface__.ts`,
-        pathAndFileNameDefaultCase: CaseConverterEnum.PascalCase,
+        pathAndFileNameDefaultCase: '(pascalCase)',
       },
     },
-  ]);
+  ]).catch(() => {
+    console.log('Build Error');
+  });
 };
 ```
 
