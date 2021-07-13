@@ -209,30 +209,78 @@ Example
 Here is the string `Lives down BY the River` with each of the converters:
 
 ```js
-// If you typed in 'Lives down BY the River' for the a Replacer Slot named '__replacerSlot__' and 
+// If you typed in 'Lives down BY the River' for the a Replacer Slot named '__replacerSlot__' and
 // used one of the optional Case Converters you would get the following:
 
-__replacerSlot__(noCase)        // Lives down BY the River
-__replacerSlot__(camelCase)     // livesDownByTheRiver
-__replacerSlot__(constantCase)  // LIVES_DOWN_BY_THE_RIVER
-__replacerSlot__(dotCase)       // lives.down.by.the.river
-__replacerSlot__(kebabCase)     // lives-down-by-the-river
-__replacerSlot__(lowerCase)     // livesdownbytheriver
-__replacerSlot__(pascalCase)    // LivesDownByTheRiver
-__replacerSlot__(pathCase)      // lives/down/by/the/river
-__replacerSlot__(sentenceCase)  // Lives down by the river
-__replacerSlot__(snakeCase)     // lives_down_by_the_river
-__replacerSlot__(titleCase)     // Lives Down By The River
+__replacerSlot__(noCase); //        Lives down BY the River
+__replacerSlot__(camelCase); //     livesDownByTheRiver
+__replacerSlot__(constantCase); //  LIVES_DOWN_BY_THE_RIVER
+__replacerSlot__(dotCase); //       lives.down.by.the.river
+__replacerSlot__(kebabCase); //     lives-down-by-the-river
+__replacerSlot__(lowerCase); //     livesdownbytheriver
+__replacerSlot__(pascalCase); //    LivesDownByTheRiver
+__replacerSlot__(pathCase); //      lives/down/by/the/river
+__replacerSlot__(sentenceCase); //  Lives down by the river
+__replacerSlot__(snakeCase); //     lives_down_by_the_river
+__replacerSlot__(titleCase); //     Lives Down By The River
 
-// Note: you can set a 'defaultCase' converter in IConfigItem so all 
+// Note: you can set a 'defaultCase' converter in IConfigItem so all
 // Replacer Slots without a Case Converter will be transformed the same way.
-__replacerSlot__                // LivesDownByTheRiver
+__replacerSlot__; //                LivesDownByTheRiver
 ```
 
 One Rule: no spaces between the [Replacer Slots](#replacer-slots-or-ireplacerslotquestion) and [Case Converters](#case-converters). If there is a space, [Case Converters](#case-converters) will not work.
 
 - :white_check_mark: `__name__(camelCase)`
 - :warning: `__name__ (camelCase)`
+
+## Batch Usage
+
+You can use `generate-template-files` to generate your template files programmatically, without any interactive prompts. This mode does not support `stringReplacers`.
+
+The following example will generate the component, unit tests, and the SCSS module in one do.
+
+```js
+// generateTemplateFile.js
+const { generateTemplateFilesBatch } = require('generate-template-files');
+
+const componentWithInterface = (componentName, componentScope = 'common') => {
+  generateTemplateFilesBatch([
+    {
+      option: 'Component',
+      defaultCase: '(pascalCase)',
+      entry: {
+        folderPath: './tools/templates/react/component',
+      },
+      dynamicReplacers: [
+        { slot: '__name__', slotValue: componentName },
+        { slot: '__scope__', slotValue: componentScope },
+      ],
+      output: {
+        path: `./src/component/__scope__(camelCase)`,
+        pathAndFileNameDefaultCase: '(pascalCase)',
+      },
+    },
+    {
+      option: 'Component Interface',
+      defaultCase: '(pascalCase)',
+      entry: {
+        folderPath: './tools/templates/react/I__interface__.ts',
+      },
+      dynamicReplacers: [
+        { slot: '__interface__', slotValue: componentName },
+        { slot: '__scope__', slotValue: componentScope },
+      ],
+      output: {
+        path: `./src/component/__scope__(camelCase)/I__interface__.ts`,
+        pathAndFileNameDefaultCase: '(pascalCase)',
+      },
+    },
+  ]).catch(() => {
+    console.log('Build Error');
+  });
+};
+```
 
 ## Command Line Usage
 

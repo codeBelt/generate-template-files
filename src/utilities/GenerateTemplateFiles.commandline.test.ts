@@ -2,14 +2,27 @@ import GenerateTemplateFiles from '../GenerateTemplateFiles';
 import { IConfigItem } from '../index';
 import CaseConverterEnum from '../constants/CaseConverterEnum';
 import yargs from 'yargs';
+import colors from 'colors';
 
-describe.skip('GenerateTemplateFiles - Command Line', () => {
+let consoleInfoSpy: jest.SpyInstance;
+describe('GenerateTemplateFiles - Command Line', () => {
+  beforeEach(() => {
+    consoleInfoSpy = jest.spyOn(global.console, 'info').mockImplementation(() => null);
+  });
+
+  afterEach(() => {
+    consoleInfoSpy.mockRestore();
+  });
+
   test('should throw an error if no IConfigItem items', () => {
     const items: IConfigItem[] = [];
     const gtf = new GenerateTemplateFiles();
 
-    expect(() => gtf.commandLine(items)).rejects.toThrowError(
-      'There was no IConfigItem items found.'
+    gtf.commandLine(items);
+    expect(consoleInfoSpy).toBeCalledWith(
+      colors.bold.red(
+        `[Error in generate-template-files]: ${colors.red('There was no IConfigItem items found.')}`
+      )
     );
   });
 
@@ -33,8 +46,13 @@ describe.skip('GenerateTemplateFiles - Command Line', () => {
     ];
     const gtf = new GenerateTemplateFiles();
 
-    expect(() => gtf.commandLine(items)).rejects.toThrowError(
-      `No IConfigItem found for ${notFoundOptionName}`
+    gtf.commandLine(items);
+    expect(consoleInfoSpy).toBeCalledWith(
+      colors.bold.red(
+        `[Error in generate-template-files]: ${colors.red(
+          `No IConfigItem found for ${notFoundOptionName}`
+        )}`
+      )
     );
   });
 
@@ -53,8 +71,13 @@ describe.skip('GenerateTemplateFiles - Command Line', () => {
     ];
     const gtf = new GenerateTemplateFiles();
 
-    expect(() => gtf.commandLine(items)).rejects.toThrowError(
-      'IConfigItem needs to have a stringReplacers or dynamicReplacers.'
+    gtf.commandLine(items);
+    expect(consoleInfoSpy).toBeCalledWith(
+      colors.bold.red(
+        `[Error in generate-template-files]: ${colors.red(
+          'IConfigItem needs to have a stringReplacers or dynamicReplacers.'
+        )}`
+      )
     );
   });
 });

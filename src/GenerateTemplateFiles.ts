@@ -1,4 +1,4 @@
-import * as enquirer from 'enquirer';
+import enquirer from 'enquirer';
 import recursiveCopy from 'recursive-copy';
 import pathExists from 'path-exists';
 import through from 'through2';
@@ -11,9 +11,10 @@ import IResults from './models/IResults';
 import IDefaultCaseConverter from './models/IDefaultCaseConverter';
 import {
   throwErrorIfNoConfigItems,
-  throwErrorIfOptionNameIsNotFound,
   throwErrorIfNoStringOrDynamicReplacers,
+  throwErrorIfOptionNameIsNotFound,
   throwErrorIfStringReplacersDoNotMatch,
+  throwErrorIfStringReplacersExistOrNoDynamicReplacers,
   displayError,
   displayWarning,
   displaySuccess,
@@ -23,6 +24,7 @@ import yargs from 'yargs';
 
 export default class GenerateTemplateFiles {
   private _isCommandLine: boolean = false;
+  private _isBatch: boolean = false;
 
   /**
    * Main method to create your template files. Accepts an array of `IConfigItem` items.
@@ -85,6 +87,23 @@ export default class GenerateTemplateFiles {
       ]);
     } catch (error) {
       displayError(error.message);
+    }
+  }
+
+  /**
+   * Main method to run generate on multiple templates at once, without any interactive prompts
+   */
+  public async batchGenerate(options: Omit<IConfigItem, 'stringReplacers'>[]) {
+    this._isBatch = true;
+
+    throwErrorIfNoConfigItems(options);
+    throwErrorIfStringReplacersExistOrNoDynamicReplacers(options);
+
+    for (const selectedConfigItem of options) {
+      const answeredReplacers: IReplacer[] = await this._getDynamicReplacerSlotValues(
+        selectedConfigItem
+      );
+      await this._outputFiles(selectedConfigItem, answeredReplacers);
     }
   }
 
@@ -184,9 +203,20 @@ export default class GenerateTemplateFiles {
         };
       }
     );
-    const dynamicReplacers: IReplacer[] = selectedConfigItem.dynamicReplacers || [];
+    const dynamicReplacers = await this._getDynamicReplacerSlotValues(selectedConfigItem);
 
     return [...replacers, ...dynamicReplacers];
+  }
+
+  /**
+   * Dynamic replacer values, used for interactive and batch generation
+   */
+  private async _getDynamicReplacerSlotValues(
+    selectedConfigItem: IConfigItem
+  ): Promise<IReplacer[]> {
+    const dynamicReplacers: IReplacer[] = selectedConfigItem.dynamicReplacers || [];
+
+    return dynamicReplacers;
   }
 
   /**
@@ -239,6 +269,10 @@ export default class GenerateTemplateFiles {
       return outputPath ?? outputPathFormatted;
     }
 
+    if (this._isBatch) {
+      return outputPathFormatted;
+    }
+
     const outputPathAnswer: any = await enquirer.prompt({
       type: 'input',
       name: 'outputPath',
@@ -267,6 +301,10 @@ export default class GenerateTemplateFiles {
 
     if (this._isCommandLine) {
       return selectedConfigItem.output.overwrite || yargs.argv.overwrite === true;
+    }
+
+    if (this._isBatch) {
+      return Boolean(selectedConfigItem.output.overwrite);
     }
 
     const overwriteFilesAnswer: any = await enquirer.prompt({

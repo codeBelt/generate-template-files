@@ -5,6 +5,7 @@
   "scripts": {
     "---------- Normal Example -------------------------------------------": "",
     "generate": "node ./tools/generate.js",
+    "batchGenerate": "node ./tools/batchGenerate.js",
     "---------- Command Line Example -------------------------------------": "",
     "commandlineSimple": "node ./tools/commandLine.js angular-ngrx-store __name__=some-name __model__=some-other-name",
     "commandline": "node ./tools/commandLine.js angular-ngrx-store __name__=some-name __model__=some-other-name --outputpath=./src/here --overwrite"
