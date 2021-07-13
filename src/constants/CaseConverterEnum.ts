@@ -5,7 +5,7 @@ enum CaseConverterEnum {
    *
    *  ```
    * // If you entered "Lives down BY the River" for __replacerSlot__
-   * __replacerSlot__(noCase)
+   * __replacerSlot__(noCase) OR __replacerSlot__noCase__
    *
    * // It would output to:
    * Lives down BY the River
@@ -18,12 +18,13 @@ enum CaseConverterEnum {
    * ```
    */
   None = '(noCase)',
+  NoneUnderscore = 'noCase__',
   /**
    * [Case Converter](../index.html#case-converters) that converts [Replacer Slots](../index.html#replacer-slots) to camel case.
    *
    *  ```
    * // If you entered "Lives down BY the River" for __replacerSlot__
-   * __replacerSlot__(camelCase)
+   * __replacerSlot__(camelCase) OR __replacerSlot__camelCase__
    *
    * // It would output to:
    * livesDownByTheRiver
@@ -36,12 +37,13 @@ enum CaseConverterEnum {
    * ```
    */
   CamelCase = '(camelCase)',
+  CamelCaseUnderscore = 'camelCase__',
   /**
    * [Case Converter](../index.html#case-converters) that converts [Replacer Slots](../index.html#replacer-slots) to constant case.
    *
    *  ```
    * // If you entered "Lives down BY the River" for __replacerSlot__
-   * __replacerSlot__(constantCase)
+   * __replacerSlot__(constantCase) OR __replacerSlot__constantCase__
    *
    * // It would output to:
    * LIVES_DOWN_BY_THE_RIVER
@@ -54,12 +56,13 @@ enum CaseConverterEnum {
    * ```
    */
   ConstantCase = '(constantCase)',
+  ConstantCaseUnderscore = 'constantCase__',
   /**
    * [Case Converter](../index.html#case-converters) that converts [Replacer Slots](../index.html#replacer-slots) to dot case.
    *
    *  ```
    * // If you entered "Lives down BY the River" for __replacerSlot__
-   * __replacerSlot__(dotCase)
+   * __replacerSlot__(dotCase) OR __replacerSlot__dotCase__
    *
    * // It would output to:
    * lives.down.by.the.river
@@ -72,12 +75,13 @@ enum CaseConverterEnum {
    * ```
    */
   DotCase = '(dotCase)',
+  DotCaseUnderscore = 'dotCase__',
   /**
    * [Case Converter](../index.html#case-converters) that converts [Replacer Slots](../index.html#replacer-slots) to kebab case.
    *
    *  ```
    * // If you entered "Lives down BY the River" for __replacerSlot__
-   * __replacerSlot__(kebabCase)
+   * __replacerSlot__(kebabCase) OR __replacerSlot__kebabCase__
    *
    * // It would output to:
    * lives-down-by-the-river
@@ -90,12 +94,13 @@ enum CaseConverterEnum {
    * ```
    */
   KebabCase = '(kebabCase)',
+  KebabCaseUnderscore = 'kebabCase__',
   /**
    * [Case Converter](../index.html#case-converters) that converts [Replacer Slots](../index.html#replacer-slots) to all lower case.
    *
    *  ```
    * // If you entered "Lives down BY the River" for __replacerSlot__
-   * __replacerSlot__(lowerCase)
+   * __replacerSlot__(lowerCase) OR __replacerSlot__lowerCase__
    *
    * // It would output to:
    * livesdownbytheriver
@@ -108,12 +113,13 @@ enum CaseConverterEnum {
    * ```
    */
   LowerCase = '(lowerCase)',
+  LowerCaseUnderscore = 'lowerCase__',
   /**
    * [Case Converter](../index.html#case-converters) that converts [Replacer Slots](../index.html#replacer-slots) to pacal case.
    *
    *  ```
    * // If you entered "Lives down BY the River" for __replacerSlot__
-   * __replacerSlot__(pascalCase)
+   * __replacerSlot__(pascalCase) OR __replacerSlot__pascalCase__
    *
    * // It would output to:
    * LivesDownByTheRiver
@@ -126,12 +132,13 @@ enum CaseConverterEnum {
    * ```
    */
   PascalCase = '(pascalCase)',
+  PascalCaseUnderscore = 'pascalCase__',
   /**
    * [Case Converter](../index.html#case-converters) that converts [Replacer Slots](../index.html#replacer-slots) to path case.
    *
    *  ```
    * // If you entered "Lives down BY the River" for __replacerSlot__
-   * __replacerSlot__(pathCase)
+   * __replacerSlot__(pathCase) OR __replacerSlot__pathCase__
    *
    * // It would output to:
    * lives/down/by/the/river
@@ -144,12 +151,13 @@ enum CaseConverterEnum {
    * ```
    */
   PathCase = '(pathCase)',
+  PathCaseUnderscore = 'pathCase__',
   /**
    * [Case Converter](../index.html#case-converters) that converts [Replacer Slots](../index.html#replacer-slots) to sentence case.
    *
    *  ```
    * // If you entered "Lives down BY the River" for __replacerSlot__
-   * __replacerSlot__(sentenceCase)
+   * __replacerSlot__(sentenceCase) OR __replacerSlot__sentenceCase__
    *
    * // It would output to:
    * Lives down by the river
@@ -162,12 +170,13 @@ enum CaseConverterEnum {
    * ```
    */
   SentenceCase = '(sentenceCase)',
+  SentenceCaseUnderscore = 'sentenceCase__',
   /**
    * [Case Converter](../index.html#case-converters) that converts [Replacer Slots](../index.html#replacer-slots) to snake case.
    *
    *  ```
    * // If you entered "Lives down BY the River" for __replacerSlot__
-   * __replacerSlot__(snakeCase)
+   * __replacerSlot__(snakeCase) OR __replacerSlot__snakeCase__
    *
    * // It would output to:
    * lives_down_by_the_river
@@ -180,12 +189,13 @@ enum CaseConverterEnum {
    * ```
    */
   SnakeCase = '(snakeCase)',
+  SnakeCaseUnderscore = 'snakeCase__',
   /**
    * [Case Converter](../index.html#case-converters) that converts [Replacer Slots](../index.html#replacer-slots) to title case.
    *
    *  ```
    * // If you entered "Lives down BY the River" for __replacerSlot__
-   * __replacerSlot__(titleCase)
+   * __replacerSlot__(titleCase) OR __replacerSlot__titleCase__
    *
    * // It would output to:
    * Lives Down By The River
@@ -198,6 +208,7 @@ enum CaseConverterEnum {
    * ```
    */
   TitleCase = '(titleCase)',
+  TitleCaseUnderscore = 'titleCase__',
 }
 
 export default CaseConverterEnum;
