@@ -3,6 +3,8 @@ import recursiveCopy from 'recursive-copy';
 import pathExists from 'path-exists';
 import through from 'through2';
 import replaceString from 'replace-string';
+import trie from 'trie-prefix-tree';
+import trieToRegExp from 'trie-regex';
 import StringUtility from './utilities/StringUtility';
 import CaseConverterEnum from './constants/CaseConverterEnum';
 import IConfigItem from './models/IConfigItem';
@@ -332,14 +334,21 @@ export default class GenerateTemplateFiles {
     // Create a function to apply the transformations in one go
     const regexEscape = (text: string) => text.replace(/([^a-zA-Z0-9_])/g, '\\$1');
     const replacerLookup: Record<string, string> = {};
-    const replacerRegexBase = replacers
-      .map((replacer: IReplacer) => {
+    const replacerSlots: string[] = [];
+    const regexTrie = trieToRegExp(trie(replacerSlots).tree());
+
+    console.log(regexTrie);
+
+    const replacerRegexBase = replacers.map((replacer: IReplacer) => {
         replacerLookup[replacer.slot] = replacer.slotValue;
+        replacerSlots.push(replacer.slot)
         return regexEscape(replacer.slot);
-      })
-      .join('|');
+      }).join('|');
+
     const replacerRegex = new RegExp(`^${replacerRegexBase}$`, 'g');
-    const replacer = (text: string) => text.replace(replacerRegex, (slot) => replacerLookup[slot]);
+    const simpleReplacer = (text: string) => text.replace(replacerRegex, (slot) => replacerLookup[slot]);
+
+    const replacer = (text: string) => text.replace(regexTrie, (slot) => replacerLookup[slot]);
 
     // Apply the transformations on all files recursively
     const recursiveCopyOptions: any = {
@@ -364,8 +373,35 @@ export default class GenerateTemplateFiles {
       },
       transform: (src: string, dest: string, stats: unknown) => {
         return through((chunk: any, enc: any, done: any) => {
-          let output: string = replacer(chunk.toString());
+          let output: string = ""
+
+          console.time(`new ${src}`)
+          for(let i = 0; i < 100000; i++) {
+            output = replacer(chunk.toString());
+          }
+          console.timeEnd(`new ${src}`)
+
+
+          console.time(`simple ${src}`)
+          for(let i = 0; i < 100000; i++) {
+            output = simpleReplacer(chunk.toString());
+          }
+          console.timeEnd(`simple ${src}`)
+
+
+          console.time(`orig ${src}`)
+          for(let i = 0; i < 100000; i++) {
+            replacers.forEach((replacer: IReplacer) => {
+              output = replaceString(output, replacer.slot, replacer.slotValue);
+            });
+          }
+          console.timeEnd(`orig ${src}`)
+
+
+
           done(null, output);
+
+
         });
       },
     };
