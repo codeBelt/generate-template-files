@@ -232,22 +232,22 @@ __replacerSlot__; //                LivesDownByTheRiver
 You may also specify the case using an underscores-only syntax:
 
 ```js
-__replacerSlot__noCase__; //        Lives down BY the River
-__replacerSlot__camelCase__; //     livesDownByTheRiver
-__replacerSlot__constantCase__; //  LIVES_DOWN_BY_THE_RIVER
-__replacerSlot__dotCase__; //       lives.down.by.the.river
-__replacerSlot__kebabCase__; //     lives-down-by-the-river
-__replacerSlot__lowerCase__; //     livesdownbytheriver
-__replacerSlot__pascalCase__; //    LivesDownByTheRiver
-__replacerSlot__pathCase__; //      lives/down/by/the/river
-__replacerSlot__sentenceCase__; //  Lives down by the river
-__replacerSlot__snakeCase__; //     lives_down_by_the_river
-__replacerSlot__titleCase__; //     Lives Down By The River
+__replacerSlot__NoCase__; //        Lives down BY the River
+__replacerSlot__CamelCase__; //     livesDownByTheRiver
+__replacerSlot__ConstantCase__; //  LIVES_DOWN_BY_THE_RIVER
+__replacerSlot__DotCase__; //       lives.down.by.the.river
+__replacerSlot__KebabCase__; //     lives-down-by-the-river
+__replacerSlot__LowerCase__; //     livesdownbytheriver
+__replacerSlot__PascalCase__; //    LivesDownByTheRiver
+__replacerSlot__PathCase__; //      lives/down/by/the/river
+__replacerSlot__SentenceCase__; //  Lives down by the river
+__replacerSlot__SnakeCase__; //     lives_down_by_the_river
+__replacerSlot__TitleCase__; //     Lives Down By The River
 ```
 
 One Rule: no spaces between the [Replacer Slots](#replacer-slots-or-ireplacerslotquestion) and [Case Converters](#case-converters). If there is a space, [Case Converters](#case-converters) will not work.
 
-- :white_check_mark: `__name__(camelCase)` OR `__name__camelCase__`
+- :white_check_mark: `__name__(camelCase)` OR `__name__CamelCase__`
 - :warning: `__name__ (camelCase)`
 
 ## Batch Usage
