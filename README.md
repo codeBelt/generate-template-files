@@ -248,7 +248,7 @@ __replacerSlot__TitleCase__; //     Lives Down By The River
 One Rule: no spaces between the [Replacer Slots](#replacer-slots-or-ireplacerslotquestion) and [Case Converters](#case-converters). If there is a space, [Case Converters](#case-converters) will not work.
 
 - :white_check_mark: `__name__(camelCase)` OR `__name__CamelCase__`
-- :warning: `__name__ (camelCase)`
+- :x: `__name__ (camelCase)` OR `__name__ CamelCase__`
 
 ## Batch Usage
 
