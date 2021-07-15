@@ -15,26 +15,37 @@ export default class StringUtility {
   public static toCase(str: string, caseType: CaseConverterEnum): string {
     switch (caseType) {
       case CaseConverterEnum.CamelCase:
+      case CaseConverterEnum.CamelCaseUnderscore:
         return StringUtility.toCamelCase(str);
       case CaseConverterEnum.ConstantCase:
+      case CaseConverterEnum.ConstantCaseUnderscore:
         return StringUtility.toConstantCase(str);
       case CaseConverterEnum.DotCase:
+      case CaseConverterEnum.DotCaseUnderscore:
         return StringUtility.toSentence(str, '.');
       case CaseConverterEnum.KebabCase:
+      case CaseConverterEnum.KebabCaseUnderscore:
         return StringUtility.toSentence(str, '-');
       case CaseConverterEnum.LowerCase:
+      case CaseConverterEnum.LowerCaseUnderscore:
         return StringUtility.toSentence(str, '');
       case CaseConverterEnum.PascalCase:
+      case CaseConverterEnum.PascalCaseUnderscore:
         return StringUtility.toPascalCase(str);
       case CaseConverterEnum.PathCase:
+      case CaseConverterEnum.PathCaseUnderscore:
         return StringUtility.toSentence(str, '/');
       case CaseConverterEnum.SentenceCase:
+      case CaseConverterEnum.SentenceCaseUnderscore:
         return StringUtility.toSentenceCase(str);
       case CaseConverterEnum.SnakeCase:
+      case CaseConverterEnum.SnakeCaseUnderscore:
         return StringUtility.toSentence(str, '_');
       case CaseConverterEnum.TitleCase:
+      case CaseConverterEnum.TitleCaseUnderscore:
         return StringUtility.toTitleCase(str);
       case CaseConverterEnum.None:
+      case CaseConverterEnum.NoneUnderscore:
       default:
         return str;
     }
