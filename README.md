@@ -212,27 +212,43 @@ Here is the string `Lives down BY the River` with each of the converters:
 // If you typed in 'Lives down BY the River' for the a Replacer Slot named '__replacerSlot__' and
 // used one of the optional Case Converters you would get the following:
 
-__replacerSlot__(noCase); //        Lives down BY the River
-__replacerSlot__(camelCase); //     livesDownByTheRiver
-__replacerSlot__(constantCase); //  LIVES_DOWN_BY_THE_RIVER
-__replacerSlot__(dotCase); //       lives.down.by.the.river
-__replacerSlot__(kebabCase); //     lives-down-by-the-river
-__replacerSlot__(lowerCase); //     livesdownbytheriver
-__replacerSlot__(pascalCase); //    LivesDownByTheRiver
-__replacerSlot__(pathCase); //      lives/down/by/the/river
-__replacerSlot__(sentenceCase); //  Lives down by the river
-__replacerSlot__(snakeCase); //     lives_down_by_the_river
-__replacerSlot__(titleCase); //     Lives Down By The River
+'__replacerSlot__(noCase)'; //        'Lives down BY the River';
+'__replacerSlot__(camelCase)'; //     'livesDownByTheRiver';
+'__replacerSlot__(constantCase)'; //  'LIVES_DOWN_BY_THE_RIVER';
+'__replacerSlot__(dotCase)'; //       'lives.down.by.the.river';
+'__replacerSlot__(kebabCase)'; //     'lives-down-by-the-river';
+'__replacerSlot__(lowerCase)'; //     'livesdownbytheriver';
+'__replacerSlot__(pascalCase)'; //    'LivesDownByTheRiver';
+'__replacerSlot__(pathCase)'; //      'lives/down/by/the/river';
+'__replacerSlot__(sentenceCase)'; //  'Lives down by the river';
+'__replacerSlot__(snakeCase)'; //     'lives_down_by_the_river';
+'__replacerSlot__(titleCase)'; //     'Lives Down By The River';
 
 // Note: you can set a 'defaultCase' converter in IConfigItem so all
 // Replacer Slots without a Case Converter will be transformed the same way.
 __replacerSlot__; //                LivesDownByTheRiver
 ```
 
+You may also specify the case using an underscores-only syntax:
+
+```js
+__replacerSlot__NoCase__; //        Lives down BY the River
+__replacerSlot__CamelCase__; //     livesDownByTheRiver
+__replacerSlot__ConstantCase__; //  LIVES_DOWN_BY_THE_RIVER
+__replacerSlot__DotCase__; //       lives.down.by.the.river
+__replacerSlot__KebabCase__; //     lives-down-by-the-river
+__replacerSlot__LowerCase__; //     livesdownbytheriver
+__replacerSlot__PascalCase__; //    LivesDownByTheRiver
+__replacerSlot__PathCase__; //      lives/down/by/the/river
+__replacerSlot__SentenceCase__; //  Lives down by the river
+__replacerSlot__SnakeCase__; //     lives_down_by_the_river
+__replacerSlot__TitleCase__; //     Lives Down By The River
+```
+
 One Rule: no spaces between the [Replacer Slots](#replacer-slots-or-ireplacerslotquestion) and [Case Converters](#case-converters). If there is a space, [Case Converters](#case-converters) will not work.
 
-- :white_check_mark: `__name__(camelCase)`
-- :warning: `__name__ (camelCase)`
+- :white_check_mark: `__name__(camelCase)` OR `__name__CamelCase__`
+- :x: `__name__ (camelCase)` OR `__name__ CamelCase__`
 
 ## Batch Usage
 
