@@ -223,7 +223,7 @@ export default class GenerateTemplateFiles {
    * Create every variation for the for the replacement keys
    */
   private _getReplacers(replacers: IReplacer[], defaultCase: CaseConverterEnum): IReplacer[] {
-    const caseTypes: string[] = Object.values(CaseConverterEnum);
+    const caseTypes: CaseConverterEnum[] = Object.values(CaseConverterEnum);
 
     return replacers.reduce(
       (previousReplacers: IReplacer[], answeredReplacer: IReplacer): IReplacer[] => {
@@ -232,10 +232,10 @@ export default class GenerateTemplateFiles {
         return [
           ...previousReplacers,
           ...caseTypes.map(
-            (caseType: string): IReplacer => {
+            (caseType: CaseConverterEnum): IReplacer => {
               return {
                 slot: `${slot}${caseType}`,
-                slotValue: StringUtility.toCase(slotValue, caseType as CaseConverterEnum),
+                slotValue: StringUtility.toCase(slotValue, caseType),
               };
             }
           ),
@@ -329,6 +329,19 @@ export default class GenerateTemplateFiles {
   ): Promise<string[]> {
     const outputtedFilesAndFolders: string[] = [];
 
+    // Create a function to apply the transformations in one go
+    const regexEscape = (text: string) => text.replace(/([^a-zA-Z0-9_])/g, '\\$1');
+    const replacerLookup: Record<string, string> = {};
+    const replacerRegexBase = replacers
+      .map((replacer: IReplacer) => {
+        replacerLookup[replacer.slot] = replacer.slotValue;
+        return regexEscape(replacer.slot);
+      })
+      .join('|');
+    const replacerRegex = new RegExp(`^${replacerRegexBase}$`, 'g');
+    const replacer = (text: string) => text.replace(replacerRegex, (slot) => replacerLookup[slot]);
+
+    // Apply the transformations on all files recursively
     const recursiveCopyOptions: any = {
       overwrite: true,
       expand: false,
@@ -351,12 +364,7 @@ export default class GenerateTemplateFiles {
       },
       transform: (src: string, dest: string, stats: unknown) => {
         return through((chunk: any, enc: any, done: any) => {
-          let output: string = chunk.toString();
-
-          replacers.forEach((replacer: IReplacer) => {
-            output = replaceString(output, replacer.slot, replacer.slotValue);
-          });
-
+          let output: string = replacer(chunk.toString());
           done(null, output);
         });
       },
