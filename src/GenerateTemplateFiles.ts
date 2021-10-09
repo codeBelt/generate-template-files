@@ -38,7 +38,7 @@ export default class GenerateTemplateFiles {
       const answeredReplacers: IReplacer[] = await this._getReplacerSlotValues(selectedConfigItem);
 
       await this._outputFiles(selectedConfigItem, answeredReplacers);
-    } catch (error) {
+    } catch (error: any) {
       displayError(error.message);
     }
   }
@@ -85,7 +85,7 @@ export default class GenerateTemplateFiles {
         ...commandLineStringReplacers,
         ...dynamicReplacers,
       ]);
-    } catch (error) {
+    } catch (error: any) {
       displayError(error.message);
     }
   }
@@ -231,14 +231,12 @@ export default class GenerateTemplateFiles {
 
         return [
           ...previousReplacers,
-          ...caseTypes.map(
-            (caseType: string): IReplacer => {
-              return {
-                slot: `${slot}${caseType}`,
-                slotValue: StringUtility.toCase(slotValue, caseType as CaseConverterEnum),
-              };
-            }
-          ),
+          ...caseTypes.map((caseType: string): IReplacer => {
+            return {
+              slot: `${slot}${caseType}`,
+              slotValue: StringUtility.toCase(slotValue, caseType as CaseConverterEnum),
+            };
+          }),
           {
             slot,
             slotValue: StringUtility.toCase(slotValue, defaultCase),
@@ -368,7 +366,7 @@ export default class GenerateTemplateFiles {
       displaySuccess(`Files saved to: '${outputPath}'`);
 
       return outputtedFilesAndFolders.filter(Boolean);
-    } catch (error) {
+    } catch (error: any) {
       displayError(`Copy failed: ${error}`);
 
       return [`Copy failed: ${error}`];
