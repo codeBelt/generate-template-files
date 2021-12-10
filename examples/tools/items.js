@@ -11,7 +11,7 @@ const items = [
         entry: {
             folderPath: './tools/templates/angular/ngrx-store/',
         },
-        stringReplacers: ['__name__', {question: 'Insert model name', slot: '__model__'}],
+        stringReplacers: ['__name__', {question: 'Insert model name', slot: '__model__', optional: true}],
         dynamicReplacers: [
             {slot: '__version__', slotValue: config.version},
             {slot: '__description__', slotValue: config.description},
