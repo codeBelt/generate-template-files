@@ -180,13 +180,13 @@ export default class GenerateTemplateFiles {
   private async _getReplacerSlotValues(selectedConfigItem: IConfigItem): Promise<IReplacer[]> {
     const stringReplacers: (string | IReplacerSlotQuestion)[] =
       selectedConfigItem.stringReplacers ?? [];
-    const replacerQuestions: any[] = stringReplacers.map((item: string | IReplacerSlotQuestion) => {
+    const replacerQuestions: any[] = stringReplacers.map((item: any | IReplacerSlotQuestion) => {
       return {
         type: 'input',
-        name: StringUtility.isString(item) ? item : item.slot,
+        name: item.slot,
         message: StringUtility.isString(item) ? `Replace ${item} with` : item.question,
         validate: (replacerSlotValue: string) => {
-          const isValid: boolean = Boolean(replacerSlotValue.trim());
+          const isValid: boolean = Boolean(replacerSlotValue.trim() || item.optional);
 
           return isValid || 'You must provide an answer.';
         },
