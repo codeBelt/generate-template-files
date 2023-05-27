@@ -21,6 +21,7 @@ import {
 } from './utilities/CheckUtility';
 import IReplacerSlotQuestion from './models/IReplacerSlotQuestion';
 import yargs from 'yargs';
+import IObjectParamReplacer from './models/IObject';
 
 export default class GenerateTemplateFiles {
   private _isCommandLine: boolean = false;
@@ -190,6 +191,8 @@ export default class GenerateTemplateFiles {
 
           return isValid || 'You must provide an answer.';
         },
+        //@ts-ignore
+        ...(item.result ? { result: item.result } : {}),
       };
     });
 
@@ -203,9 +206,27 @@ export default class GenerateTemplateFiles {
         };
       }
     );
-    const dynamicReplacers = await this._getDynamicReplacerSlotValues(selectedConfigItem);
 
-    return [...replacers, ...dynamicReplacers];
+    const dynamicReplacers = await this._getDynamicReplacerSlotValues(selectedConfigItem);
+    const mergedReplacer = [...replacers, ...dynamicReplacers];
+
+    const replacersToParams: IObjectParamReplacer = mergedReplacer.reduce((obj, replacer) => {
+      obj[replacer.slot] = replacer.slotValue;
+      return obj;
+    }, {});
+    const finalReplacer = mergedReplacer.map((e) => {
+      // get new slotValue
+      const newSlotValue = e.newSlot ? e.newSlot(replacersToParams) : e?.slotValue;
+
+      // override and add assign new dynamic slot
+      replacersToParams[e.slot] = newSlotValue;
+
+      return {
+        ...e,
+        slotValue: newSlotValue,
+      };
+    });
+    return finalReplacer;
   }
 
   /**

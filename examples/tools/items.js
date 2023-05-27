@@ -33,6 +33,21 @@ const items = [
             folderPath: './tools/templates/vue/vuex-store/',
         },
         stringReplacers: ['__store__', '__model__'],
+        dynamicReplacers: [
+            {
+                slot:"__store1__custom__",
+                newSlot:({__store__})=>{
+                    return `${__store__} from other string replacer`
+                }
+            },
+            {
+                slot:"__store2_from_other_custom1",
+                newSlot:({__store1__custom__})=>{
+                    return __store1__custom__+ " and custom dynamic replacer"
+                }
+            }
+
+    ],
         output: {
             path: './src/stores/__store__(kebabCase)',
             pathAndFileNameDefaultCase: '(pascalCase)',
@@ -50,6 +65,7 @@ const items = [
             folderPath: './tools/templates/react/redux-store/',
         },
         stringReplacers: ['__store__', '__model__'],
+        
         output: {
             path: './src/stores/__store__(kebabCase)',
             pathAndFileNameDefaultCase: '(pascalCase)',
@@ -77,6 +93,7 @@ const items = [
         entry: {
             folderPath: './tools/templates/react/connected-component/',
         },
+
         stringReplacers: ['__name__'],
         output: {
             path: './src/views/__name__(kebabCase)',
